@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     }
 
     const { data } = await axios.get(
-      "https://wajik-anime-api.vercel.app/samehadaku/home"
+      `${process.env.NEXT_PUBLIC_API_URL}/samehadaku/home`
     );
 
     // Transform the data to remove 'samehadaku' from href paths

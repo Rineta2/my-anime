@@ -35,7 +35,7 @@ export async function GET(
     try {
       const { serverId } = await params;
       const { data } = await axios.get<ServerResponse>(
-        `https://wajik-anime-api.vercel.app/samehadaku/server/${serverId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/samehadaku/server/${serverId}`
       );
 
       if (!data?.data) {

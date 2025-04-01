@@ -27,7 +27,7 @@ export async function GET(
     try {
       const { slug } = await params;
       const { data } = await axios.get<{ data: EpisodeData }>(
-        `https://wajik-anime-api.vercel.app/samehadaku/episode/${slug}`
+        `${process.env.NEXT_PUBLIC_API_URL}/samehadaku/episode/${slug}`
       );
 
       if (!data?.data) {
