@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import { AnimeResponse } from '@/components/ui/home/types/home'
 
@@ -15,33 +15,41 @@ import AnimeBath from '@/components/ui/betch/ui/AnimeBath'
 export default function BatchList() {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState<AnimeResponse | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchData = () => {
-            getAnimeData()
-                .then(result => {
+        let isMounted = true;
+
+        const fetchData = async () => {
+            try {
+                const result = await getAnimeData();
+                if (isMounted) {
                     setData(result);
-                })
-                .catch(error => {
+                }
+            } catch (error) {
+                if (isMounted) {
                     console.error("Error fetching data:", error);
-                })
-                .finally(() => {
+                    setError("Failed to load anime data");
+                }
+            } finally {
+                if (isMounted) {
                     setIsLoading(false);
-                });
+                }
+            }
         };
 
         fetchData();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
-    if (isLoading) {
-        return <BatchSkeleton />
-    }
+    const batchList = useMemo(() => data?.data.batch.batchList ?? [], [data]);
 
-    if (!data) {
-        return null;
-    }
-
-    const batchList = data.data.batch.batchList;
+    if (isLoading) return <BatchSkeleton />
+    if (error) return <div className="text-center text-red-500 p-4">{error}</div>
+    if (!data) return <BatchSkeleton />;
 
     return (
         <section className='min-h-full'>

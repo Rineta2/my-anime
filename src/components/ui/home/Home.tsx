@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 
 import { getAnimeData } from "@/components/ui/home/lib/FetchHome"
 
@@ -13,37 +13,47 @@ import AnimeTerbaru from '@/components/ui/home/ui/AnimeTerbaru'
 export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState<AnimeResponse | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchData = () => {
-            getAnimeData()
-                .then(result => {
+        let isMounted = true;
+
+        const fetchData = async () => {
+            try {
+                const result = await getAnimeData();
+                if (isMounted) {
                     setData(result);
-                })
-                .catch(error => {
+                }
+            } catch (error) {
+                if (isMounted) {
                     console.error("Error fetching data:", error);
-                })
-                .finally(() => {
+                    setError("Failed to load anime data");
+                }
+            } finally {
+                if (isMounted) {
                     setIsLoading(false);
-                });
+                }
+            }
         };
 
         fetchData();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
-    if (isLoading) {
-        return <HomeSkeleton />
-    }
+    const memoizedData = useMemo(() => data, [data]);
 
-    if (!data) {
-        return null;
-    }
+    if (isLoading) return <HomeSkeleton />
+    if (error) return <div className="text-center text-red-500 p-4">{error}</div>
+    if (!memoizedData) return <HomeSkeleton />;
 
     return (
         <section className="min-h-screen py-8 sm:py-12">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="space-y-16 sm:space-y-20 md:space-y-24">
-                    <AnimeTerbaru data={data} />
+                    <AnimeTerbaru data={memoizedData} />
                 </div>
             </div>
         </section>
