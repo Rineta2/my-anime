@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
 
+import axios from "axios";
 interface ServerResponse {
   statusCode: number;
   statusMessage: string;
@@ -12,6 +12,26 @@ interface ServerResponse {
   pagination: null;
 }
 
+const createErrorResponse = (statusCode: number, message: string) => {
+  return NextResponse.json(
+    {
+      statusCode,
+      statusMessage: "Error",
+      message,
+      ok: false,
+      error: {
+        title: "Server Tidak Ditemukan",
+        description:
+          "Mohon maaf, server yang Anda cari tidak tersedia saat ini",
+        suggestion: "Silakan coba server lain atau coba lagi nanti",
+      },
+      data: null,
+      pagination: null,
+    },
+    { status: statusCode }
+  );
+};
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ serverId: string }> }
@@ -19,104 +39,55 @@ export async function GET(
   try {
     const apiKey = request.headers.get("x-api-key");
     if (!apiKey || apiKey !== process.env.NEXT_PUBLIC_API_KEY) {
-      return NextResponse.json(
-        {
-          statusCode: 401,
-          statusMessage: "Error",
-          message: "Unauthorized - Invalid API key",
-          ok: false,
-          data: null,
-          pagination: null,
-        },
-        { status: 401 }
+      return createErrorResponse(
+        401,
+        "Akses tidak diizinkan - API key tidak valid"
       );
     }
 
-    try {
-      const { serverId } = await params;
-      const { data } = await axios.get<ServerResponse>(
-        `${process.env.NEXT_PUBLIC_API_URL}/samehadaku/server/${serverId}`
-      );
-
-      if (!data?.data) {
-        return NextResponse.json(
-          {
-            statusCode: 404,
-            statusMessage: "Error",
-            message: "Server not found",
-            ok: false,
-            data: null,
-            pagination: null,
-          },
-          { status: 404 }
-        );
-      }
-
-      // Check if the server is premium (contains "premi" in the URL)
-      if (data.data.url.includes("premi")) {
-        return NextResponse.json(
-          {
-            statusCode: 404,
-            statusMessage: "Error",
-            message: "Premium server not available",
-            ok: false,
-            data: null,
-            pagination: null,
-          },
-          { status: 404 }
-        );
-      }
-
-      // Transform the data to remove 'samehadaku' from url if present
-      const transformedData = {
-        statusCode: 200,
-        statusMessage: "OK",
-        message: "",
-        ok: true,
-        data: {
-          url: data.data.url
-            .replace(/\/samehadaku\//, "/")
-            .replace(/\/samehadaku$/, ""),
+    const { serverId } = await params;
+    const { data } = await axios.get<ServerResponse>(
+      `${process.env.NEXT_PUBLIC_API_URL}/samehadaku/server/${serverId}`,
+      {
+        timeout: 1000,
+        validateStatus: (status) => status < 500,
+        headers: {
+          Accept: "application/json",
+          "Cache-Control": "public, max-age=300",
         },
-        pagination: null,
-      };
-
-      return NextResponse.json(transformedData);
-    } catch (axiosError: unknown) {
-      if (
-        axios.isAxiosError(axiosError) &&
-        axiosError.response?.status === 404
-      ) {
-        return NextResponse.json(
-          {
-            statusCode: 404,
-            statusMessage: "Error",
-            message: "Server not found",
-            ok: false,
-            data: null,
-            pagination: null,
-          },
-          { status: 404 }
-        );
       }
-      throw axiosError;
+    );
+
+    if (!data?.data?.url) {
+      return createErrorResponse(404, "Server tidak tersedia");
     }
+
+    return NextResponse.json({
+      statusCode: 200,
+      statusMessage: "OK",
+      message: "Berhasil mendapatkan server",
+      ok: true,
+      data: {
+        url: data.data.url
+          .replace(/\/samehadaku\//, "/")
+          .replace(/\/samehadaku$/, ""),
+      },
+      pagination: null,
+    });
   } catch (error: unknown) {
     console.error("Error fetching server data:", error);
-    const statusCode = axios.isAxiosError(error) ? error.response?.status : 500;
-    const message = axios.isAxiosError(error)
-      ? error.response?.data?.message
-      : "Failed to fetch server data";
-    return NextResponse.json(
-      {
-        statusCode: statusCode || 500,
-        statusMessage: "Error",
-        message: message || "Failed to fetch server data",
-        ok: false,
-        data: null,
-        pagination: null,
-      },
-      { status: statusCode || 500 }
-    );
+
+    if (axios.isAxiosError(error)) {
+      if (error.code === "ECONNABORTED") {
+        return createErrorResponse(408, "Waktu permintaan server habis");
+      }
+
+      const status = error.response?.status;
+      if (status === 404)
+        return createErrorResponse(404, "Server tidak ditemukan");
+      if (status === 403) return createErrorResponse(403, "Akses ditolak");
+    }
+
+    return createErrorResponse(500, "Gagal mengambil data server");
   }
 }

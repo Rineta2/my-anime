@@ -62,3 +62,51 @@ export interface Episode {
     releaseDate: string;
   }>;
 }
+
+//
+
+export interface ServerSelectionProps {
+  servers: Servers;
+  defaultUrl: string;
+}
+
+export interface ErrorResponse {
+  title: string;
+  description: string;
+  suggestion: string;
+}
+
+export interface ServerResponse {
+  ok: boolean;
+  error?: ErrorResponse;
+  data: { url: string } | null;
+}
+
+export interface ServerInfo {
+  serverName: string;
+  serverId: string;
+  quality: string;
+}
+
+export interface AvailableServers {
+  [key: string]: ServerInfo[];
+}
+
+// VideoPlayerProps
+
+export interface VideoPlayerProps {
+  currentServerUrl: string;
+  isLoading: boolean;
+  error: ErrorResponse | null;
+  currentQuality: string;
+}
+
+// ServerListProps
+
+export interface ServerListProps {
+  isCheckingServers: boolean;
+  availableServers: AvailableServers;
+  activeServerId: string;
+  isLoading: boolean;
+  onServerSelect: (serverId: string) => void;
+}

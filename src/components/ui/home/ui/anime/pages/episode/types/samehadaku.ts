@@ -1,5 +1,4 @@
 // Anime
-
 export interface AnimeData {
   title?: string;
   poster?: string;
