@@ -3,17 +3,17 @@
   "name": "Anime Indo",
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "/logo.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
-      "src": "/favicon.ico",
+      "src": "/logo.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/favicon.ico",
+      "src": "/logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -26,7 +26,7 @@
   "categories": ["anime", "anime indo"],
   "screenshots": [
     {
-      "src": "/home.png",
+      "src": "/desktop.png",
       "sizes": "1280x720",
       "type": "image/png"
     }

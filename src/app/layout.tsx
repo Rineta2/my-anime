@@ -6,9 +6,9 @@ import { ThemeProvider } from "@/utils/context/ThemeContext";
 
 import { metadata } from "@/base/meta/Metadata";
 
-import Pathname from "@/base/route/Pathname";
+import Pathname from "@/base/router/Pathname";
 
-import Providers from "@/base/route/Provider";
+import Providers from "@/base/router/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
