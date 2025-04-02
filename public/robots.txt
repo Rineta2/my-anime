@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: 
+Sitemap: https://anime-indo.vercel.app/

@@ -9,24 +9,21 @@ export const viewport = {
 };
 
 export const metadata = {
-  title: "Anime indo - Pusatnya Anime",
+  title: "Anime Indo - Pusatnya Anime",
   description:
-    "Butuh website profesional dengan harga terjangkau? Space Digitalia siap membantu UMKM dan bisnis Anda tampil online dengan desain modern, cepat, dan SEO-friendly!",
+    "Tonton anime terbaru dan terlengkap dengan subtitle Indonesia. Nikmati ribuan judul anime berkualitas tinggi dengan streaming gratis!",
 
   authors: [{ name: "Rizki Ramadhan" }],
 
   keywords: [
-    "Jasa Pembuatan Website",
-    "Web Design",
-    "Web Development",
-    "Jasa Website UMKM",
-    "Landing Page",
-    "Website Company Profile",
-    "Website Toko Online",
-    "Bogor Web Agency",
-    "Leuwiliang Web Studio",
-    "Ciampea Web Developer",
-    "Cibatok Website",
+    "Anime",
+    "Anime Indo",
+    "Anime Terbaru",
+    "Anime Terpopuler",
+    "Anime Terlengkap",
+    "Anime Terbaik",
+    "Streaming Anime",
+    "Anime Subtitle Indonesia",
   ],
 
   icons: {
@@ -44,8 +41,8 @@ export const metadata = {
 
   tags: [
     {
-      name: "Space Digitalia",
-      content: "Jasa Pembuatan Website Profesional",
+      name: "Anime indo",
+      content: "Streaming Anime",
     },
   ],
 
@@ -64,30 +61,30 @@ export const metadata = {
 
   openGraph: {
     type: "website",
-    title: "Space Digitalia - Jasa Pembuatan Website Profesional",
+    title: "Anime Indo - Pusatnya Anime",
     description:
-      "Butuh website profesional dengan harga terjangkau? Space Digitalia siap membantu UMKM dan bisnis Anda tampil online dengan desain modern, cepat, dan SEO-friendly!",
+      "Tonton anime terbaru dan terlengkap dengan subtitle Indonesia. Nikmati ribuan judul anime berkualitas tinggi dengan streaming gratis!",
     url: BASE_URL,
-    siteName: "Space Digitalia",
+    siteName: "Anime Indo",
     locale: "id_ID",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Jasa Pembuatan Website Space Digitalia",
+        alt: "Anime Indo - Pusatnya Anime",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Space Digitalia - Jasa Pembuatan Website Profesional",
+    title: "Anime Indo - Pusatnya Anime",
     description:
-      "Butuh website profesional dengan harga terjangkau? Space Digitalia siap membantu UMKM dan bisnis Anda tampil online dengan desain modern, cepat, dan SEO-friendly!",
+      "Tonton anime terbaru dan terlengkap dengan subtitle Indonesia. Nikmati ribuan judul anime berkualitas tinggi dengan streaming gratis!",
     creator: "@rizki_ramadhan",
     site: "@rizki_ramadhan",
-    images: ["/og-image.jpg"], // Pastikan ini sesuai
+    images: ["/og-image.jpg"],
   },
 
   verification: {

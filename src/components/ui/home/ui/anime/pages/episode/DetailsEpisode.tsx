@@ -4,9 +4,9 @@ import Image from 'next/image';
 
 import Link from 'next/link';
 
-import { getEpisodeData } from './lib/FetchEpisode';
+import { getEpisodeData } from '@/components/ui/home/ui/anime/pages/episode/lib/FetchEpisode';
 
-import ServerSelection from './components/ServerSelection';
+import ServerSelection from '@/components/ui/home/ui/anime/pages/episode/components/ServerSelection';
 
 interface EpisodePageProps {
     params: {

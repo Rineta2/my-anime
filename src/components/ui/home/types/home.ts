@@ -61,6 +61,8 @@ export interface AnimeMovieData {
   title: string;
   poster: string;
   releaseDate: string;
+  href: string;
+  samehadakuUrl: string;
   genreList: Genre[];
 }
 
@@ -68,12 +70,15 @@ export interface AnimeResponse {
   data: {
     recent: {
       animeList: Anime[];
+      href: string;
     };
     batch: {
       batchList: Bath[];
+      href: string;
     };
     movie: {
       animeList: AnimeMovieData[];
+      href: string;
     };
   };
 }

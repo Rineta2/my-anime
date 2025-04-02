@@ -12,6 +12,8 @@ import Providers from "@/base/route/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
+metadata.manifest = "/manifest.json";
+
 export { metadata };
 
 export default function RootLayout({

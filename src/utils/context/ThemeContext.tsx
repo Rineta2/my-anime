@@ -13,7 +13,14 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>('system')
+    const [theme, setTheme] = useState<Theme>(() => {
+        // Check if we're in the browser
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme') as Theme
+            return savedTheme || 'system'
+        }
+        return 'system'
+    })
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
@@ -23,23 +30,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (!mounted) return
 
-        // Check if theme is stored in localStorage
-        const savedTheme = localStorage.getItem('theme') as Theme
-        if (savedTheme) {
-            setTheme(savedTheme)
-            if (savedTheme === 'system') {
-                const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-                document.documentElement.classList.toggle('dark', systemTheme === 'dark')
-            } else {
-                document.documentElement.classList.toggle('dark', savedTheme === 'dark')
-            }
-        } else {
-            // Default to system theme
-            setTheme('system')
+        // Apply theme changes
+        if (theme === 'system') {
             const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
             document.documentElement.classList.toggle('dark', systemTheme === 'dark')
+        } else {
+            document.documentElement.classList.toggle('dark', theme === 'dark')
         }
-    }, [mounted])
+    }, [mounted, theme])
 
     // Listen for system theme changes
     useEffect(() => {
@@ -79,25 +77,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
-
-        if (newTheme === 'system') {
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            document.documentElement.classList.toggle('dark', systemTheme === 'dark');
-        } else {
-            document.documentElement.classList.toggle('dark', newTheme === 'dark');
-        }
     }
 
     const handleThemeChange = (newTheme: Theme) => {
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
-
-        if (newTheme === 'system') {
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            document.documentElement.classList.toggle('dark', systemTheme === 'dark');
-        } else {
-            document.documentElement.classList.toggle('dark', newTheme === 'dark');
-        }
     }
 
     // Prevent hydration mismatch

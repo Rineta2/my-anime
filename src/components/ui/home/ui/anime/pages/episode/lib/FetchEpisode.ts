@@ -1,4 +1,4 @@
-import { EpisodeData } from "@/hooks/pages/types/samehadaku";
+import { EpisodeData } from "@/components/ui/home/ui/anime/pages/episode/types/samehadaku";
 
 export async function getEpisodeData(slug: string): Promise<EpisodeData> {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;

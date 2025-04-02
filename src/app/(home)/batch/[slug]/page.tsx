@@ -1,6 +1,6 @@
 import React from 'react'
 
-import BatchPage from "@/components/ui/home/ui/batch/pages/bacth/DetailsBatch"
+import BatchPage from "@/components/ui/betch/pages/DetailsBatch"
 
 import { Metadata, ResolvingMetadata } from "next"
 

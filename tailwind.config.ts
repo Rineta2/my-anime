@@ -38,9 +38,8 @@ export default {
       },
       keyframes: {
         shimmer: {
-          "100%": {
-            transform: "translateX(100%)",
-          },
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
         },
 
         "charging-bar": {
@@ -59,6 +58,7 @@ export default {
         },
       },
       animation: {
+        shimmer: "shimmer 2s infinite",
         "fade-in": "fadeIn 0.3s ease-in-out",
         float: "float 6s ease-in-out infinite",
         "float-delayed": "float 6s ease-in-out 3s infinite",

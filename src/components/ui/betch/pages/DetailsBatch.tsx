@@ -2,9 +2,10 @@ import React from 'react'
 
 import Image from 'next/image'
 
-import ErrorBatch from "@/components/ui/home/ui/batch/pages/bacth/ui/ErrorBatch"
+import ErrorBatch from "@/components/ui/betch/pages/ui/ErrorBatch"
 
-import { getBatchDetail } from "@/components/ui/home/ui/batch/pages/bacth/lib/FetchSlugBatch"
+import { getBatchDetail } from "@/components/ui/betch/pages/lib/FetchSlugBatch"
+
 import Link from 'next/link'
 
 interface BatchPageProps {
