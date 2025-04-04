@@ -1,12 +1,12 @@
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Episode, AnimeItem } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
-interface RelatedMoviesProps {
-    episode: Episode;
-}
+import Image from 'next/image';
+
+import Link from 'next/link';
+
+import { motion } from 'framer-motion';
+
+import { RelatedMoviesProps, AnimeItem } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
 export default function RelatedMovies({ episode }: RelatedMoviesProps) {
     if (!episode.movie || !episode.movie.animeList || episode.movie.animeList.length === 0) {

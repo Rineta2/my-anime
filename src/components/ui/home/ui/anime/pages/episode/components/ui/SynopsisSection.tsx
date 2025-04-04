@@ -1,10 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Episode } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
-interface SynopsisSectionProps {
-    episode: Episode;
-}
+import { motion } from 'framer-motion';
+
+import { SynopsisSectionProps } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
 export default function SynopsisSection({ episode }: SynopsisSectionProps) {
     if (!episode.synopsis || !episode.synopsis.paragraphs || episode.synopsis.paragraphs.length === 0) {

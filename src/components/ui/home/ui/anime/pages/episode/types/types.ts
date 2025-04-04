@@ -170,3 +170,39 @@ export interface RecommendedEpisode {
   href: string;
   releaseDate: string;
 }
+
+// Download Sections
+export interface DownloadSectionProps {
+  episode: Episode;
+}
+
+// Genres Section
+export interface GenresSectionProps {
+  episode: Episode;
+}
+
+// Hero Section
+export interface HeroSectionProps {
+  episode: Episode;
+}
+
+// Navigation Buttons
+export interface NavigationButtonsProps {
+  episode: Episode;
+}
+
+// Recommended Episodes
+export interface RecommendedEpisodesProps {
+  episode: Episode;
+  currentSlug: string;
+}
+
+// Related Movies
+export interface RelatedMoviesProps {
+  episode: Episode;
+}
+
+// Synopsis Section
+export interface SynopsisSectionProps {
+  episode: Episode;
+}

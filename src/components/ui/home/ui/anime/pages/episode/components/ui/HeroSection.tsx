@@ -1,11 +1,10 @@
 import React from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { Episode } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
-interface HeroSectionProps {
-    episode: Episode;
-}
+import Image from 'next/image';
+
+import { motion } from 'framer-motion';
+
+import { HeroSectionProps } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
 export default function HeroSection({ episode }: HeroSectionProps) {
     return (

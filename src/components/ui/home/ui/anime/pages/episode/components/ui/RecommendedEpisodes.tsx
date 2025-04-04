@@ -1,13 +1,12 @@
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Episode, RecommendedEpisode } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
-interface RecommendedEpisodesProps {
-    episode: Episode;
-    currentSlug: string;
-}
+import Image from 'next/image';
+
+import Link from 'next/link';
+
+import { motion } from 'framer-motion';
+
+import { RecommendedEpisodesProps, RecommendedEpisode } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
 export default function RecommendedEpisodes({ episode, currentSlug }: RecommendedEpisodesProps) {
     if (!episode.recommendedEpisodeList || episode.recommendedEpisodeList.length === 0) {

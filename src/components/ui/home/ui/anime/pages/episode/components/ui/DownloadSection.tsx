@@ -1,10 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Episode, FormatItem, QualityItem, UrlItem } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
-interface DownloadSectionProps {
-    episode: Episode;
-}
+import { motion } from 'framer-motion';
+
+import { DownloadSectionProps, FormatItem, QualityItem, UrlItem } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
 export default function DownloadSection({ episode }: DownloadSectionProps) {
     if (!episode.downloadUrl || !episode.downloadUrl.formats || episode.downloadUrl.formats.length === 0) {

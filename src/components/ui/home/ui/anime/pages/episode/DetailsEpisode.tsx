@@ -12,7 +12,6 @@ import { Episode, EpisodePageProps } from '@/components/ui/home/ui/anime/pages/e
 
 import DetailsEpisodeSkeleton from "@/components/ui/home/ui/anime/pages/episode/DetailsEpisodeSkelaton";
 
-// Import new components
 import HeroSection from '@/components/ui/home/ui/anime/pages/episode/components/ui/HeroSection';
 
 import NavigationButtons from '@/components/ui/home/ui/anime/pages/episode/components/ui/NavigationButtons';

@@ -1,11 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Episode } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
-interface NavigationButtonsProps {
-    episode: Episode;
-}
+import Link from 'next/link';
+
+import { motion } from 'framer-motion';
+
+import { NavigationButtonsProps } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
 export default function NavigationButtons({ episode }: NavigationButtonsProps) {
     return (
