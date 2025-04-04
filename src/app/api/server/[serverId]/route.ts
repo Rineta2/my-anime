@@ -75,8 +75,6 @@ export async function GET(
       pagination: null,
     });
   } catch (error: unknown) {
-    console.error("Error fetching server data:", error);
-
     if (axios.isAxiosError(error)) {
       if (error.code === "ECONNABORTED") {
         return createErrorResponse(408, "Waktu permintaan server habis");

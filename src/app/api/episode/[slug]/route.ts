@@ -46,7 +46,6 @@ export async function GET(
 
       const episodeData = data.data;
 
-      // Transform the data to remove 'samehadaku' from href paths recursively
       const transformedData = {
         statusCode: 200,
         statusMessage: "OK",
@@ -86,7 +85,6 @@ export async function GET(
       throw axiosError;
     }
   } catch (error: unknown) {
-    console.error("Error fetching episode data:", error);
     const statusCode = axios.isAxiosError(error) ? error.response?.status : 500;
     const message = axios.isAxiosError(error)
       ? error.response?.data?.message

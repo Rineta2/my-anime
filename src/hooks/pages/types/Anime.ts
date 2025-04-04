@@ -89,7 +89,6 @@ export interface TransformableItem {
 }
 
 // Filter Props
-
 export interface GenreFilterProps {
   genres: Genre[];
   selectedGenre: string | null;
@@ -97,7 +96,6 @@ export interface GenreFilterProps {
 }
 
 // Schedule Filter Props
-
 export interface ScheduleFilterProps {
   scheduleDays: ScheduleDay[];
   selectedDay: string | null;
@@ -105,21 +103,18 @@ export interface ScheduleFilterProps {
 }
 
 // Status Filter Props
-
 export interface StatusFilterProps {
   selectedStatus: string | null;
   onFilterChange: (value: string | null) => void;
 }
 
 // Type Filter Props
-
 export interface TypeFilterProps {
   selectedType: string | null;
   onFilterChange: (value: string | null) => void;
 }
 
 // Filter Sidebar Props
-
 export interface FilterSidebarProps {
   genres: Genre[];
   scheduleDays: ScheduleDay[];
@@ -134,7 +129,6 @@ export interface FilterSidebarProps {
 }
 
 // Anime Card Props
-
 export interface AnimeCardProps {
   anime: Anime;
   showGenres?: boolean;
@@ -144,7 +138,6 @@ export interface AnimeCardProps {
 }
 
 // Anime Section Props
-
 export interface AnimeSectionProps {
   title: string;
   animeList: Anime[];

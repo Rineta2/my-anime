@@ -118,8 +118,7 @@ export async function GET(
       message: "",
       data: transformedData,
     });
-  } catch (error) {
-    console.error("Error fetching anime data:", error);
+  } catch {
     return NextResponse.json(
       {
         ok: false,
