@@ -12,7 +12,6 @@ export interface UserAccount {
   photoURL?: string;
   updatedAt: Date;
   isActive: boolean;
-  phoneNumber: string;
   createdAt: Date;
 }
 
@@ -22,7 +21,6 @@ export interface AuthContextType {
   login: (email: string, password: string) => Promise<UserAccount>;
   loginWithGoogle: () => Promise<UserAccount>;
   loginWithGithub: () => Promise<UserAccount>;
-  loginWithFacebook: () => Promise<UserAccount>;
   logout: () => Promise<void>;
   deleteAccount: () => Promise<void>;
   hasRole: (roles: string | string[]) => boolean;
@@ -30,8 +28,7 @@ export interface AuthContextType {
   signUp: (
     email: string,
     password: string,
-    displayName: string,
-    phone: string
+    displayName: string
   ) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   showInactiveModal: boolean;

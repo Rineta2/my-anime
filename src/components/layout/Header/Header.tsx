@@ -1,76 +1,110 @@
 "use client"
 
-import Link from "next/link"
-
-import { usePathname } from 'next/navigation'
-
 import React, { useState } from 'react'
 
-import { NavLinks, profile } from "@/components/layout/Header/data/header"
+import { CiLogin } from 'react-icons/ci'
 
-import { useTheme } from "@/utils/context/ThemeContext"
+import { FaRegUser } from "react-icons/fa"
+
+import { IoIosArrowDown } from 'react-icons/io'
+
+import Image from "next/image"
+
+import { useAuth } from "@/utils/context/AuthContext"
 
 import ThemeModal from "@/components/layout/Header/ThemeModal"
 
+import LoginModal from "@/components/layout/Header/auth/signin/LoginModal"
+
+import Logo from "./components/Logo"
+
+import ThemeToggle from "./components/ThemeToggle"
+
+import DesktopNav from "./components/DesktopNav"
+
+import MobileNav from "./components/MobileNav"
+
+import ProfileMenu from "./components/ProfileMenu"
+
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
     const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
 
-    const pathname = usePathname();
+    const { user } = useAuth();
 
-    const { theme } = useTheme();
+    const handleMobileProfileToggle = () => {
+        setIsMobileProfileOpen(!isMobileProfileOpen);
+        setIsMenuOpen(false);
+        setIsThemeModalOpen(false);
+    };
 
-    const isActive = (path: string) => pathname === path;
+    const handleMenuToggle = () => {
+        setIsMenuOpen(!isMenuOpen);
+        setIsMobileProfileOpen(false);
+        setIsThemeModalOpen(false);
+    };
+
+    const handleThemeToggle = () => {
+        setIsThemeModalOpen(true);
+        setIsProfileOpen(false);
+        setIsMobileProfileOpen(false);
+        setIsMenuOpen(false);
+    };
+
+    const handleProfileToggle = () => {
+        setIsProfileOpen(!isProfileOpen);
+        setIsThemeModalOpen(false);
+    };
 
     return (
         <>
             <header className='fixed top-0 left-0 w-full bg-[var(--header-bg)] backdrop-blur-md shadow-[0_4px_20px_var(--header-shadow)] z-50 border-b border-[var(--header-border)] transition-all duration-300'>
                 <div className="container px-6 py-4">
                     <div className="flex justify-between items-center">
-                        <div className="profile">
-                            <Link href={profile.href} className="text-2xl font-bold">
-                                {profile.name}
-                            </Link>
-                        </div>
+                        <Logo />
 
                         {/* Mobile menu button */}
                         <div className="lg:hidden flex items-center gap-2">
+                            {!user ? (
+                                <button
+                                    onClick={() => setIsLoginModalOpen(true)}
+                                    className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg transition-all text-sm font-semibold shadow-lg hover:-translate-y-0.5 duration-300"
+                                >
+                                    <CiLogin className="text-base" />
+                                    <span className="hidden sm:block text-sm">Login</span>
+                                </button>
+                            ) : (
+                                <div className="relative">
+                                    <button
+                                        onClick={handleMobileProfileToggle}
+                                        className="relative"
+                                        aria-label="Toggle profile menu"
+                                        aria-expanded={isMobileProfileOpen}
+                                    >
+                                        {user.photoURL ? (
+                                            <Image
+                                                src={user.photoURL}
+                                                alt="Profile"
+                                                className="w-8 h-8 rounded-full object-cover ring-2 ring-primary ring-offset-2 ring-offset-[var(--background)]"
+                                                width={32}
+                                                height={32}
+                                            />
+                                        ) : (
+                                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center ring-2 ring-primary ring-offset-2 ring-offset-[var(--background)]">
+                                                <FaRegUser className="w-4 h-4 text-white" />
+                                            </div>
+                                        )}
+                                        <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-success rounded-full border-2 border-[var(--background)]"></span>
+                                    </button>
+                                    <ProfileMenu isOpen={isMobileProfileOpen} onClose={() => setIsMobileProfileOpen(false)} isMobile />
+                                </div>
+                            )}
+                            <ThemeToggle onClick={handleThemeToggle} />
                             <button
-                                onClick={() => setIsThemeModalOpen(true)}
-                                className="p-2.5 rounded-full hover:bg-[var(--hover-bg)] transition-all duration-300"
-                            >
-                                {theme === 'light' ? (
-                                    <svg
-                                        className="w-6 h-6 text-text"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                    </svg>
-                                ) : theme === 'dark' ? (
-                                    <svg
-                                        className="w-6 h-6 text-text"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
-                                ) : (
-                                    <svg
-                                        className="w-6 h-6 text-text"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                )}
-                            </button>
-                            <button
-                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                onClick={handleMenuToggle}
                                 className="p-2 rounded-full hover:bg-[var(--hover-bg)] transition-all duration-300"
                             >
                                 <svg
@@ -88,103 +122,67 @@ export default function Header() {
                             </button>
                         </div>
 
-                        {/* Desktop Navigation */}
-                        <ul className="hidden md:flex items-center gap-8">
-                            {NavLinks.map((item) => (
-                                <li key={item.id}>
-                                    <Link
-                                        href={item.href}
-                                        className={`relative text-text hover:text-primary transition-all duration-300 font-medium group ${isActive(item.href) ? 'text-primary' : ''
-                                            }`}
-                                    >
-                                        {item.name}
-                                        <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-primary to-primary-hover transform transition-transform duration-300 ${isActive(item.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                            }`}></span>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+                        <DesktopNav />
 
                         <div className="hidden md:flex items-center gap-6">
-                            <div className="login">
-                                <Link
-                                    href={"/signin"}
-                                    className="px-6 py-3 rounded-full bg-primary text-white transition-all duration-300 font-medium"
+                            {!user ? (
+                                <button
+                                    onClick={() => setIsLoginModalOpen(true)}
+                                    className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-[var(--header-menu-bg)] backdrop-blur-md rounded-2xl shadow-xl p-6 border border-[var(--header-border)] transition-all duration-300"
                                 >
+                                    <CiLogin className="text-base" />
                                     Login
-                                </Link>
-                            </div>
-                            <button
-                                onClick={() => setIsThemeModalOpen(true)}
-                                className="p-2.5 rounded-full hover:bg-[var(--hover-bg)] transition-all duration-300"
-                            >
-                                {theme === 'light' ? (
-                                    <svg
-                                        className="w-6 h-6 text-text"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
+                                </button>
+                            ) : (
+                                <div className="relative hidden md:block">
+                                    <button
+                                        onClick={handleProfileToggle}
+                                        className="flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-[var(--hover-bg)] group"
                                     >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                    </svg>
-                                ) : theme === 'dark' ? (
-                                    <svg
-                                        className="w-6 h-6 text-text"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
-                                ) : (
-                                    <svg
-                                        className="w-6 h-6 text-text"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                )}
-                            </button>
+                                        <div className="relative">
+                                            {user.photoURL ? (
+                                                <Image
+                                                    src={user.photoURL}
+                                                    alt="Profile"
+                                                    className="w-10 h-10 rounded-full object-cover ring-2 ring-primary ring-offset-2 ring-offset-[var(--background)]"
+                                                    width={40}
+                                                    height={40}
+                                                />
+                                            ) : (
+                                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center ring-2 ring-primary ring-offset-2 ring-offset-[var(--background)]">
+                                                    <FaRegUser className="w-5 h-5 text-white" />
+                                                </div>
+                                            )}
+                                            <span className="absolute bottom-0 right-0 w-3 h-3 bg-success rounded-full border-2 border-[var(--background)]"></span>
+                                        </div>
+                                        <div className="flex flex-col items-start">
+                                            <span className="text-xs font-semibold text-[var(--text)] group-hover:text-primary transition-colors duration-200">
+                                                {user.displayName}
+                                            </span>
+                                            <span className="text-[10px] text-[var(--text-secondary)]">
+                                                {user.role}
+                                            </span>
+                                        </div>
+                                        <IoIosArrowDown className={`transition-transform duration-200 text-[var(--text-secondary)] ${isProfileOpen ? 'rotate-180' : ''}`} />
+                                    </button>
+                                    <ProfileMenu isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+                                </div>
+                            )}
+                            <ThemeToggle onClick={handleThemeToggle} />
                         </div>
                     </div>
 
-                    {/* Mobile Navigation */}
-                    {isMenuOpen && (
-                        <div className="md:hidden mt-4 bg-[var(--header-menu-bg)] backdrop-blur-md rounded-2xl shadow-xl p-6 border border-[var(--header-border)] transition-all duration-300">
-                            <ul className="flex flex-col gap-4">
-                                {NavLinks.map((item) => (
-                                    <li key={item.id}>
-                                        <Link
-                                            href={item.href}
-                                            className={`block text-text hover:text-primary transition-all duration-300 py-2.5 font-medium hover:bg-[var(--hover-bg)] rounded-lg px-4 ${isActive(item.href) ? 'text-primary bg-[var(--hover-bg)]' : ''
-                                                }`}
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            {item.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                                <li className="border-t border-[var(--header-border)] my-2"></li>
-                                <li>
-                                    <Link
-                                        href="/signin"
-                                        className="block w-full text-center px-6 py-2.5 rounded-full bg-gradient-to-r from-primary to-primary-hover text-white hover:from-primary-hover hover:to-primary transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        Login
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    )}
+                    <MobileNav isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
                 </div>
             </header>
 
             <ThemeModal
                 isOpen={isThemeModalOpen}
                 onClose={() => setIsThemeModalOpen(false)}
+            />
+            <LoginModal
+                isOpen={isLoginModalOpen}
+                onClose={() => setIsLoginModalOpen(false)}
             />
         </>
     )

@@ -15,7 +15,8 @@ import { Toaster } from "react-hot-toast";
 const Pathname = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname();
 
-    const isAdminRoute = pathname?.includes("/auth") ||
+    const isAdminRoute = pathname?.includes("/signin")
+        || pathname?.includes("/signup") ||
         pathname?.includes("/dashboard") || false;
 
     return (

@@ -6,6 +6,7 @@ import {
   setConsent,
   ConsentSettings,
 } from "firebase/analytics";
+
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";

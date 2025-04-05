@@ -50,8 +50,6 @@ export default function Swiper() {
     if (!memoizedData) return <SwiperSkeleton />;
 
     return (
-        <div className="pt-16 sm:pt-20">
-            <HeroSwiper data={memoizedData} />
-        </div>
+        <HeroSwiper data={memoizedData} />
     )
 }
