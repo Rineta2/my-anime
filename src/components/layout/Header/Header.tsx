@@ -180,6 +180,7 @@ export default function Header() {
                 isOpen={isThemeModalOpen}
                 onClose={() => setIsThemeModalOpen(false)}
             />
+
             <LoginModal
                 isOpen={isLoginModalOpen}
                 onClose={() => setIsLoginModalOpen(false)}

@@ -3,7 +3,12 @@ import bundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig = {
   images: {
-    domains: ["samehadaku.mba"],
+    domains: [
+      "samehadaku.mba",
+      "ik.imagekit.io",
+      "lh3.googleusercontent.com",
+      "avatars.githubusercontent.com",
+    ],
   },
 };
 
