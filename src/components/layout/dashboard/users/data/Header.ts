@@ -21,7 +21,6 @@ export const menuItems = [
     href: "/dashboard/user/profile",
     subItems: [
       { label: "Profile", href: "/dashboard/user/profile" },
-      { label: "Alamat", href: "/dashboard/user/profile/address" },
       { label: "Security", href: "/dashboard/user/profile/security" },
     ],
   },

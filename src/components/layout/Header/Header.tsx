@@ -67,7 +67,7 @@ export default function Header() {
                         <Logo />
 
                         {/* Mobile menu button */}
-                        <div className="lg:hidden flex items-center gap-2">
+                        <div className="lg:hidden flex items-center gap-4">
                             {!user ? (
                                 <button
                                     onClick={() => setIsLoginModalOpen(true)}
@@ -103,6 +103,7 @@ export default function Header() {
                                 </div>
                             )}
                             <ThemeToggle onClick={handleThemeToggle} />
+
                             <button
                                 onClick={handleMenuToggle}
                                 className="p-2 rounded-full hover:bg-[var(--hover-bg)] transition-all duration-300"

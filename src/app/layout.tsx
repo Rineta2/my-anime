@@ -1,6 +1,6 @@
 import "@/base/style/globals.css";
 
-import { notoSansJP } from "@/base/fonts/Fonts";
+import { inter } from "@/base/fonts/Fonts";
 
 import { ThemeProvider } from "@/utils/context/ThemeContext";
 
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${notoSansJP.className} antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         <ThemeProvider>
           <Providers>
             <Pathname>

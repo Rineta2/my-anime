@@ -84,6 +84,7 @@ export default function HistoryLayout() {
                                 <h3 className="font-semibold text-lg md:text-xl mb-2 line-clamp-1 sm:line-clamp-2 group-hover:text-[var(--primary)] transition-colors duration-300">
                                     {item.title}
                                 </h3>
+
                                 <p className="text-sm text-gray-400">
                                     {new Date(item.timestamp).toLocaleDateString('id-ID', {
                                         year: 'numeric',

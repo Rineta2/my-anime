@@ -179,7 +179,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                                     {!isCollapsed && (
                                         <div className={`overflow-hidden transition-all duration-200 ${activeDropdown === index ? 'max-h-96' : 'max-h-0'
                                             }`}>
-                                            <ul className="mt-1 space-y-1 px-3.5">
+                                            <ul className="mt-3 space-y-3 px-3.5">
                                                 {item.subItems.map((subItem, subIndex) => (
                                                     <li key={subIndex}>
                                                         <Link
