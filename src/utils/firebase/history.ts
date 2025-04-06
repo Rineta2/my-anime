@@ -44,7 +44,7 @@ export const addToViewHistory = async (
       title: episode.title,
       poster: episode.poster,
       timestamp: Date.now(),
-      href: `/anime/${episodeSlug}`,
+      href: `/episode/${episodeSlug}`,
     };
 
     await set(newHistoryRef, historyData);

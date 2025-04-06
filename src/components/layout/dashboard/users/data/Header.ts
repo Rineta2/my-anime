@@ -1,6 +1,6 @@
 import { FiHome, FiSettings } from "react-icons/fi";
 
-import { GrTransaction } from "react-icons/gr";
+import { FaHistory } from "react-icons/fa";
 
 export const menuItems = [
   {
@@ -10,17 +10,9 @@ export const menuItems = [
   },
 
   {
-    icon: GrTransaction,
-    label: "Transaksi",
-    href: "/dashboard/user/transaction",
-    subItems: [
-      { label: "Daftar Transaksi", href: "/dashboard/user/transaction" },
-      { label: "Transaksi Berbayar", href: "/dashboard/user/transaction/paid" },
-      { label: "Belum Dibayar", href: "/dashboard/user/transaction/unpaid" },
-      { label: "Dikirim", href: "/dashboard/user/transaction/shipped" },
-      { label: "Dibatalkan", href: "/dashboard/user/transaction/cancelled" },
-      { label: "Selesai", href: "/dashboard/user/transaction/completed" },
-    ],
+    icon: FaHistory,
+    label: "History",
+    href: "/dashboard/user/history",
   },
 
   {
