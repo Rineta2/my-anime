@@ -13,6 +13,7 @@ export interface UserAccount {
   updatedAt: Date;
   isActive: boolean;
   createdAt: Date;
+  phoneNumber: string;
 }
 
 export interface AuthContextType {
@@ -40,4 +41,5 @@ export interface FirebaseUser {
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
+  phoneNumber: string | null;
 }

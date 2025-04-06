@@ -175,6 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || '',
             role: Role.USER,
             photoURL: firebaseUser.photoURL || undefined,
+            phoneNumber: firebaseUser.phoneNumber || '',
             createdAt: new Date(),
             updatedAt: new Date(),
             isActive: true
@@ -197,7 +198,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     uid: result.user.uid,
                     email: result.user.email,
                     displayName: result.user.displayName,
-                    photoURL: result.user.photoURL
+                    photoURL: result.user.photoURL,
+                    phoneNumber: result.user.phoneNumber || ''
                 });
             } else {
                 userData = userDoc.data() as UserAccount;
@@ -240,7 +242,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     uid: result.user.uid,
                     email: result.user.email,
                     displayName: result.user.displayName,
-                    photoURL: result.user.photoURL
+                    photoURL: result.user.photoURL,
+                    phoneNumber: result.user.phoneNumber || ''
                 });
             } else {
                 userData = userDoc.data() as UserAccount;
@@ -282,6 +285,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 email: email,
                 displayName: displayName,
                 role: Role.USER,
+                photoURL: undefined,
+                phoneNumber: '',
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 isActive: true

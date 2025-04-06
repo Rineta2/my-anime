@@ -48,7 +48,7 @@ export default function BatchList() {
     const batchList = useMemo(() => data?.data.batch.batchList ?? [], [data]);
 
     if (isLoading) return <BatchSkeleton />
-    if (error) return <div className="text-center text-red-500 p-4">{error}</div>
+    if (error) return <BatchSkeleton />
     if (!data) return <BatchSkeleton />;
 
     return (

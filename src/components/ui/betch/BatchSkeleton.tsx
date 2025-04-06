@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function BatchSkeleton() {
     return (
-        <section className='min-h-full'>
+        <section className='min-h-full py-10'>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
                 {/* Batch Header Skeleton */}
                 <div className="flex flex-col space-y-6">

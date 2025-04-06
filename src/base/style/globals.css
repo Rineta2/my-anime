@@ -3,6 +3,27 @@
 @tailwind utilities;
 
 @layer utilities {
+  /* Shimmer animation */
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%
+    );
+    background-size: 1000px 100%;
+  }
+
   /* Updated custom scrollbar styling */
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
@@ -45,7 +66,7 @@
   --success: #10b981;
   --warning: #f59e0b;
   --error: #ef4444;
-  --font-open-sans: "Open Sans", sans-serif;
+  --font-noto-sans-jp: var(--font-noto-sans-jp);
   --border-color: #e5e7eb;
   --hover-bg: #f3f4f6;
   --header-bg: rgba(255, 255, 255, 0.8);
@@ -89,7 +110,7 @@
 body {
   color: var(--text);
   background: var(--background);
-  font-family: var(--font-open-sans);
+  font-family: var(--font-noto-sans-jp);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 

@@ -46,7 +46,7 @@ export default function Swiper() {
     const memoizedData = useMemo(() => data, [data]);
 
     if (isLoading) return <SwiperSkeleton />;
-    if (error) return <div className="text-center text-red-500 p-4">{error}</div>;
+    if (error) return <SwiperSkeleton />
     if (!memoizedData) return <SwiperSkeleton />;
 
     return (

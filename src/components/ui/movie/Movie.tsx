@@ -49,7 +49,7 @@ export default function AnimeMovie() {
     const memoizedAnimeList = useMemo(() => memoizedData?.data.movie.animeList ?? [], [memoizedData]);
 
     if (isLoading) return <MovieSkeleton />
-    if (error) return <div className="text-center text-red-500 p-4">{error}</div>
+    if (error) return <MovieSkeleton />
     if (!memoizedData) return <MovieSkeleton />;
 
     return (

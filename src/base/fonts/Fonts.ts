@@ -1,7 +1,7 @@
-import { Open_Sans } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 
-export const openSans = Open_Sans({
-  variable: "--font-open-sans",
-  weight: ["400", "500", "600", "700"],
+export const notoSansJP = Noto_Sans_JP({
+  variable: "--font-noto-sans-jp",
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
 });

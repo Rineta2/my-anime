@@ -118,7 +118,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
 
             {/* Navigation */}
             <nav className="flex-1 px-3 py-2 overflow-y-auto custom-scrollbar">
-                <ul className="space-y-1.5">
+                <ul className="space-y-4">
                     {menuItems.map((item, index) => (
                         <li key={index} className={`${isCollapsed ? 'flex justify-center' : ''}`}>
                             {!item.subItems ? (
@@ -127,7 +127,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                                     onClick={handleLinkClick}
                                     className={`group flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-200 ${isLinkActive(item.href)
                                         ? 'bg-primary text-white shadow-sm shadow-primary/25'
-                                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                                        : 'hover:bg-slate-100 hover:text-slate-900'
                                         } ${isCollapsed ? 'w-12 justify-center' : 'w-full'}`}
                                     title={isCollapsed ? item.label : undefined}
                                 >
@@ -147,8 +147,8 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                                     <button
                                         onClick={() => toggleDropdown(index)}
                                         className={`group flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-200 ${item.subItems?.some(subItem => isLinkActive(subItem.href))
-                                            ? 'bg-primary text-white shadow-sm shadow-primary/25'
-                                            : 'text-slate-200 hover:bg-slate-100 hover:text-slate-900'
+                                            ? 'bg-primary shadow-sm shadow-primary/25'
+                                            : 'hover:bg-slate-100 hover:text-slate-900'
                                             } ${isCollapsed ? 'w-12 justify-center' : 'w-full justify-between'}`}
                                         title={isCollapsed ? item.label : undefined}
                                     >
@@ -202,10 +202,10 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                         </li>
                     ))}
                 </ul>
-            </nav>
+            </nav >
 
             {/* Premium Update Section */}
-            <div className="px-3 mb-2">
+            <div className="px-3 mb-2" >
                 <div className={`relative overflow-hidden rounded-xl bg-gradient-to-r from-[var(--primary)] to-[var(--primary-hover)] shadow-lg ${isCollapsed ? 'h-[52px] flex items-center justify-center' : 'h-[140px]'
                     }`}>
                     {!isCollapsed && (
@@ -243,10 +243,10 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                         </div>
                     )}
                 </div>
-            </div>
+            </div >
 
             {/* Logout Button */}
-            <div className="p-3 border-t border-[var(--header-border)]">
+            <div className="p-3 border-t border-[var(--header-border)]" >
                 <div className={`${isCollapsed ? 'flex justify-center' : ''}`}>
                     <button
                         onClick={() => {
@@ -268,7 +268,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                         {!isCollapsed && <span className="text-sm font-medium">Logout</span>}
                     </button>
                 </div>
-            </div>
-        </header>
+            </div >
+        </header >
     );
 }

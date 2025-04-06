@@ -46,7 +46,7 @@ export default function Home() {
     const memoizedData = useMemo(() => data, [data]);
 
     if (isLoading) return <HomeSkeleton />
-    if (error) return <div className="text-center text-red-500 p-4">{error}</div>
+    if (error) return <HomeSkeleton />
     if (!memoizedData) return <HomeSkeleton />;
 
     return (
