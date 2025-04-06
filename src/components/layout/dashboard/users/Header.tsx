@@ -12,6 +12,8 @@ import Image from 'next/image';
 
 import { menuItems } from '@/components/layout/dashboard/users/data/Header';
 
+import { FaRegUser } from "react-icons/fa";
+
 interface HeaderProps {
     onSidebarToggle: (isOpen: boolean) => void;
     isCollapsed?: boolean;
@@ -85,21 +87,30 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
             {/* Profile Section */}
             <div className={`p-4 mt-2 mb-2 border-b border-[var(--header-border)] ${isCollapsed ? 'flex justify-center' : ''}`}>
                 <div className={`flex items-center gap-3 ${isCollapsed ? 'flex-col' : ''}`}>
-                    <div className={`relative ${isCollapsed ? 'w-10 h-10' : 'w-12 h-12'}`}>
-                        <Image
-                            src={user?.photoURL || '/images/default-profile.png'}
-                            alt="Profile"
-                            fill
-                            className="rounded-full object-cover ring-2 ring-white shadow-sm"
-                        />
-                        <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full ring-2 ring-white"></div>
-                    </div>
+                    {
+                        user?.photoURL ? (
+                            <div className={`relative ${isCollapsed ? 'w-10 h-10' : 'w-12 h-12'} group`}>
+                                <Image
+                                    src={user?.photoURL}
+                                    alt="Profile"
+                                    fill
+                                    className="rounded-full object-cover ring-2 ring-white shadow-sm transition-transform duration-200 group-hover:scale-105"
+                                />
+                            </div>
+                        ) : (
+                            <div className={`relative ${isCollapsed ? 'w-10 h-10' : 'w-12 h-12'} group`}>
+                                <div className="rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center w-full h-full transition-transform duration-200 group-hover:scale-105">
+                                    <FaRegUser className="text-slate-500 text-2xl font-bold" />
+                                </div>
+                            </div>
+                        )
+                    }
                     {!isCollapsed && (
-                        <div>
-                            <p className="text-[15px] font-semibold text-slate-900">
+                        <div className="flex flex-col">
+                            <p className="text-[15px] font-semibold truncate max-w-[150px]">
                                 {user?.displayName}
                             </p>
-                            <p className="text-[12px] text-slate-500">User</p>
+                            <p className="text-[12px]">@{user?.role}</p>
                         </div>
                     )}
                 </div>
@@ -137,13 +148,13 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                                         onClick={() => toggleDropdown(index)}
                                         className={`group flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-200 ${item.subItems?.some(subItem => isLinkActive(subItem.href))
                                             ? 'bg-primary text-white shadow-sm shadow-primary/25'
-                                            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                                            : 'text-slate-200 hover:bg-slate-100 hover:text-slate-900'
                                             } ${isCollapsed ? 'w-12 justify-center' : 'w-full justify-between'}`}
                                         title={isCollapsed ? item.label : undefined}
                                     >
                                         <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
                                             <div className={`relative flex items-center justify-center ${isCollapsed ? 'w-6 h-6' : ''}`}>
-                                                <item.icon className={`w-[22px] h-[22px] transition-transform duration-200 group-hover:scale-110 ${isCollapsed && item.subItems?.some(subItem => isLinkActive(subItem.href)) ? 'text-white' : ''
+                                                <item.icon className={`w-[22px] h-[22px] transition-transform duration-200 group-hover:scale-110  ${isCollapsed && item.subItems?.some(subItem => isLinkActive(subItem.href)) ? 'text-white' : ''
                                                     }`} />
                                                 {isCollapsed && !item.subItems?.some(subItem => isLinkActive(subItem.href)) && (
                                                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
@@ -176,7 +187,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                                                             onClick={handleLinkClick}
                                                             className={`block py-2 px-4 text-sm rounded-md transition-all duration-200 ${isLinkActive(subItem.href)
                                                                 ? 'text-primary font-medium bg-primary/10'
-                                                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+                                                                : 'text-slate-200 hover:text-slate-900 hover:bg-slate-100'
                                                                 }`}
                                                         >
                                                             {subItem.label}
