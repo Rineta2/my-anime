@@ -1,17 +1,27 @@
+export interface AnimeResponse {
+  statusCode: number;
+  statusMessage: string;
+  message: string;
+  ok: boolean;
+  data: AnimeData;
+  error?: string;
+}
+
+export interface AnimeData {
+  animeList: Anime[];
+  pagination: Pagination;
+}
+
 export interface Anime {
-  animeId: string;
   title: string;
   poster: string;
   type: string;
   score: string;
   status: string;
-  genres?: string;
+  animeId: string;
   href: string;
-  samhadakuUrl: string;
-  genreList?: Genre[];
-  estimaion?: string;
-  episoes?: string;
-  releasedOn?: string;
+  samehadakuUrl: string;
+  genreList: Genre[];
 }
 
 export interface ScheduleDay {
@@ -42,4 +52,13 @@ export interface Genre {
   genreId: string;
   href: string;
   samehadakuUrl: string;
+}
+
+export interface Pagination {
+  currentPage: number;
+  hasPrevPage: boolean;
+  prevPage: number | null;
+  hasNextPage: boolean;
+  nextPage: number | null;
+  totalPages: number;
 }

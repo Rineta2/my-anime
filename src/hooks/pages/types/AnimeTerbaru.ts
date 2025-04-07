@@ -6,6 +6,10 @@ export interface AnimeItem {
   animeId: string;
   href: string;
   samehadakuUrl: string;
+  type?: string;
+  score?: string;
+  status?: string;
+  genres?: Array<{ title: string; genreId: string; href: string }>;
 }
 
 export interface PaginationData {

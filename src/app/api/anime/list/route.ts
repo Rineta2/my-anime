@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { Anime, ScheduleDay, Genre } from "@/types/anime";
+import { Anime, ScheduleDay, Genre } from "@/hooks/pages/movies/types/anime";
 
 interface TransformableItem {
   href?: string;
