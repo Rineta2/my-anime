@@ -30,13 +30,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (!mounted) return
 
+        const root = document.documentElement
+        root.classList.remove('light', 'dark')
+
         // Apply theme changes
         if (theme === 'system') {
             const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-            document.documentElement.classList.toggle('dark', systemTheme === 'dark')
+            root.classList.add(systemTheme)
         } else {
-            document.documentElement.classList.toggle('dark', theme === 'dark')
+            root.classList.add(theme)
         }
+
+        // Store the theme
+        localStorage.setItem('theme', theme)
     }, [mounted, theme])
 
     // Listen for system theme changes
@@ -46,13 +52,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
         const handleChange = (e: MediaQueryListEvent) => {
             if (theme === 'system') {
-                document.documentElement.classList.toggle('dark', e.matches)
+                const root = document.documentElement
+                root.classList.remove('light', 'dark')
+                root.classList.add(e.matches ? 'dark' : 'light')
             }
-        }
-
-        // Initial check
-        if (theme === 'system') {
-            document.documentElement.classList.toggle('dark', mediaQuery.matches)
         }
 
         mediaQuery.addEventListener('change', handleChange)
@@ -74,14 +77,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
             default:
                 newTheme = 'light';
         }
-
         setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
     }
 
     const handleThemeChange = (newTheme: Theme) => {
         setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
     }
 
     // Prevent hydration mismatch
