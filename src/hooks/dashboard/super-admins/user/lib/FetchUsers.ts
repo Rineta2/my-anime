@@ -4,7 +4,7 @@ import {
   collection,
   query,
   where,
-  getDocs,
+  onSnapshot,
   Timestamp,
 } from "firebase/firestore";
 
@@ -19,15 +19,14 @@ export const useUsers = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const usersRef = collection(
-          db,
-          process.env.NEXT_PUBLIC_COLLECTIONS_ACCOUNTS as string
-        );
-        const q = query(usersRef, where("role", "==", Role.USER));
-        const querySnapshot = await getDocs(q);
+    const usersRef = collection(
+      db,
+      process.env.NEXT_PUBLIC_COLLECTIONS_ACCOUNTS as string
+    );
+    const q = query(usersRef, where("role", "==", Role.USER));
 
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
         const userData: UserAccount[] = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data() as UserAccount;
@@ -57,9 +56,10 @@ export const useUsers = () => {
       } finally {
         setLoading(false);
       }
-    };
+    });
 
-    fetchUsers();
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
   }, []);
 
   return { users, setUsers, loading };

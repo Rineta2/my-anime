@@ -14,23 +14,15 @@ import { useUsers } from '@/hooks/dashboard/super-admins/user/lib/FetchUsers'
 
 import { UserAccount, NewUser } from '@/hooks/dashboard/super-admins/user/types/users'
 
-import { UserHeader } from '@/hooks/dashboard/super-admins/user/content/ui/Header'
+import { UserHeader, UserFilters, EmptyState } from '@/hooks/dashboard/super-admins/user/content/UserComponents'
 
-import { UserFilters } from '@/hooks/dashboard/super-admins/user/content/ui/userFilters'
+import { UserTable } from '@/hooks/dashboard/super-admins/user/UserTable'
 
-import { UserTable } from '@/hooks/dashboard/super-admins/user/content/ui/UserTable'
-
-import { AddUserModal } from '@/hooks/dashboard/super-admins/user/content/ui/modal/AddUserModal'
-
-import { DeleteUserModal } from '@/hooks/dashboard/super-admins/user/content/ui/modal/DeleteUserModal'
-
-import { StatusUpdateModal } from '@/hooks/dashboard/super-admins/user/content/ui/modal/StatusUpdateModal'
+import { AddUserModal, DeleteUserModal, StatusUpdateModal } from '@/hooks/dashboard/super-admins/user/content/UserModal'
 
 import Pagination from '@/base/helper/Pagination'
 
 import UserSkelaton from '@/hooks/dashboard/super-admins/user/UserSkelaton'
-
-import User from "@/hooks/dashboard/super-admins/user/content/user"
 
 import { useRouter } from 'next/navigation'
 
@@ -186,7 +178,7 @@ export default function UserLayout() {
     }
 
     if (users.length === 0) {
-        return <User handleBack={handleBack} />
+        return <EmptyState handleBack={handleBack} />
     }
 
     return (
@@ -213,7 +205,7 @@ export default function UserLayout() {
                 updatingStatus={updatingStatus}
             />
 
-            {filteredUsers.length > 0 && (
+            {filteredUsers.length > 10 && (
                 <div className='mt-8'>
                     <Pagination
                         currentPage={currentPage}
