@@ -14,7 +14,7 @@ import { compressImage } from '@/base/helper/ImageCompression';
 
 import imagekitInstance from '@/utils/imgkit/Imagekit';
 
-import { Article, CategoryWithArticles } from '@/hooks/dashboard/super-admins/article/article/lib/schema';
+import { Article, CategoryWithArticles } from '@/hooks/dashboard/super-admins/article/article/types/schema';
 
 import Image from 'next/image';
 

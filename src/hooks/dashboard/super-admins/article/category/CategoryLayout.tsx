@@ -44,24 +44,24 @@ export default function CategoryLayout() {
     }
 
     return (
-        <section className='min-h-full'>
+        <section className='min-h-full w-full'>
             <motion.div
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="bg-[var(--card-bg)] rounded-2xl shadow-sm border border-[var(--border-color)] p-6 mb-8 flex justify-between items-center"
+                className="bg-[var(--card-bg)] rounded-2xl shadow-sm border border-[var(--border-color)] p-4 sm:p-6 mb-4 sm:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0"
             >
                 <motion.div
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="space-y-1"
+                    className="space-y-1 w-full sm:w-auto"
                 >
                     <motion.h1
                         initial={{ y: -10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.3, delay: 0.3 }}
-                        className='text-2xl sm:text-3xl font-bold'
+                        className='text-xl sm:text-2xl md:text-3xl font-bold'
                     >
                         Category
                     </motion.h1>
@@ -69,6 +69,7 @@ export default function CategoryLayout() {
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.3, delay: 0.4 }}
+                        className="text-sm sm:text-base text-gray-600 dark:text-gray-300"
                     >
                         Manage and showcase your article categories
                     </motion.p>
@@ -80,7 +81,7 @@ export default function CategoryLayout() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
                     onClick={() => {
                         const modal = document.getElementById('category_modal') as HTMLDialogElement | null;
                         modal?.showModal();

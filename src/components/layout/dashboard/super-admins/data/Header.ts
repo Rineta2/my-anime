@@ -20,7 +20,6 @@ export const menuItems = [
     subItems: [
       { label: "Daftar Article", href: "/dashboard/super-admins/article" },
       { label: "Category", href: "/dashboard/super-admins/article/category" },
-      { label: "Tags", href: "/dashboard/super-admins/article/tags" },
     ],
   },
 

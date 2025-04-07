@@ -10,14 +10,11 @@ interface ModalProps {
 export default function Modal({ isOpen, onClose, children, className = '' }: ModalProps) {
     useEffect(() => {
         if (isOpen) {
-            // Store the current scroll position
             const scrollY = window.scrollY;
-            // Prevent scrolling on the body
             document.body.style.position = 'fixed';
             document.body.style.top = `-${scrollY}px`;
             document.body.style.width = '100%';
         } else {
-            // Restore the scroll position
             const scrollY = document.body.style.top;
             document.body.style.position = '';
             document.body.style.top = '';
@@ -26,7 +23,6 @@ export default function Modal({ isOpen, onClose, children, className = '' }: Mod
         }
 
         return () => {
-            // Cleanup: restore scroll position when component unmounts
             const scrollY = document.body.style.top;
             document.body.style.position = '';
             document.body.style.top = '';
@@ -39,17 +35,22 @@ export default function Modal({ isOpen, onClose, children, className = '' }: Mod
 
     return (
         <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-all duration-300 ease-in-out"
             onClick={onClose}
         >
             <div
-                className={`mockup-window bg-background border border-base-300 max-w-7xl w-full ${className}`}
+                className={`bg-background border border-base-300 max-w-7xl w-full rounded-xl shadow-2xl transform transition-all duration-300 ease-in-out ${className}`}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="relative p-4">
+                <div className="flex gap-1.5 sm:gap-2.5 p-3 border-b border-base-300">
+                    <div className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500/90 hover:bg-red-500 transition-colors cursor-pointer"></div>
+                    <div className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-yellow-500/90 hover:bg-yellow-500 transition-colors cursor-pointer"></div>
+                    <div className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-green-500/90 hover:bg-green-500 transition-colors cursor-pointer"></div>
+                </div>
+                <div className="relative p-6">
                     <button
                         onClick={onClose}
-                        className="absolute block md:hidden top-2 right-2 btn btn-circle btn-ghost btn-sm"
+                        className="absolute top-3 right-3 btn btn-circle btn-ghost btn-sm hover:bg-base-200 transition-colors"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
