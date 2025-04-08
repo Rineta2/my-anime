@@ -8,6 +8,8 @@ const nextConfig = {
       "ik.imagekit.io",
       "lh3.googleusercontent.com",
       "avatars.githubusercontent.com",
+      "cover.komiku.id",
+      "cdn.komiku.id",
     ],
   },
 };

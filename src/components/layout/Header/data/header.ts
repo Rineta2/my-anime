@@ -19,6 +19,12 @@ export const NavLinks = [
 
   {
     id: 4,
+    name: "Daftar Komik",
+    href: "/daftar-komik",
+  },
+
+  {
+    id: 5,
     name: "Jadwal Rilis",
     href: "/jadwal-rilis",
   },
