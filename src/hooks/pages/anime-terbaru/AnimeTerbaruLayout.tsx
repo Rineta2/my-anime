@@ -93,7 +93,7 @@ export default function AnimeTerbaruLayout() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-5 mt-5 sm:mt-6 md:mt-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5 mt-5 sm:mt-6 md:mt-8">
                     {filteredAnimeList.map((anime, index) => (
                         <AnimeCard
                             key={`${anime.animeId}-${anime.episodes}-${index}`}

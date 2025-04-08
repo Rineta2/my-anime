@@ -21,8 +21,6 @@ export interface Anime {
   animeId: string;
   href: string;
   samehadakuUrl: string;
-  releasedOn: string;
-  episodes: string;
   genreList: Genre[];
 }
 
