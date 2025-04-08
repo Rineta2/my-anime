@@ -15,6 +15,7 @@ export interface Anime {
     users: string;
   };
   studios?: string;
+  animeList?: Anime[];
   producers?: string;
   genres?: Genre[];
   episodeList?: Episode[];

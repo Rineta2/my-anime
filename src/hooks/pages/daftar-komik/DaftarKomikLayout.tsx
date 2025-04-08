@@ -9,9 +9,11 @@ import { useSearchParams } from 'next/navigation';
 
 import Pagination from '@/base/helper/Pagination';
 
-import SearchBar from '@/hooks/pages/batch/ui/SearchBar';
+import SearchBar from '@/hooks/pages/daftar-komik/ui/SearchBar';
 
 import MangaCard from './ui/MangaCard';
+
+import DaftarKomikSkeleton from './DaftarKomikkelaton';
 
 interface MangaData {
   title: string;
@@ -34,14 +36,19 @@ export default function DaftarKomikLayout() {
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
   const [mangaList, setMangaList] = useState<MangaData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('s') || '');
+  const [inputValue, setInputValue] = useState(searchParams.get('s') || '');
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchManga = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/komiku?page=${currentPage}&tag=hot`, {
+        const apiUrl = searchQuery
+          ? `/api/komiku?s=${encodeURIComponent(searchQuery)}&page=${currentPage}`
+          : `/api/komiku?page=${currentPage}&tag=hot`;
+
+        const response = await axios.get(apiUrl, {
           headers: {
             'x-api-key': process.env.NEXT_PUBLIC_API_KEY
           }
@@ -58,18 +65,39 @@ export default function DaftarKomikLayout() {
     };
 
     fetchManga();
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
-  const filteredMangaList = mangaList.filter(manga =>
-    manga.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredMangaList = mangaList;
 
-  const handlePageChange = (page: number) => {
-    window.location.href = `?page=${page}`;
+  const handleSearchSubmit = (value: string) => {
+    setSearchQuery(value);
+
+    // Update URL with search query
+    const params = new URLSearchParams(window.location.search);
+    params.set('page', '1'); // Reset to first page when searching
+    params.set('s', value);
+
+    window.location.href = `?${params.toString()}`;
   };
 
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('page', page.toString());
+
+    // Preserve search query if it exists
+    if (searchQuery) {
+      params.set('s', searchQuery);
+    }
+
+    window.location.href = `?${params.toString()}`;
+  };
+
+  if (loading) {
+    return <DaftarKomikSkeleton />;
+  }
+
   return (
-    <section className='min-h-screen py-28'>
+    <section className='min-h-screen py-24 sm:py-28'>
       <div className="container px-4 md:px-6">
         <div className="flex flex-col space-y-6 md:space-y-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
@@ -116,41 +144,28 @@ export default function DaftarKomikLayout() {
               </div>
               <div className="w-full sm:w-auto">
                 <SearchBar
-                  searchQuery={searchQuery}
-                  onSearchChange={setSearchQuery}
+                  searchQuery={inputValue}
+                  onSearchChange={setInputValue}
+                  onSearchSubmit={handleSearchSubmit}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-5 mt-5 sm:mt-6 md:mt-8">
-            {[...Array(10)].map((_, index) => (
-              <div key={index} className="animate-pulse">
-                <div className="bg-gray-200 aspect-[3/4] rounded-lg"></div>
-                <div className="mt-2 h-4 bg-gray-200 rounded w-3/4"></div>
-                <div className="mt-1 h-3 bg-gray-200 rounded w-1/2"></div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-5 mt-5 sm:mt-6 md:mt-8">
-              {filteredMangaList.map((manga, index) => (
-                <MangaCard key={index} manga={manga} index={index} />
-              ))}
-            </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-5 mt-5 sm:mt-6 md:mt-8">
+          {filteredMangaList.map((manga, index) => (
+            <MangaCard key={index} manga={manga} index={index} />
+          ))}
+        </div>
 
-            <div className="flex justify-center mt-4 sm:mt-6 md:mt-8 lg:mt-12 animate-fadeIn">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          </>
-        )}
+        <div className="flex justify-center mt-12 animate-fadeIn">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </div>
     </section>
   );

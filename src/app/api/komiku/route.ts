@@ -17,10 +17,18 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const page = searchParams.get("page") || "1";
     const tag = searchParams.get("tag") || "hot";
+    const search = searchParams.get("s");
 
-    const { data } = await axios.get(
-      `https://weeb-scraper.onrender.com/api/komiku?page=${page}&tag=${tag}`
-    );
+    // Construct the API URL based on whether there's a search query
+    let apiUrl = `https://weeb-scraper.onrender.com/api/komiku?page=${page}`;
+
+    if (search) {
+      apiUrl += `&s=${encodeURIComponent(search)}`;
+    } else {
+      apiUrl += `&tag=${tag}`;
+    }
+
+    const { data } = await axios.get(apiUrl);
 
     return NextResponse.json(data);
   } catch (error: unknown) {

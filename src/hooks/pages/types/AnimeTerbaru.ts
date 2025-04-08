@@ -60,4 +60,5 @@ export interface PageHeaderProps {
 export interface SearchBarProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
+  onSearchSubmit?: (value: string) => void;
 }

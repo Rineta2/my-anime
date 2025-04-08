@@ -141,8 +141,13 @@ export default function MangaDetailPage({ params }: { params: Promise<{ param: s
                         href={`/daftar-komik/chapter/${chapter.param}`}
                         className="block p-3 sm:p-4 bg-[var(--card-bg)] hover:bg-[var(--card-bg)]/80 border border-[var(--border-color)] rounded-lg shadow-md hover:shadow-lg transition-all"
                       >
-                        <div className="font-semibold mb-1 sm:mb-2 text-[var(--text-color)] text-sm sm:text-base">{chapter.chapter}</div>
-                        <div className="text-[10px] sm:text-xs text-[var(--text-color)]/20">{chapter.release}</div>
+                        <div className="relative">
+                          <div className="font-semibold mb-1 sm:mb-2 text-[var(--text-color)] text-sm sm:text-base">{chapter.chapter}</div>
+                          <div className="text-[10px] sm:text-xs text-[var(--text-color)]/20">{chapter.release}</div>
+                          <div className="absolute top-0 right-0 bg-primary text-white text-xs rounded-full px-2 py-1">
+                            {index + 1}
+                          </div>
+                        </div>
                       </Link>
                     ))}
                   </div>
