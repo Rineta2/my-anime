@@ -53,7 +53,7 @@ export default function BatchList() {
 
     return (
         <section className='min-h-full'>
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="container px-4 sm:px-6 lg:px-8 space-y-10">
                 <AnimeBath data={data} />
                 <div className='grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8'>
                     {batchList.map((anime: AnimeResponse['data']['batch']['batchList'][0], index: number) => (

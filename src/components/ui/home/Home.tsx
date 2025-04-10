@@ -51,7 +51,7 @@ export default function Home() {
 
     return (
         <section className="min-h-screen py-8 sm:py-12">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="container px-4 sm:px-6 lg:px-8">
                 <div className="space-y-16 sm:space-y-20 md:space-y-24">
                     <AnimeTerbaru data={memoizedData} />
                 </div>

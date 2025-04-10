@@ -71,7 +71,7 @@ const Pathname = ({ children }: { children: React.ReactNode }) => {
                         isMobile
                             ? 'ml-0'
                             : isCollapsed
-                                ? 'ml-20 transition-[margin] duration-300 ease-in-out'
+                                ? 'ml-16 transition-[margin] duration-300 ease-in-out'
                                 : 'ml-60 transition-[margin] duration-300 ease-in-out'
                     ) : ''}
                 `}

@@ -124,8 +124,7 @@ html {
 }
 
 .container {
-  max-width: 1500px;
-  margin: 0 auto;
+  max-width: 100vw;
 }
 
 /* Custom scrollbar styling */
