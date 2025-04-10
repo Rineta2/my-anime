@@ -11,6 +11,7 @@ export interface AnimePageProps {
 }
 
 export interface AnimeData {
+  title: string;
   poster: string;
   japanese?: string;
   english?: string;
@@ -29,6 +30,7 @@ export interface AnimeData {
   type?: string;
   source?: string;
   episodes?: number;
+  totalEpisodes?: string;
   duration?: string;
   studios?: string;
   producers?: string;

@@ -26,6 +26,12 @@ import ThemeModal from "./ThemeModal"
 
 import { IoDiamond } from "react-icons/io5";
 
+import PremiumModal from './components/premium/PremiumModal';
+
+import HistoryModal from './components/history/HistoryModal'
+
+import BookmarksModal from './components/bookmarks/BookmarksModal'
+
 interface HeaderProps {
     isCollapsed: boolean;
     isMobile: boolean;
@@ -37,6 +43,9 @@ export default function Header({ isCollapsed, isMobile, onToggleSidebar, isSideb
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
+    const [isPremiumModalVisible, setIsPremiumModalVisible] = useState(false);
+    const [isHistoryModalVisible, setIsHistoryModalVisible] = useState(false);
+    const [isBookmarksModalVisible, setIsBookmarksModalVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
     const { user } = useAuth();
@@ -80,7 +89,7 @@ export default function Header({ isCollapsed, isMobile, onToggleSidebar, isSideb
                         )}
 
                         {/* Search Bar */}
-                        <form onSubmit={handleSearch} className="flex-1 max-w-2xl">
+                        <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-2 sm:mx-4">
                             <div className="relative group">
                                 <input
                                     type="text"
@@ -94,22 +103,87 @@ export default function Header({ isCollapsed, isMobile, onToggleSidebar, isSideb
                         </form>
 
                         {/* Right Section */}
-                        <div className="flex items-center gap-2 lg:gap-3">
-                            <div className="flex items-center gap-2 px-3 py-2 bg-primary hover:bg-primary/90 rounded-lg cursor-pointer">
-                                <IoDiamond className="w-4 h-4 text-white" />
-                                <span className="hidden sm:block text-sm font-medium text-white">Premium</span>
+                        <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
+                            <div
+                                className="relative group"
+                                onMouseEnter={() => setIsPremiumModalVisible(true)}
+                                onMouseLeave={() => setIsPremiumModalVisible(false)}
+                            >
+                                <div className="flex items-center gap-1 px-2 sm:px-3 py-2 bg-primary hover:bg-primary/90 rounded-lg cursor-pointer">
+                                    <IoDiamond className="w-4 h-4 text-white" />
+                                    <span className="hidden sm:block text-sm font-medium text-white">Premium</span>
+                                </div>
+                                <PremiumModal
+                                    isVisible={isPremiumModalVisible}
+                                    onClose={() => setIsPremiumModalVisible(false)}
+                                    onLoginClick={() => setIsLoginModalOpen(true)}
+                                />
                             </div>
 
                             {/* Actions */}
-                            <div className="flex items-center gap-2 lg:gap-3">
-                                <div className="flex items-center gap-2 px-3 py-2 hover:bg-[var(--hover-bg)] rounded-lg transition-all duration-300 group relative cursor-pointer">
-                                    <FaHistory className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-primary transition-colors duration-300" />
-                                    <span className="hidden sm:block text-sm font-medium text-[var(--text)] group-hover:text-primary transition-colors duration-300">History</span>
+                            <div className="hidden sm:flex items-center gap-2 lg:gap-3">
+                                <div
+                                    className="relative group"
+                                    onMouseEnter={() => setIsHistoryModalVisible(true)}
+                                    onMouseLeave={() => setIsHistoryModalVisible(false)}
+                                >
+                                    <div className="flex items-center gap-2 px-3 py-2 hover:bg-[var(--hover-bg)] rounded-lg transition-all duration-300 group cursor-pointer">
+                                        <FaHistory className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-primary transition-colors duration-300" />
+                                        <span className="text-sm font-medium text-[var(--text)] group-hover:text-primary transition-colors duration-300">History</span>
+                                    </div>
+                                    <HistoryModal
+                                        isVisible={isHistoryModalVisible}
+                                        onClose={() => setIsHistoryModalVisible(false)}
+                                        onLoginClick={() => setIsLoginModalOpen(true)}
+                                    />
                                 </div>
 
-                                <div className="flex items-center gap-2 px-3 py-2 hover:bg-[var(--hover-bg)] rounded-lg transition-all duration-300 group relative cursor-pointer">
-                                    <FaBookmark className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-primary transition-colors duration-300" />
-                                    <span className="hidden sm:block text-sm font-medium text-[var(--text)] group-hover:text-primary transition-colors duration-300">Bookmarks</span>
+                                <div
+                                    className="relative group"
+                                    onMouseEnter={() => setIsBookmarksModalVisible(true)}
+                                    onMouseLeave={() => setIsBookmarksModalVisible(false)}
+                                >
+                                    <div className="flex items-center gap-2 px-3 py-2 hover:bg-[var(--hover-bg)] rounded-lg transition-all duration-300 group cursor-pointer">
+                                        <FaBookmark className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-primary transition-colors duration-300" />
+                                        <span className="text-sm font-medium text-[var(--text)] group-hover:text-primary transition-colors duration-300">Bookmarks</span>
+                                    </div>
+                                    <BookmarksModal
+                                        isVisible={isBookmarksModalVisible}
+                                        onClose={() => setIsBookmarksModalVisible(false)}
+                                        onLoginClick={() => setIsLoginModalOpen(true)}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Mobile Actions */}
+                            <div className="flex sm:hidden items-center gap-1">
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => setIsHistoryModalVisible(true)}
+                                    onMouseLeave={() => setIsHistoryModalVisible(false)}
+                                >
+                                    <div className="p-2 hover:bg-[var(--hover-bg)] rounded-lg transition-all duration-300 cursor-pointer">
+                                        <FaHistory className="w-4 h-4 text-[var(--text-secondary)]" />
+                                    </div>
+                                    <HistoryModal
+                                        isVisible={isHistoryModalVisible}
+                                        onClose={() => setIsHistoryModalVisible(false)}
+                                        onLoginClick={() => setIsLoginModalOpen(true)}
+                                    />
+                                </div>
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => setIsBookmarksModalVisible(true)}
+                                    onMouseLeave={() => setIsBookmarksModalVisible(false)}
+                                >
+                                    <div className="p-2 hover:bg-[var(--hover-bg)] rounded-lg transition-all duration-300 cursor-pointer">
+                                        <FaBookmark className="w-4 h-4 text-[var(--text-secondary)]" />
+                                    </div>
+                                    <BookmarksModal
+                                        isVisible={isBookmarksModalVisible}
+                                        onClose={() => setIsBookmarksModalVisible(false)}
+                                        onLoginClick={() => setIsLoginModalOpen(true)}
+                                    />
                                 </div>
                             </div>
 
@@ -120,7 +194,7 @@ export default function Header({ isCollapsed, isMobile, onToggleSidebar, isSideb
                             {!user ? (
                                 <button
                                     onClick={() => setIsLoginModalOpen(true)}
-                                    className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all duration-300 text-sm font-medium"
+                                    className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all duration-300 text-sm font-medium"
                                 >
                                     <CiLogin className="text-lg" />
                                     <span className="hidden sm:block">Login</span>
@@ -129,23 +203,23 @@ export default function Header({ isCollapsed, isMobile, onToggleSidebar, isSideb
                                 <div className="relative">
                                     <button
                                         onClick={handleProfileToggle}
-                                        className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-[var(--header-menu-bg)]/30 transition-all duration-300 group"
+                                        className="flex items-center gap-1 sm:gap-2 p-1.5 rounded-lg hover:bg-[var(--header-menu-bg)]/30 transition-all duration-300 group"
                                     >
                                         <div className="relative">
                                             {user.photoURL ? (
                                                 <Image
                                                     src={user.photoURL}
                                                     alt="Profile"
-                                                    className="w-8 h-8 rounded-lg object-cover ring-2 ring-[var(--header-border)]/50"
+                                                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg object-cover ring-2 ring-[var(--header-border)]/50"
                                                     width={32}
                                                     height={32}
                                                 />
                                             ) : (
-                                                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center">
-                                                    <FaRegUser className="w-4 h-4 text-white" />
+                                                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center">
+                                                    <FaRegUser className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
                                                 </div>
                                             )}
-                                            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-success rounded-full ring-1 ring-[var(--header-bg)]"></span>
+                                            <span className="absolute bottom-0 right-0 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-success rounded-full ring-1 ring-[var(--header-bg)]"></span>
                                         </div>
                                         <div className="hidden sm:flex flex-col items-start">
                                             <span className="text-sm font-medium group-hover:text-primary transition-colors duration-200">

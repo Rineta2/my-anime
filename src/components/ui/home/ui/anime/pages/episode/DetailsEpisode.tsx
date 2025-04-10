@@ -27,6 +27,7 @@ import GenresSection from '@/components/ui/home/ui/anime/pages/episode/component
 import SynopsisSection from '@/components/ui/home/ui/anime/pages/episode/components/ui/SynopsisSection';
 
 import { useAuth } from '@/utils/context/AuthContext';
+
 import { addToViewHistory } from '@/utils/firebase/history';
 
 export default function EpisodePage({ params }: EpisodePageProps) {
@@ -43,7 +44,6 @@ export default function EpisodePage({ params }: EpisodePageProps) {
                 setEpisode(data as Episode);
                 setError(null);
 
-                // Add to view history if user is logged in
                 if (user && data) {
                     await addToViewHistory(user, data, params.slug);
                 }
