@@ -54,7 +54,7 @@ const Pathname = ({ children }: { children: React.ReactNode }) => {
         || false;
 
     return (
-        <div className='relative min-h-screen bg-[var(--background)] overflow-x-hidden'>
+        <div className='relative min-h-screen bg-[var(--background)]'>
             {!isAdminRoute && (
                 <Sidebar
                     isCollapsed={isCollapsed}

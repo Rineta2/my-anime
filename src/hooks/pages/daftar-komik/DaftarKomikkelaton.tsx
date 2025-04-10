@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function DaftarKomikSkeleton() {
     return (
-        <section className='min-h-screen py-24 sm:py-28'>
-            <div className="container px-4 md:px-6">
+        <section className='min-h-screen py-20'>
+            <div className="container px-4 md:px-8">
                 {/* Breadcrumbs and Search Section */}
                 <div className="flex flex-col space-y-6 md:space-y-8">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">

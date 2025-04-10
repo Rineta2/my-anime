@@ -25,7 +25,7 @@ export default function AnimeSection({
                                     <h3 className="text-xl font-bold">{day.day}</h3>
                                 </div>
                                 <div className="p-6">
-                                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
                                         {day.animeList.map((anime) => (
                                             <AnimeCard
                                                 key={anime.animeId}
@@ -39,7 +39,7 @@ export default function AnimeSection({
                         ))}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                         {animeList.map((anime) => (
                             <AnimeCard
                                 key={anime.animeId}

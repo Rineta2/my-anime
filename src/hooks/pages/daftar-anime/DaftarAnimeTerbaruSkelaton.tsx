@@ -3,7 +3,7 @@ import React from 'react'
 export default function AnimeTerbaruSkeleton() {
     return (
         <section className="min-h-screen py-24 bg-[var(--background)]">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto px-4 md:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* Main Content */}
                     <div className="lg:col-span-3 space-y-12">
@@ -11,7 +11,7 @@ export default function AnimeTerbaruSkeleton() {
                         <div className="bg-[var(--card-bg)] rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl border border-[var(--card-border)]">
                             <div className="h-12 bg-gray-200 animate-pulse mb-6 px-6 pt-6"></div>
                             <div className="p-6">
-                                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
                                     {[...Array(8)].map((_, index) => (
                                         <div key={index} className="group bg-[var(--card-bg)] rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-[var(--card-border)]">
                                             <div className="h-[200px] bg-gray-200 animate-pulse"></div>
@@ -37,7 +37,7 @@ export default function AnimeTerbaruSkeleton() {
                         <div className="bg-[var(--card-bg)] rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl border border-[var(--card-border)]">
                             <div className="h-12 bg-gray-200 animate-pulse mb-6 px-6 pt-6"></div>
                             <div className="p-6">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {[...Array(8)].map((_, index) => (
                                         <div key={index} className="group bg-[var(--card-bg)] rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-[var(--card-border)]">
                                             <div className="h-[300px] bg-gray-200 animate-pulse"></div>
@@ -63,7 +63,7 @@ export default function AnimeTerbaruSkeleton() {
                         <div className="bg-[var(--card-bg)] rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl border border-[var(--card-border)]">
                             <div className="h-12 bg-gray-200 animate-pulse mb-6 px-6 pt-6"></div>
                             <div className="p-4">
-                                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
                                     {[...Array(8)].map((_, index) => (
                                         <div key={index} className="group bg-[var(--card-bg)] rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-[var(--card-border)]">
                                             <div className="h-[150px] sm:h-[200px] bg-gray-200 animate-pulse"></div>

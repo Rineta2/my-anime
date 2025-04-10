@@ -14,6 +14,10 @@ interface MangaCardProps {
 }
 
 export default function MangaCard({ manga, index }: MangaCardProps) {
+  // Fallback image URL - you can replace this with your own fallback image
+  const fallbackImage = '/images/placeholder-manga.jpg';
+  const imageSrc = manga.thumbnail || fallbackImage;
+
   return (
     <Link
       href={`/daftar-komik/${manga.param}`}
@@ -25,7 +29,7 @@ export default function MangaCard({ manga, index }: MangaCardProps) {
     >
       <figure className="relative h-[150px] md:h-[200px] w-full overflow-hidden">
         <Image
-          src={manga.thumbnail}
+          src={imageSrc}
           alt={manga.title}
           fill
           quality={100}

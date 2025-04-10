@@ -98,11 +98,11 @@ export default function DaftarAnimeLayout() {
     )
 
     return (
-        <section className="min-h-screen py-24 bg-[var(--background)]">
+        <section className="min-h-screen py-20 bg-[var(--background)]">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative">
                     {/* Main Content */}
-                    <div className="lg:col-span-3 space-y-12">
+                    <div className="lg:col-span-3 space-y-12 order-last lg:order-first">
                         {!selectedGenre && !selectedDay && !selectedStatus && !selectedType ? (
                             <div className="bg-[var(--card-bg)] rounded-2xl shadow-lg p-8 text-center transform transition-all duration-300 hover:shadow-xl border border-[var(--card-border)]">
                                 <h2 className="text-2xl font-bold mb-4 text-[var(--text)]">Pilih Filter untuk Menampilkan Anime</h2>
@@ -165,7 +165,7 @@ export default function DaftarAnimeLayout() {
                     </div>
 
                     {/* Sidebar */}
-                    <div className="lg:col-span-1">
+                    <div className="lg:col-span-1 order-first lg:order-last">
                         <FilterSidebar
                             genres={animeData.genres.genreList}
                             scheduleDays={animeData.schedule.days}

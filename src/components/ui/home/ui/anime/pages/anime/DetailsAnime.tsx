@@ -73,13 +73,15 @@ export default function AnimePage({ params }: AnimePageProps) {
                         </div>
 
                         {/* Right Column - Sidebar */}
-                        <div className="lg:relative">
-                            <div className="lg:sticky lg:top-24 space-y-8">
-                                {/* Info Card */}
-                                <InfoCard anime={anime} />
+                        <div className="lg:col-span-1">
+                            <div className="lg:sticky lg:top-24">
+                                <div className="space-y-8">
+                                    {/* Info Card */}
+                                    <InfoCard anime={anime} />
 
-                                {/* Genres */}
-                                <GenresSection anime={anime} />
+                                    {/* Genres */}
+                                    <GenresSection anime={anime} />
+                                </div>
                             </div>
                         </div>
                     </div>

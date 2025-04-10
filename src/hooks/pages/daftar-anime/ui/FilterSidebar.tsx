@@ -18,7 +18,7 @@ export default function FilterSidebar({
     onFilterChange
 }: FilterSidebarProps) {
     return (
-        <div className="bg-[var(--card-bg)] rounded-2xl shadow-lg p-6 sticky top-24 overflow-y-auto max-h-[calc(100vh-10rem)] transform transition-all duration-300 hover:shadow-xl border border-[var(--card-border)]">
+        <div className="bg-[var(--card-bg)] rounded-2xl shadow-lg p-6 sticky top-24 h-fit overflow-y-auto max-h-[calc(100vh-8rem)] transform transition-all duration-300 hover:shadow-xl border border-[var(--card-border)] z-10">
             <h1 className="text-3xl font-bold mb-8 text-[var(--text)]">Daftar Anime</h1>
 
             <GenreFilter
