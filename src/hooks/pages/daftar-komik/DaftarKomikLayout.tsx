@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import axios from 'axios';
 
@@ -39,35 +39,58 @@ export default function DaftarKomikLayout() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get('s') || '');
   const [inputValue, setInputValue] = useState(searchParams.get('s') || '');
   const [totalPages, setTotalPages] = useState(1);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // Cache for storing fetched manga data
+  const [mangaCache, setMangaCache] = useState<Record<string, MangaData[]>>({});
+
+  const fetchManga = useCallback(async (page: number, query: string) => {
+    try {
+      setLoading(true);
+      const cacheKey = `${query}-${page}`;
+
+      // Check cache first
+      if (mangaCache[cacheKey]) {
+        setMangaList(mangaCache[cacheKey]);
+        setLoading(false);
+        return;
+      }
+
+      const apiUrl = query
+        ? `/api/komiku?s=${encodeURIComponent(query)}&page=${page}`
+        : `/api/komiku?page=${page}&tag=hot`;
+
+      const response = await axios.get(apiUrl, {
+        headers: {
+          'x-api-key': process.env.NEXT_PUBLIC_API_KEY
+        }
+      });
+      const data: ApiResponse = response.data;
+
+      // Update cache
+      setMangaCache(prev => ({
+        ...prev,
+        [cacheKey]: data.data
+      }));
+
+      setMangaList(data.data);
+      setTotalPages(page + (data.next_page ? 1 : 0));
+    } catch (error) {
+      console.error('Error fetching manga:', error);
+    } finally {
+      setLoading(false);
+      setIsInitialLoad(false);
+    }
+  }, [mangaCache]);
 
   useEffect(() => {
-    const fetchManga = async () => {
-      try {
-        setLoading(true);
-        const apiUrl = searchQuery
-          ? `/api/komiku?s=${encodeURIComponent(searchQuery)}&page=${currentPage}`
-          : `/api/komiku?page=${currentPage}&tag=hot`;
+    fetchManga(currentPage, searchQuery);
 
-        const response = await axios.get(apiUrl, {
-          headers: {
-            'x-api-key': process.env.NEXT_PUBLIC_API_KEY
-          }
-        });
-        const data: ApiResponse = response.data;
-        setMangaList(data.data);
-        // Assuming total pages based on next_page existence
-        setTotalPages(currentPage + (data.next_page ? 1 : 0));
-      } catch (error) {
-        console.error('Error fetching manga:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchManga();
-  }, [currentPage, searchQuery]);
-
-  const filteredMangaList = mangaList;
+    // Prefetch next page
+    if (currentPage < totalPages) {
+      fetchManga(currentPage + 1, searchQuery);
+    }
+  }, [currentPage, searchQuery, fetchManga, totalPages]);
 
   const handleSearchSubmit = (value: string) => {
     setSearchQuery(value);
@@ -92,7 +115,7 @@ export default function DaftarKomikLayout() {
     window.location.href = `?${params.toString()}`;
   };
 
-  if (loading) {
+  if (isInitialLoad) {
     return <DaftarKomikSkeleton />;
   }
 
@@ -154,9 +177,25 @@ export default function DaftarKomikLayout() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-5 mt-5 sm:mt-6 md:mt-8">
-          {filteredMangaList.map((manga, index) => (
-            <MangaCard key={index} manga={manga} index={index} />
-          ))}
+          {loading ? (
+            // Show partial loading state
+            <>
+              {mangaList.map((manga, index) => (
+                <MangaCard key={index} manga={manga} index={index} />
+              ))}
+              {[...Array(5)].map((_, index) => (
+                <div key={`loading-${index}`} className="animate-pulse">
+                  <div className="h-48 bg-gray-200 rounded-lg"></div>
+                  <div className="mt-2 h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="mt-1 h-4 bg-gray-200 rounded w-1/2"></div>
+                </div>
+              ))}
+            </>
+          ) : (
+            mangaList.map((manga, index) => (
+              <MangaCard key={index} manga={manga} index={index} />
+            ))
+          )}
         </div>
 
         <div className="flex justify-center mt-12 animate-fadeIn">
