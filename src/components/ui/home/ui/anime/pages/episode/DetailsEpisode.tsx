@@ -28,7 +28,7 @@ import SynopsisSection from '@/components/ui/home/ui/anime/pages/episode/compone
 
 import { useAuth } from '@/utils/context/AuthContext';
 
-import { addToViewHistory } from '@/utils/firebase/history';
+import { addToViewHistory } from '@/components/ui/home/ui/anime/pages/episode/components/utils/history';
 
 export default function EpisodePage({ params }: EpisodePageProps) {
     const [episode, setEpisode] = useState<Episode | null>(null);

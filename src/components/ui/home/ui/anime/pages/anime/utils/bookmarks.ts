@@ -1,4 +1,4 @@
-import { database } from "./firebase";
+import { database } from "@/utils/firebase/firebase";
 import { ref, push, set, remove, onValue, off } from "firebase/database";
 import { UserAccount } from "@/utils/context/interface/Auth";
 
@@ -17,7 +17,10 @@ export const addBookmark = async (
   if (!user) return;
 
   try {
-    const bookmarksRef = ref(database, `users/${user.uid}/bookmarks`);
+    const bookmarksRef = ref(
+      database,
+      `users/${user.uid}/${process.env.NEXT_PUBLIC_DATABASE_BOOKMARKS}`
+    );
     const newBookmarkRef = push(bookmarksRef);
 
     const bookmarkData: Bookmark = {
@@ -55,7 +58,10 @@ export const getBookmarks = (
 ) => {
   if (!user) return;
 
-  const bookmarksRef = ref(database, `users/${user.uid}/bookmarks`);
+  const bookmarksRef = ref(
+    database,
+    `users/${user.uid}/${process.env.NEXT_PUBLIC_DATABASE_BOOKMARKS}`
+  );
 
   onValue(bookmarksRef, (snapshot) => {
     const data = snapshot.val();

@@ -1,4 +1,4 @@
-import { database } from "./firebase";
+import { database } from "@/utils/firebase/firebase";
 
 import { ref, push, set } from "firebase/database";
 

@@ -1,4 +1,4 @@
-import { Bookmark } from "@/utils/firebase/bookmarks";
+import { Bookmark } from "@/components/ui/home/ui/anime/pages/anime/utils/bookmarks";
 
 export enum Role {
   SUPER_ADMIN = "super-admins",

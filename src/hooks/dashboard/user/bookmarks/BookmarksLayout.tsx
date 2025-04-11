@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useAuth } from '@/utils/context/AuthContext';
 
-import { getUserHistory } from '@/hooks/dashboard/user/History/utils/getUserHistory';
+import { getUserBookmarks } from '@/hooks/dashboard/user/bookmarks/utils/getUserBookmarks';
 
 import Image from 'next/image';
 
@@ -12,9 +12,9 @@ import Link from 'next/link';
 
 import Pagination from '@/base/helper/Pagination';
 
-import LengthHistory from "@/hooks/dashboard/user/History/ui/LengthHistory"
+import LengthHistory from "@/hooks/dashboard/user/bookmarks/ui/LengthBookmarks"
 
-import HistorySkelaton from "@/hooks/dashboard/user/History/ui/HistorySkelaton"
+import HistorySkelaton from "@/hooks/dashboard/user/bookmarks/ui/BookmarksSkelaton"
 
 interface ViewHistory {
     title: string;
@@ -23,7 +23,7 @@ interface ViewHistory {
     href: string;
 }
 
-export default function HistoryLayout() {
+export default function BookmarksLayout() {
     const { user } = useAuth();
     const [history, setHistory] = useState<ViewHistory[]>([]);
     const [loading, setLoading] = useState(true);
@@ -33,8 +33,8 @@ export default function HistoryLayout() {
     useEffect(() => {
         if (!user) return;
 
-        const cleanup = getUserHistory(user.uid, (historyData) => {
-            setHistory(historyData);
+        const cleanup = getUserBookmarks(user.uid, (bookmarksData) => {
+            setHistory(bookmarksData);
             setLoading(false);
         });
 
@@ -64,7 +64,7 @@ export default function HistoryLayout() {
         <section className="min-h-screen">
             <div className="bg-[var(--card-bg)] backdrop-blur-lg rounded-3xl p-6 shadow-[var(--card-shadow)] mb-10">
                 <h1 className="text-2xl font-bold text-[var(--text)]">
-                    History
+                    Bookmarks
                 </h1>
             </div>
 

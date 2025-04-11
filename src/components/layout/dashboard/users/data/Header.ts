@@ -1,6 +1,6 @@
 import { FiHome, FiSettings } from "react-icons/fi";
 
-import { FaHistory } from "react-icons/fa";
+import { FaHistory, FaBookmark } from "react-icons/fa";
 
 export const menuItems = [
   {
@@ -13,6 +13,12 @@ export const menuItems = [
     icon: FaHistory,
     label: "History",
     href: "/dashboard/user/history",
+  },
+
+  {
+    icon: FaBookmark,
+    label: "Bookmarks",
+    href: "/dashboard/user/bookmarks",
   },
 
   {
