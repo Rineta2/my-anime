@@ -1,3 +1,5 @@
+import { Bookmark } from "@/utils/firebase/bookmarks";
+
 export enum Role {
   SUPER_ADMIN = "super-admins",
   ADMIN = "admins",
@@ -34,6 +36,9 @@ export interface AuthContextType {
   forgotPassword: (email: string) => Promise<void>;
   showInactiveModal: boolean;
   setShowInactiveModal: (show: boolean) => void;
+  bookmarks: { [key: string]: Bookmark };
+  addToBookmarks: (bookmark: Omit<Bookmark, "timestamp">) => Promise<boolean>;
+  removeFromBookmarks: (bookmarkId: string) => Promise<boolean>;
 }
 
 export interface FirebaseUser {

@@ -71,13 +71,14 @@ export default function JadwalRilisLayout() {
     }
 
     return (
-        <section className='min-h-screen py-24 bg-gradient-to-br from-background via-background/95 to-background/90'>
-            <div className="container px-4 md:px-6 mx-auto">
+        <section className='min-h-screen py-20'>
+            <div className="container px-4 md:px-8">
                 <div className="flex flex-col lg:flex-row gap-8">
-                    <div className="w-full lg:w-3/4 order-last lg:order-first">
+                    <div className="w-full lg:w-4/5 order-last lg:order-first">
                         <ScheduleList schedule={schedule} selectedDay={selectedDay} />
                     </div>
-                    <div className="w-full lg:w-1/4">
+
+                    <div className="w-full lg:w-1/5">
                         <JadwalRilisSidebar onFilterChange={handleFilterChange} />
                     </div>
                 </div>

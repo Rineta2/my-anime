@@ -71,8 +71,8 @@ export default function AnimeTerbaruLayout() {
     }
 
     return (
-        <section className='min-h-screen bg-gradient-to-b from-background via-background/95 to-background/90'>
-            <div className="container px-4 md:px-6 mx-auto py-4 sm:py-6 md:py-8 lg:py-10">
+        <section className='min-h-screen bg-gradient-to-b from-background via-background/95 to-background/90 py-10'>
+            <div className="container px-4 md:px-6">
                 <div className="flex flex-col space-y-4 md:space-y-0">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <PageHeader

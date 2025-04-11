@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function JadwalRilisSkeleton() {
     return (
-        <section className='min-h-screen py-24 bg-gradient-to-br from-background via-background/95 to-background/90'>
-            <div className="container px-4 md:px-6 mx-auto">
+        <section className='min-h-screen py-20 bg-gradient-to-br from-background via-background/95 to-background/90'>
+            <div className="container px-4 md:px-8">
                 <div className="flex flex-col lg:flex-row gap-8">
                     <div className="w-full lg:w-3/4 order-last lg:order-first">
                         <div className="grid gap-8">
@@ -14,7 +14,7 @@ export default function JadwalRilisSkeleton() {
                                         <div className="h-7 w-32 bg-gray-200 animate-pulse rounded-lg"></div>
                                     </h2>
 
-                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                                         {[...Array(8)].map((_, index) => (
                                             <div key={index} className="group bg-hover-bg/50 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-card-border/50 hover:border-primary/30 hover:scale-[1.02]">
                                                 <div className="relative h-48 xs:h-52 sm:h-64 overflow-hidden">

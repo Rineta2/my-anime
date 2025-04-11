@@ -1,3 +1,5 @@
+"use client"
+
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 import { useRouter } from 'next/navigation';
@@ -21,6 +23,8 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import toast from 'react-hot-toast';
 
+import { addBookmark, removeBookmark, getBookmarks, Bookmark } from '@/utils/firebase/bookmarks';
+
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -28,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(true);
     const [showInactiveModal, setShowInactiveModal] = useState(false);
     const router = useRouter();
+    const [bookmarks, setBookmarks] = useState<{ [key: string]: Bookmark }>({});
 
     const getDashboardUrl = (userRole: string) => {
         switch (userRole) {
@@ -333,6 +338,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     };
 
+    const addToBookmarks = async (bookmark: Omit<Bookmark, 'timestamp'>) => {
+        if (!user) {
+            toast.error('Please login to add bookmarks');
+            return false;
+        }
+
+        const success = await addBookmark(user, bookmark);
+        if (success) {
+            toast.success('Added to bookmarks');
+        } else {
+            toast.error('Failed to add bookmark');
+        }
+        return success;
+    };
+
+    const removeFromBookmarks = async (bookmarkId: string) => {
+        if (!user) return false;
+
+        const success = await removeBookmark(user, bookmarkId);
+        if (success) {
+            toast.success('Removed from bookmarks');
+        } else {
+            toast.error('Failed to remove bookmark');
+        }
+        return success;
+    };
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             try {
@@ -353,6 +385,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return () => unsubscribe();
     }, []);
 
+    useEffect(() => {
+        if (user) {
+            const unsubscribe = getBookmarks(user, (data) => {
+                setBookmarks(data);
+            });
+            return () => unsubscribe?.();
+        }
+    }, [user]);
+
     const value = {
         user,
         loading,
@@ -366,7 +407,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signUp,
         forgotPassword,
         showInactiveModal,
-        setShowInactiveModal
+        setShowInactiveModal,
+        bookmarks,
+        addToBookmarks,
+        removeFromBookmarks
     };
     return (
         <AuthContext.Provider value={value as AuthContextType}>

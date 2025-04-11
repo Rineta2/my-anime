@@ -5,8 +5,57 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 import { HeroSectionProps } from '@/components/ui/home/ui/anime/pages/anime/types/anime'
+import { useAuth } from '@/utils/context/AuthContext'
+import { FaBookmark } from 'react-icons/fa'
+import toast from 'react-hot-toast'
 
 export default function HeroSection({ anime }: HeroSectionProps) {
+    const { user, addToBookmarks, bookmarks } = useAuth();
+    const [isBookmarked, setIsBookmarked] = React.useState(false);
+
+    React.useEffect(() => {
+        if (user) {
+            const isAnimeBookmarked = Object.values(bookmarks).some(
+                bookmark => bookmark.href === `/anime/${anime.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+            );
+            setIsBookmarked(isAnimeBookmarked);
+        }
+    }, [user, bookmarks, anime.title]);
+
+    const handleBookmark = async () => {
+        if (!user) {
+            toast.error('Please login to add bookmarks');
+            return;
+        }
+
+        // Get the current URL path
+        const currentPath = window.location.pathname;
+        // Extract the anime slug from the URL
+        const animeSlug = currentPath.split('/').pop() || '';
+
+        const bookmarkData = {
+            title: anime.japanese || anime.english || anime.title || 'Unknown Title',
+            poster: anime.poster,
+            href: `/anime/${animeSlug}`
+        };
+
+        // Find existing bookmark with the same href
+        const existingBookmarkEntry = Object.entries(bookmarks).find(
+            ([, bookmark]) => bookmark.href === bookmarkData.href
+        );
+
+        if (existingBookmarkEntry) {
+            toast.error('Anda telah menambahkan ke bookmarks');
+            return;
+        }
+
+        // If bookmark doesn't exist, add it
+        const success = await addToBookmarks(bookmarkData);
+        if (success) {
+            setIsBookmarked(true);
+        }
+    };
+
     return (
         <div className="relative w-full h-[50vh] lg:h-[60vh] overflow-hidden">
             <div className="absolute inset-0 z-0">
@@ -52,6 +101,18 @@ export default function HeroSection({ anime }: HeroSectionProps) {
                                     </div>
                                 </div>
                             )}
+
+                            {/* Bookmark Button */}
+                            <button
+                                onClick={handleBookmark}
+                                className={`absolute bottom-2 right-2 p-2 rounded-full backdrop-blur-sm shadow-lg transition-colors duration-300 ${isBookmarked
+                                    ? 'bg-primary text-white'
+                                    : 'bg-white/10 text-white hover:bg-primary/80'
+                                    }`}
+                                title={isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
+                            >
+                                <FaBookmark size={16} />
+                            </button>
                         </div>
                     </motion.div>
 

@@ -7,17 +7,20 @@ import { StarIcon } from "@/hooks/pages/jadwal-rilis/ui/Icons"
 import { AnimeCardProps } from "@/hooks/pages/types/JadwalRilis"
 
 export default function AnimeCard({ anime }: AnimeCardProps) {
+    const posterUrl = anime.poster || '/images/placeholder.jpg'
+
     return (
         <div className="group bg-hover-bg/50 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-card-border/50 hover:border-primary/30 hover:scale-[1.02]">
             <div className="relative h-48 xs:h-52 sm:h-64 overflow-hidden">
                 <Image
-                    src={anime.poster}
+                    src={posterUrl}
                     alt={anime.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
+
             <div className="p-3 sm:p-5">
                 <h3 className="font-semibold text-base sm:text-lg mb-2 sm:mb-3 line-clamp-2 text-text group-hover:text-primary transition-colors duration-300">
                     {anime.title}

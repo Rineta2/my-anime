@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function SwiperSkeleton() {
     return (
-        <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] pt-20 overflow-hidden">
+        <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] pt-16 overflow-hidden">
             <div className="absolute inset-0 bg-gray-200 animate-pulse">
                 <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent" />
             </div>

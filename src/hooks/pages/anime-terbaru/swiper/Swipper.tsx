@@ -31,7 +31,7 @@ export default function HeroSlider() {
     if (!featuredAnime.length) return null
 
     return (
-        <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] pt-20 overflow-hidden group">
+        <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] pt-16 overflow-hidden group">
             <Swiper
                 modules={[Autoplay, Navigation, Pagination, EffectFade]}
                 navigation

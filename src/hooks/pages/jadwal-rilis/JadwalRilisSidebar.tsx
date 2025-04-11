@@ -51,7 +51,7 @@ export default function JadwalRilisSidebar({ onFilterChange }: JadwalRilisSideba
     };
 
     return (
-        <aside className="w-full lg:w-96 bg-card-bg/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 h-fit lg:sticky lg:top-24 border border-card-border/50 hover:border-primary/30 transition-all duration-300 order-first lg:order-last">
+        <aside className="w-full lg:w-96 bg-card-bg/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 h-fit lg:sticky lg:top-20 border border-card-border/50 hover:border-primary/30 transition-all duration-300 order-first lg:order-last">
             <div>
                 <h3 className="text-lg font-semibold mb-6 text-text flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary to-secondary animate-pulse"></span>

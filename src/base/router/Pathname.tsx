@@ -14,7 +14,7 @@ import { Toaster } from "react-hot-toast";
 
 const Pathname = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname();
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

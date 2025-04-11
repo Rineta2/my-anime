@@ -52,13 +52,13 @@ export default function AnimePage({ params }: AnimePageProps) {
     }
 
     return (
-        <section className='min-h-screen py-20'>
-            <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background/90">
+        <section className='min-h-screen py-16'>
+            <div className="bg-gradient-to-b from-background via-background/95 to-background/90">
                 {/* Hero Section with Parallax Effect */}
                 <HeroSection anime={anime} />
 
                 {/* Main Content */}
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Left Column - Main Content */}
                         <div className="lg:col-span-2 space-y-10">
