@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 
 import { CiLogin } from 'react-icons/ci'
 
@@ -32,6 +33,43 @@ import HistoryModal from './components/history/HistoryModal'
 
 import BookmarksModal from './components/bookmarks/BookmarksModal'
 
+interface AnimeGenre {
+    title: string;
+    genreId: string;
+    href: string;
+    samehadakuUrl: string;
+}
+
+interface AnimeResult {
+    title: string;
+    poster: string;
+    type: string;
+    score: string;
+    status: string;
+    animeId: string;
+    href: string;
+    samehadakuUrl: string;
+    genreList: AnimeGenre[];
+}
+
+interface SearchResponse {
+    statusCode: number;
+    statusMessage: string;
+    message: string;
+    ok: boolean;
+    data: {
+        animeList: AnimeResult[];
+    };
+    pagination: {
+        currentPage: number;
+        hasNextPage: boolean;
+        hasPrevPage: boolean;
+        nextPage: number | null;
+        prevPage: number | null;
+        totalPages: number;
+    };
+}
+
 interface HeaderProps {
     isCollapsed: boolean;
     isMobile: boolean;
@@ -47,17 +85,62 @@ export default function Header({ isCollapsed, isMobile, onToggleSidebar, isSideb
     const [isHistoryModalVisible, setIsHistoryModalVisible] = useState(false);
     const [isBookmarksModalVisible, setIsBookmarksModalVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState<AnimeResult[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showResults, setShowResults] = useState(false);
 
+    const router = useRouter();
     const { user } = useAuth();
+
+    // Debounced search function
+    const debouncedSearch = useCallback((query: string) => {
+        const handler = setTimeout(async () => {
+            if (!query.trim()) {
+                setSearchResults([]);
+                setIsLoading(false);
+                return;
+            }
+
+            setIsLoading(true);
+            try {
+                const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        'x-api-key': process.env.NEXT_PUBLIC_API_KEY || ''
+                    }
+                });
+                const data: SearchResponse = await response.json();
+
+                if (!data.ok || data.statusCode !== 200) {
+                    console.error('Search error:', data.message);
+                    setSearchResults([]);
+                } else {
+                    setSearchResults(data.data.animeList);
+                }
+            } catch (error) {
+                console.error('Search failed:', error);
+                setSearchResults([]);
+            } finally {
+                setIsLoading(false);
+            }
+        }, 300);
+
+        return () => clearTimeout(handler);
+    }, []);
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        setShowResults(true);
+        debouncedSearch(query);
+    };
+
+    const handleResultClick = (href: string) => {
+        setShowResults(false);
+        router.push(href);
+    };
 
     const handleProfileToggle = () => {
         setIsProfileOpen(!isProfileOpen);
-    };
-
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Implement search functionality here
-        console.log('Searching for:', searchQuery);
     };
 
     const handleThemeToggle = () => {
@@ -89,18 +172,85 @@ export default function Header({ isCollapsed, isMobile, onToggleSidebar, isSideb
                         )}
 
                         {/* Search Bar */}
-                        <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-2 sm:mx-4">
+                        <div className="flex-1 max-w-2xl mx-2 sm:mx-4">
                             <div className="relative group">
                                 <input
                                     type="text"
                                     value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onChange={handleSearchChange}
+                                    onFocus={() => setShowResults(true)}
                                     placeholder="Search anime..."
                                     className="w-full h-10 pl-10 pr-4 bg-transparent text-[var(--text)] placeholder-[var(--text-secondary)] border-b border-[var(--header-border)] focus:border-primary transition-all duration-300 outline-none text-sm"
                                 />
                                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-secondary)]" />
+
+                                {/* Search Results Dropdown */}
+                                {showResults && (searchQuery.trim() !== '' || isLoading) && (
+                                    <div className="absolute top-full left-0 w-full mt-2 bg-[var(--header-bg)] border border-[var(--header-border)] rounded-lg shadow-lg z-50 max-h-[70vh] overflow-y-auto">
+                                        {isLoading ? (
+                                            <div className="p-4 text-center text-[var(--text-secondary)]">
+                                                Loading...
+                                            </div>
+                                        ) : searchResults.length === 0 ? (
+                                            <div className="p-4 text-center text-[var(--text-secondary)]">
+                                                No results found
+                                            </div>
+                                        ) : (
+                                            <div className="py-2">
+                                                {searchResults.map((result, index) => (
+                                                    <div
+                                                        key={index}
+                                                        onClick={() => handleResultClick(result.href)}
+                                                        className="flex items-center gap-3 px-4 py-2 hover:bg-[var(--hover-bg)] cursor-pointer transition-colors duration-200"
+                                                    >
+                                                        <div className="relative w-12 h-16 flex-shrink-0">
+                                                            <Image
+                                                                src={result.poster || '/images/no-image.png'}
+                                                                alt={result.title}
+                                                                fill
+                                                                className="object-cover rounded"
+                                                                unoptimized
+                                                            />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <h4 className="text-sm font-medium text-[var(--text)] line-clamp-2">
+                                                                {result.title}
+                                                            </h4>
+                                                            <div className="flex items-center gap-2 mt-1">
+                                                                <span className="text-xs px-1.5 py-0.5 bg-primary/10 text-primary rounded">
+                                                                    {result.type}
+                                                                </span>
+                                                                <span className="text-xs text-[var(--text-secondary)]">
+                                                                    Score: {result.score}
+                                                                </span>
+                                                                <span className="text-xs text-[var(--text-secondary)]">
+                                                                    {result.status}
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex flex-wrap gap-1 mt-1">
+                                                                {result.genreList.slice(0, 3).map((genre, idx) => (
+                                                                    <span
+                                                                        key={idx}
+                                                                        className="text-xs text-[var(--text-secondary)] px-1.5 py-0.5 bg-[var(--hover-bg)] rounded"
+                                                                    >
+                                                                        {genre.title}
+                                                                    </span>
+                                                                ))}
+                                                                {result.genreList.length > 3 && (
+                                                                    <span className="text-xs text-[var(--text-secondary)]">
+                                                                        +{result.genreList.length - 3}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                        </form>
+                        </div>
 
                         {/* Right Section */}
                         <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
@@ -238,6 +388,14 @@ export default function Header({ isCollapsed, isMobile, onToggleSidebar, isSideb
                     </div>
                 </div>
             </header>
+
+            {/* Click outside handler for search results */}
+            {showResults && (
+                <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setShowResults(false)}
+                />
+            )}
 
             <LoginModal
                 isOpen={isLoginModalOpen}
