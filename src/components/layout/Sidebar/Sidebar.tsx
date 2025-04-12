@@ -13,8 +13,10 @@ import {
   FiBook,
   FiCalendar,
   FiChevronLeft,
-  FiChevronRight
+  FiChevronRight,
 } from 'react-icons/fi';
+
+import { RiPagesFill } from "react-icons/ri";
 
 import logo from "@/base/assets/icons/logo.png"
 
@@ -26,6 +28,7 @@ const menuItems = [
   { href: '/daftar-anime', label: 'Daftar Anime', icon: FiBookmark },
   { href: '/daftar-manga', label: 'Daftar Manga', icon: FiBook },
   { href: '/jadwal-rilis', label: 'Jadwal Rilis', icon: FiCalendar },
+  { href: '/articles', label: 'Artikel', icon: RiPagesFill },
 ];
 
 interface SidebarProps {

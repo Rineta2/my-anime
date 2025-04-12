@@ -8,6 +8,8 @@ import BatchList from "@/components/ui/betch/Batch"
 
 import AnimeMovie from "@/components/ui/movie/Movie"
 
+import Article from "@/components/ui/article/Article"
+
 export default function page() {
   return (
     <Fragment>
@@ -15,6 +17,7 @@ export default function page() {
       <Home />
       <BatchList />
       <AnimeMovie />
+      <Article />
     </Fragment>
   )
 }
