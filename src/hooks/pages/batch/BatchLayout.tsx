@@ -107,8 +107,8 @@ export default function BatchLayout() {
   }
 
   return (
-    <section className='min-h-screen py-28'>
-      <div className="container px-4 md:px-6">
+    <section className='min-h-screen py-20'>
+      <div className="container px-4 md:px-8">
         <div className="flex flex-col space-y-6 md:space-y-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div className="breadcrumbs text-sm md:text-base">

@@ -57,7 +57,7 @@ export default function ProfileMenu({ isOpen, onClose, isMobile = false }: Profi
                                     transition={{ delay: 0.2 }}
                                     className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center ring-2 ring-primary ring-offset-2 ring-offset-[var(--background)]"
                                 >
-                                    <FaRegUser className="w-5 h-5 text-white" />
+                                    <FaRegUser className="w-5 h-5" />
                                 </motion.div>
                             )}
                             <motion.div
@@ -66,8 +66,8 @@ export default function ProfileMenu({ isOpen, onClose, isMobile = false }: Profi
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.3 }}
                             >
-                                <p className="text-xs font-semibold text-[var(--text)] truncate">{user.displayName}</p>
-                                <p className="text-[10px] text-[var(--text-secondary)] truncate">{user.email}</p>
+                                <p className="text-xs font-semibold truncate">{user.displayName}</p>
+                                <p className="text-[10px] truncate">{user.email}</p>
                             </motion.div>
                         </div>
                     </motion.div>

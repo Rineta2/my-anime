@@ -16,7 +16,7 @@ export default function MovieSkeleton() {
                         <div className="flex items-center justify-between">
                             <div className="h-8 w-48 bg-gray-200 rounded-lg animate-pulse"></div>
                         </div>
-                        <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8'>
+                        <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5'>
                             {[...Array(8)].map((_, index) => (
                                 <div key={index} className="group bg-background/40 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl border border-gray-200">
                                     <div className="relative h-48 sm:h-64 md:h-72 lg:h-80 bg-gray-200 animate-pulse"></div>

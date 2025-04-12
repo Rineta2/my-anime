@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
-export default function page() {
+import ArticlesLayout from '@/hooks/pages/articles/ArticlesLayout'
+
+import HeroArticles from "@/hooks/pages/articles/HeroArticles"
+
+export const metadata = {
+  title: 'Articles | Anime Indo',
+  description: 'Halaman ini berisi articles',
+}
+
+export default function Articles() {
   return (
-    <div>page</div>
+    <Fragment>
+      <HeroArticles />
+      <ArticlesLayout />
+    </Fragment>
   )
 }

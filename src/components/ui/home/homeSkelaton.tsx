@@ -10,7 +10,7 @@ export default function HomeSkelaton() {
                         <div className="flex items-center justify-between">
                             <div className="h-8 w-48 bg-gray-200 rounded-lg animate-pulse"></div>
                         </div>
-                        <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                        <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
                             {[...Array(8)].map((_, index) => (
                                 <div key={index} className="group bg-background/60 backdrop-blur-md rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-border-color/50">
                                     <div className="relative h-48 xs:h-52 sm:h-56 md:h-64 lg:h-72 bg-gray-200 animate-pulse">

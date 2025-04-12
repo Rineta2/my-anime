@@ -58,7 +58,7 @@ export default function AnimeMovie() {
                 <div className='flex flex-col space-y-6 md:space-y-10'>
                     <SectionTitle title="Movie" href={memoizedData.data.movie.href} />
 
-                    <div className='grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8'>
+                    <div className='grid grid-cols-2 md:grid-cols-4 gap-5'>
                         {memoizedAnimeList.map((anime, index) => (
                             <AnimeMovieCard
                                 key={`${anime.animeId}-${index}`}

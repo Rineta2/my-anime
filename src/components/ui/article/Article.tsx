@@ -2,12 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
-
 import { motion } from 'framer-motion';
 
 import { FetchArticle } from '@/components/ui/article/lib/FetchArticle';
-
 
 import { ArticleType } from '@/components/ui/article/types/article';
 
@@ -17,10 +14,11 @@ import TopArticle from '@/components/ui/article/components/TopArticle';
 
 import ArticleCard from '@/components/ui/article/components/ArticleCard';
 
+import Link from 'next/link';
+
 export default function Article() {
   const [article, setArticle] = useState<ArticleType[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = FetchArticle((newArticle) => {
@@ -36,10 +34,6 @@ export default function Article() {
 
   if (loading) {
     return <ArticleSkelaton />;
-  }
-
-  const handleViewAll = () => {
-    router.push("/articles");
   }
 
   const limitedArticles = article.slice(0, 8);
@@ -74,46 +68,37 @@ export default function Article() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       variants={containerVariants}
-      className='min-h-full px-4 sm:px-8 py-10'
+      className='min-h-full py-10'
     >
-      <div className="container">
+      <div className="container px-4 sm:px-8">
         <motion.div
           variants={itemVariants}
           viewport={{ once: true }}
           className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8 mb-8"
         >
-          <motion.h2
+          <motion.h1
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold tracking-tight"
-          >
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent animate-gradient">
             Latest Articles
-          </motion.h2>
-          <motion.button
-            variants={itemVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleViewAll}
-            className="group relative inline-flex items-center justify-center px-6 py-3 font-medium text-white bg-gray-900 rounded-lg overflow-hidden"
-          >
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-            <span className="relative flex items-center gap-2">
-              View All Articles
-              <motion.svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                animate={{ x: [0, 5, 0] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 1.5,
-                  ease: "easeInOut"
-                }}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </motion.svg>
-            </span>
-          </motion.button>
+          </motion.h1>
+
+          <Link href={"/articles"} className='flex items-center text-sm text-[var(--text-secondary)]'>
+            Lihat Semua
+            <motion.svg
+              className="w-4 h-4 mt-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              animate={{ x: [0, 5, 0] }}
+              transition={{
+                repeat: Infinity,
+                duration: 1.5,
+                ease: "easeInOut"
+              }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </motion.svg>
+          </Link>
         </motion.div>
 
         {topArticles.length > 0 && (

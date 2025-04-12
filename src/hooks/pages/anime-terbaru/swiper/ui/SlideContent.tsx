@@ -12,7 +12,7 @@ import { SlideContentProps } from '@/hooks/pages/types/AnimeTerbaru'
 
 export default function SlideContent({ anime }: SlideContentProps) {
     return (
-        <div key={anime.href} className="relative w-full h-full">
+        <div key={anime.href} className="relative w-full h-full px-8">
             {/* Background Image */}
             {anime.poster && (
                 <motion.div

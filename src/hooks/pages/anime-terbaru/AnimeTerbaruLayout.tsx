@@ -71,29 +71,28 @@ export default function AnimeTerbaruLayout() {
     }
 
     return (
-        <section className='min-h-screen bg-gradient-to-b from-background via-background/95 to-background/90 py-10'>
-            <div className="container px-4 md:px-6">
-                <div className="flex flex-col space-y-4 md:space-y-0">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <PageHeader
-                            title="Anime Terbaru"
-                        />
-                        <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-                            <div className="flex items-center space-x-2 text-sm md:text-base bg-card-bg/50 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-card-border animate-fadeIn whitespace-nowrap">
-                                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                                <span>Halaman {pagination.currentPage} dari {pagination.totalPages}</span>
-                            </div>
-                            <div className="w-full sm:w-auto">
-                                <SearchBar
-                                    searchQuery={searchQuery}
-                                    onSearchChange={setSearchQuery}
-                                />
-                            </div>
+        <section className='min-h-screen py-8 sm:py-12'>
+            <div className="container px-4 md:px-10 space-y-12">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <PageHeader
+                        title="Anime Terbaru"
+                    />
+
+                    <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                        <div className="flex items-center space-x-2 text-sm md:text-base bg-card-bg/50 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-card-border animate-fadeIn whitespace-nowrap">
+                            <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                            <span>Halaman {pagination.currentPage} dari {pagination.totalPages}</span>
+                        </div>
+                        <div className="w-full sm:w-auto">
+                            <SearchBar
+                                searchQuery={searchQuery}
+                                onSearchChange={setSearchQuery}
+                            />
                         </div>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-5 mt-5 sm:mt-6 md:mt-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                     {filteredAnimeList.map((anime, index) => (
                         <AnimeCard
                             key={`${anime.animeId}-${anime.episodes}-${index}`}

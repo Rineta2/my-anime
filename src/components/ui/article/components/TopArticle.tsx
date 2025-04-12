@@ -28,29 +28,25 @@ export default function TopArticle({ article }: TopArticleProps) {
     <motion.div
       className='group bg-[var(--card-bg)] border-[var(--border-color)] border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300'
     >
-      <Link href={`/articles/${formatSlug(article.category)}/${formatSlug(article.slug)}`} className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+      <Link href={`/articles/${formatSlug(article.slug)}`} className="block">
         <div className="grid grid-cols-1 gap-0">
           <motion.div
-            className="relative h-[200px] sm:h-[300px] w-full overflow-hidden"
-            whileHover={{ scale: 1.05 }}
+            className="relative h-[200px] sm:h-[300px] md:h-[350px] w-full overflow-hidden"
             transition={{ duration: 0.6 }}
           >
             <Image
               src={article?.thumbnail || ''}
               alt={article?.title || 'Featured article thumbnail'}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               width={1200}
               height={400}
             />
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.6 }}
-              whileHover={{ opacity: 0.8 }}
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"
             />
           </motion.div>
 
-          <div className="p-8 lg:p-12 flex flex-col justify-center">
+          <div className="p-8 flex flex-col justify-center">
             <motion.div
               className="flex items-center gap-3 mb-6"
               variants={contentVariants}
@@ -60,7 +56,6 @@ export default function TopArticle({ article }: TopArticleProps) {
             >
               <motion.span
                 className="px-4 py-1.5 rounded-full text-sm font-medium bg-blue-50 text-blue-600"
-                whileHover={{ scale: 1.05 }}
               >
                 {article?.category}
               </motion.span>

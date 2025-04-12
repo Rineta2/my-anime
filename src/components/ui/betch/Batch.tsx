@@ -55,7 +55,7 @@ export default function BatchList() {
         <section className='min-h-full'>
             <div className="container px-4 sm:px-6 lg:px-8 space-y-10">
                 <AnimeBath data={data} />
-                <div className='grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8'>
+                <div className='grid grid-cols-2 md:grid-cols-3 gap-5'>
                     {batchList.map((anime: AnimeResponse['data']['batch']['batchList'][0], index: number) => (
                         <AnimeCard
                             key={`${anime.animeId}-${index}`}

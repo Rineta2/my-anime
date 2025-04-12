@@ -25,3 +25,27 @@ export interface TopArticleProps {
 export interface ArticleCardProps {
   article: ArticleType;
 }
+
+// Pages Articles
+
+export interface SearchModalProps {
+  searchQuery: string;
+  searchResults: ArticleType[];
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearchResultClick: (article: ArticleType) => void;
+  handleModalClose: () => void;
+}
+
+export interface CategoryFilterProps {
+  articles: ArticleType[];
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
+}
+
+export interface ArticleCardProps {
+  article: ArticleType;
+}
+
+export interface TopArticleProps {
+  article: ArticleType;
+}
