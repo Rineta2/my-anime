@@ -180,7 +180,7 @@ export default function Sidebar({ isCollapsed, onCollapse, isMobile, isOpen, onC
             {(!isCollapsed || isMobile) && (
               <div className="ml-3">
                 <p className="text-sm font-semibold text-[var(--text)]">Anime Indo</p>
-                <p className="text-xs text-[var(--text-secondary)]">v1.0.1</p>
+                <p className="text-xs text-[var(--text-secondary)]">v1.0.2</p>
               </div>
             )}
           </div>
