@@ -35,7 +35,7 @@ const PremiumModal: React.FC<PremiumModalProps> = ({ isVisible, onClose, onLogin
       <div className="space-y-6">
         <h3 className="text-lg font-semibold text-[var(--text)]">Keuntungan Premium</h3>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="flex items-center gap-3">
             <IoDiamond className="w-5 h-5 text-primary" />
             <span className="text-sm text-[var(--text)]">Konten Premium</span>

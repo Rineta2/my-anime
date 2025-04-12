@@ -6,6 +6,8 @@ import { GrArticle, GrTransaction } from "react-icons/gr";
 
 import { TbReportAnalytics } from "react-icons/tb";
 
+import { IoPricetagsOutline } from "react-icons/io5";
+
 export const menuItems = [
   {
     icon: FiHome,
@@ -54,6 +56,12 @@ export const menuItems = [
     icon: TbReportAnalytics,
     label: "Rekap",
     href: "/dashboard/super-admins/rekap",
+  },
+
+  {
+    icon: IoPricetagsOutline,
+    label: "Price List",
+    href: "/dashboard/super-admins/price",
   },
 
   {

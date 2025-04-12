@@ -285,11 +285,13 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                             <div className="divider">OR</div>
 
                             <div className="flex w-full gap-2">
-                                <div className="card border rounded-box grid place-items-center w-full">
+                                <div
+                                    onClick={handleGoogleLogin}
+                                    className="card border rounded-box grid place-items-center w-full cursor-pointer hover:bg-[#4285F4] hover:text-white duration-300 py-3"
+                                >
                                     <button
                                         type="button"
-                                        onClick={handleGoogleLogin}
-                                        className={`btn btn-ghost hover:bg-base-200 transition-all duration-300 transform hover:scale-110 shadow-md hover:shadow-lg ${isGoogleLoading ? 'loading' : ''}`}
+                                        className={`${isGoogleLoading ? 'loading' : ''}`}
                                         disabled={isEmailLoading || isGoogleLoading || isGithubLoading}
                                     >
                                         {isGoogleLoading ? (
@@ -311,11 +313,13 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                                     </button>
                                 </div>
 
-                                <div className="card border rounded-box grid place-items-center w-full">
+                                <div
+                                    onClick={handleGithubLogin}
+                                    className="card border rounded-box grid place-items-center w-full cursor-pointer hover:bg-[#24292e] hover:text-white duration-300 py-3"
+                                >
                                     <button
                                         type="button"
-                                        onClick={handleGithubLogin}
-                                        className={`btn btn-ghost hover:bg-base-200 transition-all duration-300 transform hover:scale-110 shadow-md hover:shadow-lg ${isGithubLoading ? 'loading' : ''}`}
+                                        className={`${isGithubLoading ? 'loading' : ''}`}
                                         disabled={isEmailLoading || isGoogleLoading || isGithubLoading}
                                     >
                                         {isGithubLoading ? (
