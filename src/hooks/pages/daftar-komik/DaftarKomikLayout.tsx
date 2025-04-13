@@ -62,7 +62,7 @@ export default function DaftarKomikLayout() {
 
       const response = await axios.get(apiUrl, {
         headers: {
-          'x-api-key': process.env.NEXT_PUBLIC_API_KEY
+          'x-api-key': process.env.NEXT_PUBLIC_API_KEY_KOMIKU
         }
       });
       const data: ApiResponse = response.data;

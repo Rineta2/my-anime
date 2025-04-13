@@ -20,7 +20,7 @@ export default function MangaCard({ manga, index }: MangaCardProps) {
 
   return (
     <Link
-      href={`/daftar-komik/${manga.param}`}
+      href={`/daftar-manga/${manga.param}`}
       className="group relative bg-card-bg/50 backdrop-blur-sm border border-card-border/50 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl overflow-hidden animate-fadeIn w-full"
       style={{
         animationDelay: `${index * 50}ms`,

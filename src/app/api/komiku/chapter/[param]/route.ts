@@ -8,7 +8,7 @@ export async function GET(
   try {
     const apiKey = request.headers.get("x-api-key");
 
-    if (!apiKey || apiKey !== process.env.NEXT_PUBLIC_API_KEY) {
+    if (!apiKey || apiKey !== process.env.NEXT_PUBLIC_API_KEY_KOMIKU) {
       return NextResponse.json(
         { error: "Unauthorized - Invalid API key" },
         { status: 401 }

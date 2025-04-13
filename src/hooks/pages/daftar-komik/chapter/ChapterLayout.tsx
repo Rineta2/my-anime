@@ -27,7 +27,7 @@ export default function ChapterPage({ params }: { params: Promise<{ param: strin
         setError(null);
         const response = await axios.get(`/api/komiku/chapter/${resolvedParams.param}`, {
           headers: {
-            'x-api-key': process.env.NEXT_PUBLIC_API_KEY
+            'x-api-key': process.env.NEXT_PUBLIC_API_KEY_KOMIKU
           }
         });
         setImages(response.data.data);
@@ -69,7 +69,7 @@ export default function ChapterPage({ params }: { params: Promise<{ param: strin
 
   const navigateToChapter = (chapterParam: string | null | undefined) => {
     if (chapterParam) {
-      router.push(`/daftar-komik/chapter/${chapterParam}`);
+      router.push(`/daftar-manga/chapter/${chapterParam}`);
     }
   };
 
@@ -90,7 +90,7 @@ export default function ChapterPage({ params }: { params: Promise<{ param: strin
         <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
           <h1 className="text-2xl font-bold text-red-500 mb-4">{error}</h1>
           <Link
-            href="/komik"
+            href="/daftar-manga"
             className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,7 +109,7 @@ export default function ChapterPage({ params }: { params: Promise<{ param: strin
         <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
           <h1 className="text-2xl font-bold text-red-500 mb-4">No images found</h1>
           <Link
-            href="/komik"
+            href="/daftar-manga"
             className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,7 +129,7 @@ export default function ChapterPage({ params }: { params: Promise<{ param: strin
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8 bg-white/80 dark:bg-gray-800/80 p-4 rounded-xl shadow-lg backdrop-blur-sm sticky top-4 z-10 border border-gray-100 dark:border-gray-700">
           <div className="flex items-center gap-4">
             <Link
-              href={`/daftar-komik/${chapterInfo?.mangaParam || ''}`}
+              href={`/daftar-manga/${chapterInfo?.mangaParam || ''}`}
               className="inline-flex items-center text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary transition-colors duration-200"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

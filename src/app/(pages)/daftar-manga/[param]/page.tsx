@@ -1,6 +1,7 @@
 import React from 'react'
 
 import MangaDetailPage from '@/hooks/pages/daftar-komik/manga-details/MangaDetailPage'
+
 import { Metadata, ResolvingMetadata } from 'next'
 
 type Props = {

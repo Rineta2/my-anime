@@ -23,7 +23,7 @@ export default function MangaDetailPage({ params }: { params: Promise<{ param: s
         setLoading(true);
         const response = await axios.get(`/api/komiku/${resolvedParams.param}`, {
           headers: {
-            'x-api-key': process.env.NEXT_PUBLIC_API_KEY
+            'x-api-key': process.env.NEXT_PUBLIC_API_KEY_KOMIKU || ''
           }
         });
         setMangaDetail(response.data.data);
@@ -138,7 +138,7 @@ export default function MangaDetailPage({ params }: { params: Promise<{ param: s
                     {mangaDetail.chapters.map((chapter, index) => (
                       <Link
                         key={index}
-                        href={`/daftar-komik/chapter/${chapter.param}`}
+                        href={`/daftar-manga/chapter/${chapter.param}`}
                         className="block p-3 sm:p-4 bg-[var(--card-bg)] hover:bg-[var(--card-bg)]/80 border border-[var(--border-color)] rounded-lg shadow-md hover:shadow-lg transition-all"
                       >
                         <div className="relative">
@@ -164,7 +164,7 @@ export default function MangaDetailPage({ params }: { params: Promise<{ param: s
                   <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Similar Manga</h2>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                     {mangaDetail.similars.map((manga, index) => (
-                      <Link href={`/daftar-komik/${manga.param}`} key={index} className="group">
+                      <Link href={`/daftar-manga/${manga.param}`} key={index} className="group">
                         <div className="bg-[var(--card-bg)] rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:scale-105 border border-[var(--border-color)]">
                           <div className="relative h-[140px] sm:h-[160px] md:h-[180px] lg:h-[200px]">
                             <Image
@@ -212,7 +212,7 @@ export default function MangaDetailPage({ params }: { params: Promise<{ param: s
                       ))}
                     </div>
                     <Link
-                      href="/daftar-komik"
+                      href="/daftar-manga"
                       className="inline-block w-full text-center py-2 bg-primary hover:bg-primary/80 text-white rounded-md transition-colors text-sm sm:text-base"
                     >
                       Back to Manga List
