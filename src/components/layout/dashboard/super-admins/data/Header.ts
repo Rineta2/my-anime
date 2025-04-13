@@ -62,6 +62,10 @@ export const menuItems = [
     icon: IoPricetagsOutline,
     label: "Price List",
     href: "/dashboard/super-admins/price",
+    subItems: [
+      { label: "Price List", href: "/dashboard/super-admins/price" },
+      { label: "Card", href: "/dashboard/super-admins/price/card" },
+    ],
   },
 
   {

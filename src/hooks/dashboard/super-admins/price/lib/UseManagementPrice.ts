@@ -19,14 +19,67 @@ import imagekitInstance from "@/utils/imgkit/Imagekit";
 
 import { compressImage } from "@/base/helper/ImageCompression";
 
-import { PotensiSponsorContent } from "@/hooks/dashboard/super-admins/price/types/Price";
+import { CardData } from "../types/Price";
 
-export const usePotensiSponsorData = () => {
+interface ListItem {
+  title: string;
+}
+
+export interface PriceContent {
+  id?: string;
+  title: string;
+  originalPrice?: number | null;
+  labelDisc?: string | null;
+  discount?: number | null;
+  list: ListItem[];
+  selectedCards: CardData[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+// Move the card validation logic to a separate function
+const validateAndFormatCards = (cards: CardData[]) => {
+  return cards
+    .filter(
+      (card) =>
+        card &&
+        card.id &&
+        card.name &&
+        card.number &&
+        card.title &&
+        card.imageUrl
+    )
+    .map((card) => ({
+      id: card.id,
+      name: card.name,
+      number: card.number,
+      title: card.title,
+      imageUrl: card.imageUrl,
+      createdAt: card.createdAt || new Date(),
+      updatedAt: new Date(),
+    }));
+};
+
+export const usePriceData = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [potensiSponsor, setPotensiSponsor] = useState<PotensiSponsorContent[]>(
-    []
-  );
+  const [price, setPrice] = useState<PriceContent[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [cards, setCards] = useState<CardData[]>([]);
+
+  const fetchCards = async () => {
+    try {
+      const querySnapshot = await getDocs(
+        collection(db, process.env.NEXT_PUBLIC_COLLECTIONS_CARD as string)
+      );
+      const cardArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as CardData[];
+      setCards(cardArray);
+    } catch (error) {
+      console.error("Error fetching cards:", error);
+    }
+  };
 
   const fetchContents = async () => {
     try {
@@ -36,8 +89,9 @@ export const usePotensiSponsorData = () => {
       const contentArray = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      })) as PotensiSponsorContent[];
-      setPotensiSponsor(contentArray);
+        selectedCards: doc.data().cards || [],
+      })) as PriceContent[];
+      setPrice(contentArray);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching contents:", error);
@@ -59,8 +113,8 @@ export const usePotensiSponsorData = () => {
       const base64 = await base64Promise;
       const result = await imagekitInstance.upload({
         file: base64,
-        fileName: `potensi-sponsor-${Date.now()}`,
-        folder: "/potensi-sponsor",
+        fileName: `price-${Date.now()}`,
+        folder: "/price",
       });
 
       return result.url;
@@ -70,35 +124,48 @@ export const usePotensiSponsorData = () => {
     }
   };
 
-  const createContent = async (data: PotensiSponsorContent) => {
+  const createContent = async (data: PriceContent) => {
+    const validCards = validateAndFormatCards(data.selectedCards);
+
+    const newContent = {
+      createdAt: new Date(),
+      discount: data.discount || null,
+      labelDisc: data.labelDisc || null,
+      list: data.list.map((item) => ({ title: item.title })),
+      originalPrice: data.originalPrice || null,
+      title: data.title,
+      updatedAt: new Date(),
+      cards: validCards,
+    };
+
     await addDoc(
       collection(db, process.env.NEXT_PUBLIC_COLLECTIONS_PRICE as string),
-      {
-        title: data.title,
-        imageUrl: data.imageUrl,
-        list: data.list,
-        createdAt: new Date(),
-      }
+      newContent
     );
     await fetchContents();
   };
 
-  const handleUpdate = async (
-    id: string,
-    updatedData: PotensiSponsorContent
-  ) => {
+  const handleUpdate = async (id: string, updatedData: PriceContent) => {
     try {
       const docRef = doc(
         db,
         process.env.NEXT_PUBLIC_COLLECTIONS_PRICE as string,
         id
       );
-      await updateDoc(docRef, {
+
+      const validCards = validateAndFormatCards(updatedData.selectedCards);
+
+      const updatedContent = {
+        discount: updatedData.discount || null,
+        labelDisc: updatedData.labelDisc || null,
+        list: updatedData.list.map((item) => ({ title: item.title })),
+        originalPrice: updatedData.originalPrice || null,
         title: updatedData.title,
-        imageUrl: updatedData.imageUrl,
-        list: updatedData.list,
         updatedAt: new Date(),
-      });
+        cards: validCards,
+      };
+
+      await updateDoc(docRef, updatedContent);
       await fetchContents();
     } catch (error) {
       console.error("Error updating content:", error);
@@ -124,11 +191,13 @@ export const usePotensiSponsorData = () => {
 
   useEffect(() => {
     fetchContents();
+    fetchCards();
   }, []);
 
   return {
     isLoading,
-    potensiSponsor,
+    price,
+    cards,
     isSubmitting,
     setIsSubmitting,
     handleImageUpload,

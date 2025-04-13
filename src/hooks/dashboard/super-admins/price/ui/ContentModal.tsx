@@ -1,8 +1,17 @@
 import React from 'react';
 
-import { ContentModalProps } from '@/hooks/dashboard/super-admins/price/types/Price';
+import { PriceContent, CardData } from '@/hooks/dashboard/super-admins/price/types/Price';
 
 import Image from 'next/image';
+
+interface ContentModalProps {
+  formData: PriceContent;
+  setFormData: React.Dispatch<React.SetStateAction<PriceContent>>;
+  handleSubmit: () => void;
+  isSubmitting: boolean;
+  isEditing: boolean;
+  cards: CardData[];
+}
 
 export const ContentModal: React.FC<ContentModalProps> = ({
   formData,
@@ -10,39 +19,50 @@ export const ContentModal: React.FC<ContentModalProps> = ({
   handleSubmit,
   isSubmitting,
   isEditing,
-  handleImageUpload
+  cards,
 }) => {
   const addList = () => {
-    setFormData({
-      ...formData,
-      list: [...formData.list, { title: '' }]
-    });
+    setFormData(prev => ({
+      ...prev,
+      list: [...prev.list, { title: '' }]
+    }));
   };
 
   const removeList = (index: number) => {
-    setFormData({
-      ...formData,
-      list: formData.list.filter((_, i) => i !== index)
-    });
+    setFormData(prev => ({
+      ...prev,
+      list: prev.list.filter((_, i) => i !== index)
+    }));
   };
 
-  const updateBenefitTitle = (index: number, section: 'list', value: string) => {
-    const newArray = [...formData[section]];
-    newArray[index] = {
-      ...newArray[index],
-      title: value
-    };
-    setFormData({
-      ...formData,
-      [section]: newArray
-    });
+  const updateBenefitTitle = (index: number, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      list: prev.list.map((item, i) =>
+        i === index ? { ...item, title: value } : item
+      )
+    }));
+  };
+
+  const handleCardSelection = (card: CardData) => {
+    setFormData(prev => ({
+      ...prev,
+      selectedCards: prev.selectedCards.some(selectedCard => selectedCard.id === card.id)
+        ? prev.selectedCards.filter(selectedCard => selectedCard.id !== card.id)
+        : [...prev.selectedCards, card]
+    }));
+  };
+
+  const closeModal = () => {
+    const modal = document.getElementById('content_modal') as HTMLDialogElement;
+    modal?.close();
   };
 
   return (
     <dialog id="content_modal" className="modal">
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 overflow-y-auto">
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50">
         <div className="min-h-screen px-4 py-8 flex items-center justify-center">
-          <div className="bg-background w-full max-w-6xl rounded-3xl shadow-2xl p-6 lg:p-8 animate-fadeIn">
+          <div className="bg-background w-full max-w-6xl rounded-3xl shadow-2xl p-6 lg:p-8 animate-fadeIn max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
             <div className="mb-8 text-center">
               <h2 className="text-2xl md:text-3xl font-bold text-text">
@@ -75,69 +95,88 @@ export const ContentModal: React.FC<ContentModalProps> = ({
                       type="text"
                       id="title"
                       value={formData.title}
-                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                       className="w-full px-4 py-3 bg-background border-2 border-background-dark rounded-xl"
                       required
                     />
                   </div>
 
-                  {/* Image Upload Section */}
+                  {/* Original Price Field */}
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-text-dark block">
-                      Image
+                    <label htmlFor="originalPrice" className="text-sm font-medium text-text-dark block">
+                      Original Price
                     </label>
-
-                    {!formData.imageUrl ? (
-                      // Show file input if no image
-                      <input
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                        onChange={async (e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            try {
-                              const imageUrl = await handleImageUpload(file);
-                              setFormData({
-                                ...formData,
-                                imageUrl: imageUrl
-                              });
-                            } catch (error) {
-                              console.error('Error uploading image:', error);
-                            }
-                          }
-                        }}
-                        className="w-full px-4 py-3 bg-background border-2 border-background-dark rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
-                        required
-                      />
-                    ) : (
-                      // Show preview and remove button if image exists
-                      <div className="space-y-4">
-                        <div className="w-full max-w-xs h-48 rounded-xl overflow-hidden border-2 border-background-dark">
-                          <Image
-                            src={formData.imageUrl}
-                            alt="Preview"
-                            className="w-full h-full object-cover"
-                            width={100}
-                            height={100}
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => setFormData({
-                            ...formData,
-                            imageUrl: ''
-                          })}
-                          className="px-4 py-2 text-red-500 bg-red-50 rounded-xl hover:bg-red-100 transition-colors duration-200 flex items-center gap-2"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                          Remove Image
-                        </button>
-                      </div>
-                    )}
+                    <input
+                      type="number"
+                      id="originalPrice"
+                      value={formData.originalPrice || ''}
+                      onChange={(e) => setFormData(prev => ({ ...prev, originalPrice: e.target.value ? Number(e.target.value) : null }))}
+                      className="w-full px-4 py-3 bg-background border-2 border-background-dark rounded-xl"
+                      placeholder="Enter original price..."
+                    />
                   </div>
+
+                  {/* Label Discount Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="labelDisc" className="text-sm font-medium text-text-dark block">
+                      Label Discount
+                    </label>
+                    <input
+                      type="text"
+                      id="labelDisc"
+                      value={formData.labelDisc || ''}
+                      onChange={(e) => setFormData(prev => ({ ...prev, labelDisc: e.target.value || null }))}
+                      className="w-full px-4 py-3 bg-background border-2 border-background-dark rounded-xl"
+                      placeholder="Enter discount label..."
+                    />
+                  </div>
+
+                  {/* Discount Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="discount" className="text-sm font-medium text-text-dark block">
+                      Discount
+                    </label>
+                    <input
+                      type="number"
+                      id="discount"
+                      value={formData.discount || ''}
+                      onChange={(e) => setFormData(prev => ({ ...prev, discount: e.target.value ? Number(e.target.value) : null }))}
+                      className="w-full px-4 py-3 bg-background border-2 border-background-dark rounded-xl"
+                      placeholder="Enter discount amount..."
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Card Selection */}
+              <div className="bg-background-dark/30 p-8 rounded-2xl border-2 border-background-dark/50">
+                <h4 className="text-xl font-semibold text-text mb-6">Select Payment Methods</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {cards.map((card) => (
+                    <div
+                      key={card.id}
+                      className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${formData.selectedCards?.some(selectedCard => selectedCard.id === card.id)
+                        ? 'border-primary bg-primary/10'
+                        : 'border-background-dark hover:border-primary/50'
+                        }`}
+                      onClick={() => handleCardSelection(card)}
+                    >
+                      <div className="flex items-center gap-4">
+                        <Image
+                          src={card.imageUrl}
+                          alt={card.title}
+                          width={48}
+                          height={48}
+                          className="object-cover rounded-lg"
+                        />
+                        <div>
+                          <h5 className="font-medium text-text">{card.title}</h5>
+                          <p className="text-sm text-text-dark">{card.name}</p>
+                          <p className="text-sm text-text-dark">{card.number}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -163,7 +202,7 @@ export const ContentModal: React.FC<ContentModalProps> = ({
                         <input
                           type="text"
                           value={item.title}
-                          onChange={(e) => updateBenefitTitle(index, 'list', e.target.value)}
+                          onChange={(e) => updateBenefitTitle(index, e.target.value)}
                           className="flex-1 px-4 py-3 bg-background border-2 border-background-dark rounded-xl"
                           placeholder="Enter benefit title..."
                           required
@@ -189,10 +228,7 @@ export const ContentModal: React.FC<ContentModalProps> = ({
               <div className="flex justify-end gap-4 pt-6">
                 <button
                   type="button"
-                  onClick={() => {
-                    const modal = document.getElementById('content_modal') as HTMLDialogElement;
-                    modal?.close();
-                  }}
+                  onClick={closeModal}
                   className="px-6 py-3 text-text-dark hover:bg-background-dark rounded-xl transition-all duration-300"
                 >
                   Cancel

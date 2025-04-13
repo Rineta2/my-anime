@@ -1,23 +1,36 @@
-interface list {
+interface ListItem {
   title: string;
 }
 
-export interface PotensiSponsorContent {
-  id?: string;
+export interface CardData {
+  id: string;
+  name: string;
+  number: number;
   title: string;
   imageUrl: string;
-  list: list[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface PriceContent {
+  id?: string;
+  title: string;
+  originalPrice?: number | null;
+  labelDisc?: string | null;
+  discount?: number | null;
+  list: ListItem[];
+  selectedCards: CardData[];
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface ContentModalProps {
-  formData: PotensiSponsorContent;
-  setFormData: (data: PotensiSponsorContent) => void;
+  formData: PriceContent;
+  setFormData: (data: PriceContent) => void;
   handleSubmit: () => void;
-  handleImageUpload: (file: File) => Promise<string>;
   isSubmitting: boolean;
   isEditing: boolean;
+  cards: CardData[];
 }
 
 export interface DeleteModalProps {

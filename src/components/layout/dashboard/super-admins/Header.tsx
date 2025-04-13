@@ -117,7 +117,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 px-3 py-2 overflow-y-auto custom-scrollbar">
+            <nav className="flex-1 px-3 py-4 overflow-y-auto custom-scrollbar">
                 <ul className="space-y-4">
                     {menuItems.map((item, index) => (
                         <li key={index} className={`${isCollapsed ? 'flex justify-center' : ''}`}>
@@ -203,47 +203,6 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                     ))}
                 </ul>
             </nav >
-
-            {/* Premium Update Section */}
-            <div className="px-3 mb-2" >
-                <div className={`relative overflow-hidden rounded-xl bg-gradient-to-r from-[var(--primary)] to-[var(--primary-hover)] shadow-lg ${isCollapsed ? 'h-[52px] flex items-center justify-center' : 'h-[140px]'
-                    }`}>
-                    {!isCollapsed && (
-                        <>
-                            <div className="relative z-10 p-4">
-                                <h3 className="text-white font-semibold text-[15px]">Upgrade to Premium</h3>
-                                <p className="text-white/80 text-xs mt-1.5">Get access to all features!</p>
-                                <button className="mt-4 bg-white text-primary text-sm font-medium px-4 py-2 rounded-lg hover:bg-white/90 transition-all duration-200 hover:shadow-md">
-                                    Upgrade Now
-                                </button>
-                            </div>
-                            <div className="absolute -right-8 -bottom-8 opacity-10">
-                                <svg className="w-32 h-32" viewBox="0 0 24 24" fill="none">
-                                    <path d="M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M14.5 4.5V6.5C14.5 7.6 15.4 8.5 16.5 8.5H18.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M8 13H12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M8 17H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </div>
-                        </>
-                    )}
-                    {isCollapsed && (
-                        <div className="relative group">
-                            <svg className="w-6 h-6 text-white transition-transform duration-200 group-hover:scale-110" viewBox="0 0 24 24" fill="none">
-                                <path d="M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M14.5 4.5V6.5C14.5 7.6 15.4 8.5 16.5 8.5H18.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M8 13H12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M8 17H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                            <div className="absolute left-full ml-2 -translate-y-1/2 top-1/2 hidden group-hover:block z-50">
-                                <div className="bg-slate-800 text-white text-xs py-1.5 px-3 rounded-lg whitespace-nowrap shadow-lg">
-                                    Upgrade to Premium
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div >
 
             {/* Logout Button */}
             <div className="p-3 border-t border-[var(--header-border)]" >
