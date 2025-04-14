@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { PriceContent, CardData } from '@/hooks/dashboard/super-admins/price/types/Price';
-
-import Image from 'next/image';
+import { PriceContent } from '@/hooks/dashboard/super-admins/price/types/Price';
 
 interface ContentModalProps {
   formData: PriceContent;
@@ -10,7 +8,6 @@ interface ContentModalProps {
   handleSubmit: () => void;
   isSubmitting: boolean;
   isEditing: boolean;
-  cards: CardData[];
 }
 
 export const ContentModal: React.FC<ContentModalProps> = ({
@@ -19,7 +16,6 @@ export const ContentModal: React.FC<ContentModalProps> = ({
   handleSubmit,
   isSubmitting,
   isEditing,
-  cards,
 }) => {
   const addList = () => {
     setFormData(prev => ({
@@ -41,15 +37,6 @@ export const ContentModal: React.FC<ContentModalProps> = ({
       list: prev.list.map((item, i) =>
         i === index ? { ...item, title: value } : item
       )
-    }));
-  };
-
-  const handleCardSelection = (card: CardData) => {
-    setFormData(prev => ({
-      ...prev,
-      selectedCards: prev.selectedCards.some(selectedCard => selectedCard.id === card.id)
-        ? prev.selectedCards.filter(selectedCard => selectedCard.id !== card.id)
-        : [...prev.selectedCards, card]
     }));
   };
 
@@ -107,10 +94,23 @@ export const ContentModal: React.FC<ContentModalProps> = ({
                       Original Price
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       id="originalPrice"
-                      value={formData.originalPrice || ''}
-                      onChange={(e) => setFormData(prev => ({ ...prev, originalPrice: e.target.value ? Number(e.target.value) : null }))}
+                      value={formData.originalPrice ? formData.originalPrice.toLocaleString('id-ID') : ''}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/[^\d]/g, '');
+                        setFormData(prev => ({
+                          ...prev,
+                          originalPrice: value ? Number(value) : null
+                        }));
+                      }}
+                      onBlur={(e) => {
+                        const value = e.target.value.replace(/[^\d]/g, '');
+                        if (value) {
+                          const formattedValue = Number(value).toLocaleString('id-ID');
+                          e.target.value = formattedValue;
+                        }
+                      }}
                       className="w-full px-4 py-3 bg-background border-2 border-background-dark rounded-xl"
                       placeholder="Enter original price..."
                     />
@@ -137,46 +137,27 @@ export const ContentModal: React.FC<ContentModalProps> = ({
                       Discount
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       id="discount"
-                      value={formData.discount || ''}
-                      onChange={(e) => setFormData(prev => ({ ...prev, discount: e.target.value ? Number(e.target.value) : null }))}
+                      value={formData.discount ? formData.discount.toLocaleString('id-ID') : ''}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/[^\d]/g, '');
+                        setFormData(prev => ({
+                          ...prev,
+                          discount: value ? Number(value) : null
+                        }));
+                      }}
+                      onBlur={(e) => {
+                        const value = e.target.value.replace(/[^\d]/g, '');
+                        if (value) {
+                          const formattedValue = Number(value).toLocaleString('id-ID');
+                          e.target.value = formattedValue;
+                        }
+                      }}
                       className="w-full px-4 py-3 bg-background border-2 border-background-dark rounded-xl"
                       placeholder="Enter discount amount..."
                     />
                   </div>
-                </div>
-              </div>
-
-              {/* Card Selection */}
-              <div className="bg-background-dark/30 p-8 rounded-2xl border-2 border-background-dark/50">
-                <h4 className="text-xl font-semibold text-text mb-6">Select Payment Methods</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {cards.map((card) => (
-                    <div
-                      key={card.id}
-                      className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${formData.selectedCards?.some(selectedCard => selectedCard.id === card.id)
-                        ? 'border-primary bg-primary/10'
-                        : 'border-background-dark hover:border-primary/50'
-                        }`}
-                      onClick={() => handleCardSelection(card)}
-                    >
-                      <div className="flex items-center gap-4">
-                        <Image
-                          src={card.imageUrl}
-                          alt={card.title}
-                          width={48}
-                          height={48}
-                          className="object-cover rounded-lg"
-                        />
-                        <div>
-                          <h5 className="font-medium text-text">{card.title}</h5>
-                          <p className="text-sm text-text-dark">{card.name}</p>
-                          <p className="text-sm text-text-dark">{card.number}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </div>
 

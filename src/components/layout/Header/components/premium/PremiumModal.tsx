@@ -1,10 +1,18 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
+
 import { IoDiamond } from "react-icons/io5";
+
 import { IoTimeOutline } from "react-icons/io5";
+
 import { MdHd } from "react-icons/md";
+
 import { IoPhonePortraitOutline } from "react-icons/io5";
+
 import { IoDownloadOutline } from "react-icons/io5";
+
 import { MdOutlineBlock } from "react-icons/md";
+
 import { useAuth } from '@/utils/context/AuthContext';
 
 interface PremiumModalProps {
@@ -15,14 +23,15 @@ interface PremiumModalProps {
 
 const PremiumModal: React.FC<PremiumModalProps> = ({ isVisible, onClose, onLoginClick }) => {
   const { user } = useAuth();
+  const router = useRouter();
 
   const handlePremiumClick = () => {
     if (!user) {
       onClose();
       onLoginClick();
     } else {
-      // Handle premium subscription logic here
-      console.log('Navigate to premium subscription page');
+      onClose();
+      router.push('/purchase?type=premium');
     }
   };
 

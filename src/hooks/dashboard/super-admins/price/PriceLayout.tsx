@@ -16,8 +16,6 @@ import { usePriceData } from '@/hooks/dashboard/super-admins/price/lib/UseManage
 
 import { toast } from 'react-hot-toast'
 
-import Image from 'next/image'
-
 export default function PriceLayout() {
   const {
     isLoading,
@@ -27,7 +25,6 @@ export default function PriceLayout() {
     createContent,
     handleUpdate,
     handleDelete,
-    cards,
   } = usePriceData();
 
   const [formData, setFormData] = useState<PriceContent>({
@@ -36,7 +33,6 @@ export default function PriceLayout() {
     labelDisc: "",
     discount: null,
     list: [],
-    selectedCards: [],
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -60,7 +56,6 @@ export default function PriceLayout() {
         labelDisc: "",
         discount: null,
         list: [],
-        selectedCards: [],
       });
       setIsEditing(false);
       setEditingId("");
@@ -83,7 +78,6 @@ export default function PriceLayout() {
         labelDisc: content.labelDisc || '',
         discount: content.discount || null,
         list: content.list || [],
-        selectedCards: content.selectedCards || [],
       });
       setIsEditing(true);
       setEditingId(id);
@@ -99,7 +93,6 @@ export default function PriceLayout() {
       labelDisc: "",
       discount: null,
       list: [],
-      selectedCards: [],
     });
     setIsEditing(false);
     setEditingId("");
@@ -200,12 +193,12 @@ export default function PriceLayout() {
                   <div className="flex flex-col">
                     {content.discount && (
                       <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        Rp {content.discount}
+                        Rp {Number(content.discount).toLocaleString('id-ID')}
                       </span>
                     )}
                     {content.originalPrice && (
                       <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
-                        Rp {content.originalPrice}
+                        Rp {Number(content.originalPrice).toLocaleString('id-ID')}
                       </span>
                     )}
                   </div>
@@ -222,29 +215,6 @@ export default function PriceLayout() {
                     ))}
                   </ul>
                 </div>
-
-                {content.selectedCards && content.selectedCards.length > 0 && (
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Payment Methods</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {content.selectedCards.map((card) => (
-                        <div
-                          key={card.id}
-                          className="flex items-center gap-2 px-3 py-1.5 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg"
-                        >
-                          <Image
-                            src={card.imageUrl}
-                            alt={card.title}
-                            width={20}
-                            height={20}
-                            className="w-5 h-5 object-contain"
-                          />
-                          <span className="text-sm">{card.title}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 <div className="flex flex-col sm:flex-row sm:justify-end gap-3 pt-6 border-t border-[var(--border-color)]">
                   <button
@@ -298,7 +268,6 @@ export default function PriceLayout() {
           handleSubmit={handleSubmit}
           isSubmitting={isSubmitting}
           isEditing={isEditing}
-          cards={cards}
         />
       )}
 

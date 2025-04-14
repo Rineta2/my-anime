@@ -19,12 +19,6 @@ import imagekitInstance from "@/utils/imgkit/Imagekit";
 
 import { compressImage } from "@/base/helper/ImageCompression";
 
-import { CardData } from "../types/Price";
-
-interface ListItem {
-  title: string;
-}
-
 export interface PriceContent {
   id?: string;
   title: string;
@@ -32,54 +26,18 @@ export interface PriceContent {
   labelDisc?: string | null;
   discount?: number | null;
   list: ListItem[];
-  selectedCards: CardData[];
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-// Move the card validation logic to a separate function
-const validateAndFormatCards = (cards: CardData[]) => {
-  return cards
-    .filter(
-      (card) =>
-        card &&
-        card.id &&
-        card.name &&
-        card.number &&
-        card.title &&
-        card.imageUrl
-    )
-    .map((card) => ({
-      id: card.id,
-      name: card.name,
-      number: card.number,
-      title: card.title,
-      imageUrl: card.imageUrl,
-      createdAt: card.createdAt || new Date(),
-      updatedAt: new Date(),
-    }));
-};
+interface ListItem {
+  title: string;
+}
 
 export const usePriceData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [price, setPrice] = useState<PriceContent[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [cards, setCards] = useState<CardData[]>([]);
-
-  const fetchCards = async () => {
-    try {
-      const querySnapshot = await getDocs(
-        collection(db, process.env.NEXT_PUBLIC_COLLECTIONS_CARD as string)
-      );
-      const cardArray = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as CardData[];
-      setCards(cardArray);
-    } catch (error) {
-      console.error("Error fetching cards:", error);
-    }
-  };
 
   const fetchContents = async () => {
     try {
@@ -89,7 +47,6 @@ export const usePriceData = () => {
       const contentArray = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        selectedCards: doc.data().cards || [],
       })) as PriceContent[];
       setPrice(contentArray);
       setIsLoading(false);
@@ -125,8 +82,6 @@ export const usePriceData = () => {
   };
 
   const createContent = async (data: PriceContent) => {
-    const validCards = validateAndFormatCards(data.selectedCards);
-
     const newContent = {
       createdAt: new Date(),
       discount: data.discount || null,
@@ -135,7 +90,6 @@ export const usePriceData = () => {
       originalPrice: data.originalPrice || null,
       title: data.title,
       updatedAt: new Date(),
-      cards: validCards,
     };
 
     await addDoc(
@@ -153,8 +107,6 @@ export const usePriceData = () => {
         id
       );
 
-      const validCards = validateAndFormatCards(updatedData.selectedCards);
-
       const updatedContent = {
         discount: updatedData.discount || null,
         labelDisc: updatedData.labelDisc || null,
@@ -162,7 +114,6 @@ export const usePriceData = () => {
         originalPrice: updatedData.originalPrice || null,
         title: updatedData.title,
         updatedAt: new Date(),
-        cards: validCards,
       };
 
       await updateDoc(docRef, updatedContent);
@@ -191,13 +142,11 @@ export const usePriceData = () => {
 
   useEffect(() => {
     fetchContents();
-    fetchCards();
   }, []);
 
   return {
     isLoading,
     price,
-    cards,
     isSubmitting,
     setIsSubmitting,
     handleImageUpload,
