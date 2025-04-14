@@ -6,6 +6,7 @@ import { IoTimeOutline } from "react-icons/io5";
 import { CreateTransaction, UploadProofOfPayment, UpdateTransactionWithLink } from '../lib/CreateTransaction';
 import { useAuth } from '@/utils/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -21,7 +22,6 @@ interface PaymentModalProps {
 }
 
 export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPriceAmount, selectedPackage }: PaymentModalProps) {
-  const [showCopied, setShowCopied] = useState(false);
   const [showPaymentSteps, setShowPaymentSteps] = useState(false);
   const [timeLeft, setTimeLeft] = useState(24 * 60 * 60);
   const [currentStep, setCurrentStep] = useState(1);
@@ -55,8 +55,7 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
 
   const handleCopyNumber = () => {
     navigator.clipboard.writeText(selectedCard.number.toString());
-    setShowCopied(true);
-    setTimeout(() => setShowCopied(false), 2000);
+    toast.success('Nomor rekening berhasil disalin!');
   };
 
   const handleContinuePayment = async () => {
@@ -89,11 +88,10 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
         setTransactionId(result.id);
         setShowPaymentSteps(true);
       } else {
-        alert('Gagal membuat transaksi. Silakan coba lagi.');
+        toast.error('Gagal membuat transaksi. Silakan coba lagi.');
       }
-    } catch (error) {
-      console.error('Error creating transaction:', error);
-      alert('Terjadi kesalahan. Silakan coba lagi.');
+    } catch {
+      toast.error('Terjadi kesalahan. Silakan coba lagi.');
     } finally {
       setIsCreatingTransaction(false);
     }
@@ -111,11 +109,10 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
         setCurrentStep(3);
         setShowConfirmationModal(true);
       } else {
-        alert('Gagal mengupload bukti pembayaran. Silakan coba lagi.');
+        toast.error('Gagal mengupload bukti pembayaran. Silakan coba lagi.');
       }
-    } catch (error) {
-      console.error('Error uploading proof:', error);
-      alert('Terjadi kesalahan. Silakan coba lagi.');
+    } catch {
+      toast.error('Terjadi kesalahan. Silakan coba lagi.');
     } finally {
       setIsUploading(false);
     }
@@ -133,8 +130,7 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
         await UpdateTransactionWithLink(transactionId);
         onClose();
         router.push(`/payment-status/${transactionId}`);
-      } catch (error) {
-        console.error('Error updating transaction:', error);
+      } catch {
         // Still redirect even if updating link fails
         onClose();
         router.push(`/payment-status/${transactionId}`);
@@ -248,11 +244,6 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
                       >
                         <FaCopy className="text-lg" />
                       </button>
-                      {showCopied && (
-                        <div className="absolute right-0 top-0 -mt-8 bg-green-500 text-white px-3 py-1 rounded-lg text-sm animate-fadeIn">
-                          Berhasil disalin!
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
