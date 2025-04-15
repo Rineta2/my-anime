@@ -46,6 +46,11 @@ export const menuItems = [
       },
 
       {
+        label: "Return",
+        href: "/dashboard/super-admins/transaction/return",
+      },
+
+      {
         label: "Dibatalkan",
         href: "/dashboard/super-admins/transaction/cancelled",
       },

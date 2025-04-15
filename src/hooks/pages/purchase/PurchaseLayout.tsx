@@ -1,72 +1,28 @@
 "use client"
+
 import React, { useEffect, useState } from 'react'
 
+import toast from 'react-hot-toast'
+
 import { FetchPrice } from './lib/FetchPrice'
+
 import { Price } from './types/price'
+
 import CardPayment from './components/CardPayment'
+
 import { FetchUser } from './lib/FetchUser'
+
 import { useAuth } from '@/utils/context/AuthContext'
+
 import Image from 'next/image'
+
 import { IoTicket } from "react-icons/io5";
-import { RiMovie2AiLine } from "react-icons/ri";
-import { MdNotificationsActive, MdOutlineHd, MdDevices } from "react-icons/md";
-import { FaDownload } from "react-icons/fa6";
-import { LiaAdSolid } from "react-icons/lia";
+
 import PaymentModal from './components/PaymentModal'
-import { FetchCards } from './lib/FetchCards'
-import { Card } from './types/price'
 
-interface CardData {
-  id: number;
-  name: string;
-  icons: React.ReactNode;
-}
+import { User } from './types/price'
 
-export const dataCard: CardData[] = [
-  {
-    id: 1,
-    name: "Konten Premium",
-    icons: <RiMovie2AiLine className="text-2xl" />,
-  },
-
-  {
-    id: 2,
-    name: "Mendapatkan Notification",
-    icons: <MdNotificationsActive className='text-2xl' />
-  },
-
-  {
-    id: 3,
-    name: "Resolusi HD",
-    icons: <MdOutlineHd className='text-2xl' />
-  },
-
-  {
-    id: 4,
-    name: "Multi perangkat",
-    icons: <MdDevices className='text-2xl' />
-  },
-
-  {
-    id: 5,
-    name: "Gratis unduh",
-    icons: <FaDownload className='text-2xl' />
-  },
-
-  {
-    id: 6,
-    name: "Lewati iklan",
-    icons: <LiaAdSolid className='text-2xl' />
-  }
-];
-
-interface User {
-  displayName: string;
-  email: string;
-  photoURL: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { dataCard } from './data/DataCard'
 
 export default function PurchaseLayout() {
   const [prices, setPrices] = useState<Price[]>([])
@@ -76,12 +32,21 @@ export default function PurchaseLayout() {
   const [selectedPrice, setSelectedPrice] = useState<string | null>(null)
   const [selectedCard, setSelectedCard] = useState<string | null>(null)
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
-  const [selectedCardData, setSelectedCardData] = useState<Card | null>(null)
-  const [cards, setCards] = useState<Card[]>([])
 
   useEffect(() => {
     const unsubscribe = FetchPrice((data) => {
-      setPrices(data)
+      // Sort prices by discount amount in descending order (highest first)
+      const sortedPrices = data.sort((a, b) => {
+        const discountA = Number(a.discount || 0);
+        const discountB = Number(b.discount || 0);
+        return discountB - discountA;
+      });
+      setPrices(sortedPrices);
+
+      // Always select the highest price if available
+      if (sortedPrices.length > 0) {
+        setSelectedPrice(sortedPrices[0].id);
+      }
     })
 
     return () => unsubscribe()
@@ -97,14 +62,6 @@ export default function PurchaseLayout() {
     }
   }, [authUser?.uid])
 
-  useEffect(() => {
-    const unsubscribe = FetchCards((data) => {
-      setCards(data)
-    })
-
-    return () => unsubscribe()
-  }, [])
-
   const handlePriceSelect = (priceId: string) => {
     setSelectedPrice(priceId === selectedPrice ? null : priceId)
   }
@@ -114,21 +71,18 @@ export default function PurchaseLayout() {
     const price = prices.find(p => p.id === selectedPrice);
     if (!price || !price.discount) return undefined;
 
-    // Since price.discount is already a number, we can return it directly
     return Number(price.discount);
   }
 
   const handlePurchase = () => {
     if (!selectedPrice || !selectedCard) {
-      alert('Silakan pilih paket dan metode pembayaran terlebih dahulu')
+      toast.error('Silakan pilih paket dan metode pembayaran terlebih dahulu')
       return
     }
 
-    const cardData = cards.find(card => card.id === selectedCard)
     const packageData = prices.find(p => p.id === selectedPrice)
 
-    if (cardData && packageData) {
-      setSelectedCardData(cardData)
+    if (packageData) {
       setIsPaymentModalOpen(true)
     }
   }
@@ -261,7 +215,7 @@ export default function PurchaseLayout() {
       <PaymentModal
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
-        selectedCard={selectedCardData}
+        selectedCard={selectedCard}
         selectedPriceAmount={getSelectedPriceAmount()}
         selectedPackage={selectedPrice ? {
           title: prices.find(p => p.id === selectedPrice)?.title || '',

@@ -23,15 +23,26 @@ export default function CardPayment({ onCardSelect, selectedCard, selectedPriceA
       const filteredCards = data.filter(card => {
         const isGopay = card.title.toLowerCase().includes('gopay');
         if (isGopay && selectedPriceAmount !== undefined) {
-          return selectedPriceAmount >= 25000; // Changed from 25 to 25000
+          return selectedPriceAmount >= 25000;
         }
         return true;
       });
-      setCards(filteredCards);
+
+      // Sort cards by createdAt in descending order (newest first)
+      const sortedCards = filteredCards.sort((a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+
+      setCards(sortedCards);
+
+      // Automatically select the newest card if no card is selected
+      if (!selectedCard && sortedCards.length > 0) {
+        onCardSelect(sortedCards[0].id);
+      }
     })
 
     return () => unsubscribe()
-  }, [selectedPriceAmount])
+  }, [selectedPriceAmount, selectedCard, onCardSelect])
 
   const handleCardClick = (cardId: string) => {
     onCardSelect(cardId === selectedCard ? null : cardId);

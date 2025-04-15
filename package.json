@@ -21,7 +21,7 @@
     "date-fns": "^4.1.0",
     "firebase": "^11.6.0",
     "firebase-admin": "^13.2.0",
-    "framer-motion": "^12.6.3",
+    "framer-motion": "^12.7.0",
     "imagekit": "^6.0.0",
     "install": "^0.13.0",
     "lucide-react": "^0.487.0",

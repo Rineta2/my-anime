@@ -136,7 +136,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                                             }`} />
                                         {isCollapsed && !isLinkActive(item.href) && (
                                             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                                                <item.icon className="w-[22px] h-[22px] text-slate-900" />
+                                                <item.icon className="w-[22px] h-[22px]" />
                                             </div>
                                         )}
                                     </div>
@@ -158,7 +158,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                                                     }`} />
                                                 {isCollapsed && !item.subItems?.some(subItem => isLinkActive(subItem.href)) && (
                                                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                                                        <item.icon className="w-[22px] h-[22px] text-slate-900" />
+                                                        <item.icon className="w-[22px] h-[22px]" />
                                                     </div>
                                                 )}
                                             </div>
@@ -187,7 +187,7 @@ export default function UserHeader({ onSidebarToggle, isCollapsed = false }: Hea
                                                             onClick={handleLinkClick}
                                                             className={`block py-2 px-4 text-sm rounded-md transition-all duration-200 ${isLinkActive(subItem.href)
                                                                 ? 'text-primary font-medium bg-primary/10'
-                                                                : 'text-slate-200 hover:text-slate-900 hover:bg-slate-100'
+                                                                : 'hover:text-slate-900 hover:bg-slate-100'
                                                                 }`}
                                                         >
                                                             {subItem.label}

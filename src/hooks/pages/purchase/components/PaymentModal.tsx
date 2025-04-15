@@ -1,25 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import Image from 'next/image';
-import { Card } from '../types/price';
+
+import { Card, PaymentModalProps } from '../types/price';
+
 import { FaCopy, FaCheck, FaUpload } from "react-icons/fa";
+
 import { IoTimeOutline } from "react-icons/io5";
+
 import { CreateTransaction, UploadProofOfPayment, UpdateTransactionWithLink } from '../lib/CreateTransaction';
+
 import { useAuth } from '@/utils/context/AuthContext';
+
 import { useRouter } from 'next/navigation';
+
 import toast from 'react-hot-toast';
 
-interface PaymentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  selectedCard: Card | null;
-  selectedPriceAmount?: number;
-  selectedPackage?: {
-    title: string;
-    discount: number;
-    labelDisc?: string;
-    originalPrice?: number;
-  };
-}
+import { FetchCards } from '../lib/FetchCards';
 
 export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPriceAmount, selectedPackage }: PaymentModalProps) {
   const [showPaymentSteps, setShowPaymentSteps] = useState(false);
@@ -30,10 +27,23 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
   const [isFinishingPayment, setIsFinishingPayment] = useState(false);
   const [transactionId, setTransactionId] = useState<string | null>(null);
   const [proofImage, setProofImage] = useState<string | null>(null);
+  const [cardData, setCardData] = useState<Card | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
   const router = useRouter();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  useEffect(() => {
+    if (selectedCard) {
+      const unsubscribe = FetchCards((cards) => {
+        const card = cards.find(c => c.id === selectedCard);
+        if (card) {
+          setCardData(card);
+        }
+      });
+      return () => unsubscribe();
+    }
+  }, [selectedCard]);
 
   useEffect(() => {
     if (showPaymentSteps && timeLeft > 0) {
@@ -51,10 +61,10 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (!isOpen || !selectedCard || !user) return null;
+  if (!isOpen || !selectedCard || !user || !cardData) return null;
 
   const handleCopyNumber = () => {
-    navigator.clipboard.writeText(selectedCard.number.toString());
+    navigator.clipboard.writeText(cardData.number.toString());
     toast.success('Nomor rekening berhasil disalin!');
   };
 
@@ -70,9 +80,9 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
           photoURL: user.photoURL || ''
         },
         card: {
-          imageUrl: selectedCard.imageUrl,
-          title: selectedCard.title,
-          name: selectedCard.name
+          imageUrl: cardData.imageUrl,
+          title: cardData.title,
+          name: cardData.name
         },
         amount: selectedPriceAmount,
         status: 'pending',
@@ -213,15 +223,15 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
               <div className="space-y-6">
                 <div className="flex items-center gap-4 p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-lg">
                   <Image
-                    src={selectedCard.imageUrl}
-                    alt={selectedCard.title}
+                    src={cardData.imageUrl}
+                    alt={cardData.title}
                     width={64}
                     height={64}
                     className="w-16 h-16 object-contain"
                   />
                   <div>
-                    <p className="font-medium">{selectedCard.title}</p>
-                    <p className="text-sm text-gray-500">{selectedCard.name}</p>
+                    <p className="font-medium">{cardData.title}</p>
+                    <p className="text-sm text-gray-500">{cardData.name}</p>
                   </div>
                 </div>
 
@@ -235,7 +245,7 @@ export default function PaymentModal({ isOpen, onClose, selectedCard, selectedPr
                 <div className="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-lg">
                   <p className="text-sm text-gray-500 mb-2">Nomor Rekening</p>
                   <div className="flex items-center justify-between">
-                    <p className="text-lg font-medium">{selectedCard.number}</p>
+                    <p className="text-lg font-medium">{cardData.number}</p>
                     <div className="relative">
                       <button
                         onClick={handleCopyNumber}

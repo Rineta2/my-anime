@@ -22,3 +22,36 @@ export interface Price {
   title: string;
   updatedAt: string;
 }
+
+// Cards
+
+export interface CardData {
+  id: number;
+  name: string;
+  icons: React.ReactNode;
+}
+
+// User
+
+export interface User {
+  displayName: string;
+  email: string;
+  photoURL: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Payment Modal
+
+export interface PaymentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  selectedCard: string | null;
+  selectedPriceAmount?: number;
+  selectedPackage?: {
+    title: string;
+    discount: number;
+    labelDisc?: string;
+    originalPrice?: number;
+  };
+}
