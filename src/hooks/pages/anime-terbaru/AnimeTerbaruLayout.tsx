@@ -93,22 +93,51 @@ export default function AnimeTerbaruLayout() {
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {filteredAnimeList.map((anime, index) => (
-                        <AnimeCard
-                            key={`${anime.animeId}-${anime.episodes}-${index}`}
-                            anime={anime}
-                            index={index}
-                        />
-                    ))}
+                    {filteredAnimeList.length > 0 ? (
+                        filteredAnimeList.map((anime, index) => (
+                            <AnimeCard
+                                key={`${anime.animeId}-${anime.episodes}-${index}`}
+                                anime={anime}
+                                index={index}
+                            />
+                        ))
+                    ) : (
+                        <div className="col-span-full flex flex-col items-center justify-center py-12 space-y-4">
+                            <svg
+                                className="w-16 h-16 text-gray-400 dark:text-gray-500"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={1.5}
+                                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                            </svg>
+                            <div className="text-center space-y-2">
+                                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                    Tidak Ada Data
+                                </h3>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    Maaf, tidak ada anime yang ditemukan
+                                </p>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                <div className="flex justify-center mt-4 sm:mt-6 md:mt-8 lg:mt-12 animate-fadeIn">
-                    <Pagination
-                        currentPage={pagination.currentPage}
-                        totalPages={pagination.totalPages}
-                        onPageChange={handlePageChange}
-                    />
-                </div>
+                {filteredAnimeList.length > 0 && (
+                    <div className="flex justify-center mt-4 sm:mt-6 md:mt-8 lg:mt-12 animate-fadeIn">
+                        <Pagination
+                            currentPage={pagination.currentPage}
+                            totalPages={pagination.totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                )}
             </div>
         </section>
     )

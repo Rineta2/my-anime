@@ -65,7 +65,7 @@ export default function AnimeMovieCard({ anime, index }: AnimeMovieCardProps) {
                         <Link
                             key={index}
                             href={genre.href}
-                            className="font-medium text-center text-white line-clamp-2 bg-primary/80 hover:bg-primary px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg w-fit transition-all duration-300 hover:shadow-md hover:shadow-primary/20 text-xs sm:text-sm"
+                            className="font-medium text-center line-clamp-2 bg-primary/80 hover:bg-primary px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg w-fit transition-all duration-300 hover:shadow-md hover:shadow-primary/20 text-xs sm:text-sm"
                         >
                             {genre.title}
                         </Link>
