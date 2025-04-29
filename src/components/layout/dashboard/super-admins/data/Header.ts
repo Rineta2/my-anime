@@ -4,9 +4,11 @@ import { RiAdminFill } from "react-icons/ri";
 
 import { GrArticle, GrTransaction } from "react-icons/gr";
 
-import { TbReportAnalytics } from "react-icons/tb";
-
 import { IoPricetagsOutline } from "react-icons/io5";
+
+import { FaHistory } from "react-icons/fa";
+
+import { BsBookmarksFill } from "react-icons/bs";
 
 export const menuItems = [
   {
@@ -58,9 +60,15 @@ export const menuItems = [
   },
 
   {
-    icon: TbReportAnalytics,
-    label: "Rekap",
-    href: "/dashboard/super-admins/rekap",
+    icon: FaHistory,
+    label: "History",
+    href: "/dashboard/super-admins/history",
+  },
+
+  {
+    icon: BsBookmarksFill,
+    label: "Bookmarks",
+    href: "/dashboard/super-admins/bookmarks",
   },
 
   {

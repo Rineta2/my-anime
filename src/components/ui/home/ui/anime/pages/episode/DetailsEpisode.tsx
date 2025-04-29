@@ -118,11 +118,11 @@ export default function EpisodePage({ params }: EpisodePageProps) {
                             <ServerSelection servers={episode.server} defaultUrl={episode.defaultStreamingUrl} />
                         </div>
 
-                        {/* Download Section */}
-                        <DownloadSection episode={episode} />
-
                         {/* Recommended Episodes */}
                         <RecommendedEpisodes episode={episode} currentSlug={params.slug} />
+
+                        {/* Download Section */}
+                        <DownloadSection episode={episode} />
 
                         {/* Related Movies */}
                         <RelatedMovies episode={episode} />
