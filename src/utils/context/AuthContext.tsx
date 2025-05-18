@@ -23,7 +23,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import toast from 'react-hot-toast';
 
-import { addBookmark, removeBookmark, getBookmarks, Bookmark } from '@/components/ui/home/ui/anime/pages/anime/utils/bookmarks';
+import { addBookmark, removeBookmark, getBookmarks, Bookmark } from '@/hooks/pages/anime/utils/bookmarks';
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import axios from "axios";
 
-import { EpisodeData } from "@/components/ui/home/ui/anime/pages/episode/types/samehadaku";
+import { EpisodeData } from "@/hooks/pages/episode/types/samehadaku";
 
 export async function GET(
   request: Request,

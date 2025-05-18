@@ -22,18 +22,6 @@ export interface Anime {
   episodeList?: Episode[];
 }
 
-// Batch
-export interface Bath {
-  title: string;
-  poster: string;
-  episodes: string;
-  releasedOn: string;
-  animeId: string;
-  href: string;
-  samehadakuUrl: string;
-}
-
-// Movie
 export interface Movie {
   title: string;
   poster: string;
@@ -72,15 +60,6 @@ export interface AnimeResponse {
   data: {
     recent: {
       animeList: Anime[];
-      href: string;
-    };
-    batch: {
-      batchList: Bath[];
-      href: string;
-    };
-    movie: {
-      animeList: AnimeMovieData[];
-      href: string;
     };
   };
 }

@@ -1,55 +1,19 @@
-"use client"
+import React from 'react';
 
-import React, { useEffect, useState, useMemo } from 'react'
+import { FetchBannerData } from '@/components/ui/home/lib/FetchHome';
 
-import HeroSwiper from '@/components/ui/swiper/ui/HeroSwiper'
+import SwiperContent from './SwiperContent';
 
-import SwiperSkeleton from '@/components/ui/swiper/SwiperSkeleton'
+import SwiperSkeleton from './SwiperSkeleton';
 
-import { AnimeResponse } from '@/components/ui/home/types/home'
-
-import { getAnimeData } from '@/components/ui/home/lib/FetchHome';
-
-export default function Swiper() {
-    const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState<AnimeResponse | null>(null);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        let isMounted = true;
-
-        const fetchData = async () => {
-            try {
-                const result = await getAnimeData();
-                if (isMounted) {
-                    setData(result);
-                }
-            } catch (error) {
-                if (isMounted) {
-                    console.error("Error fetching data:", error);
-                    setError("Failed to load anime data");
-                }
-            } finally {
-                if (isMounted) {
-                    setIsLoading(false);
-                }
-            }
-        };
-
-        fetchData();
-
-        return () => {
-            isMounted = false;
-        };
-    }, []);
-
-    const memoizedData = useMemo(() => data, [data]);
-
-    if (isLoading) return <SwiperSkeleton />;
-    if (error) return <SwiperSkeleton />
-    if (!memoizedData) return <SwiperSkeleton />;
-
-    return (
-        <HeroSwiper data={memoizedData} />
-    )
+export default async function Swiper() {
+    try {
+        const animeData = await FetchBannerData();
+        return <SwiperContent animeData={{ data: { recent: { animeList: animeData.recent.animeList } } }} />;
+    } catch (error) {
+        console.error('Error fetching banner data:', error);
+        return (
+            <SwiperSkeleton />
+        );
+    }
 }

@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { motion } from 'framer-motion';
-
 import { FetchArticle } from '@/components/ui/article/lib/FetchArticle';
 
 import { ArticleType } from '@/components/ui/article/types/article';
@@ -40,96 +38,54 @@ export default function Article() {
   const topArticles = limitedArticles.length > 0 ? limitedArticles.slice(0, 2) : [];
   const otherArticles = limitedArticles.length > 2 ? limitedArticles.slice(2) : [];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
-
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={containerVariants}
+    <section
       className='min-h-full py-10'
     >
       <div className="container px-4 sm:px-8">
-        <motion.div
-          variants={itemVariants}
-          viewport={{ once: true }}
+        <div
           className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8 mb-8"
         >
-          <motion.h1
-            variants={itemVariants}
+          <h1
             className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent animate-gradient">
             Latest Articles
-          </motion.h1>
+          </h1>
 
           <Link href={"/articles"} className='flex items-center text-sm text-[var(--text-secondary)]'>
             Lihat Semua
-            <motion.svg
+            <svg
               className="w-4 h-4 mt-1"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              animate={{ x: [0, 5, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 1.5,
-                ease: "easeInOut"
-              }}
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </motion.svg>
+            </svg>
           </Link>
-        </motion.div>
+        </div>
 
         {topArticles.length > 0 && (
-          <motion.div
-            variants={itemVariants}
-            viewport={{ once: true }}
+          <div
             className="mb-10 grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             {topArticles.map((article, index) => (
               <TopArticle key={index} article={article} />
             ))}
-          </motion.div>
+          </div>
         )}
 
-        <motion.div
-          variants={containerVariants}
-          viewport={{ once: true, amount: 0.1 }}
+        <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
           {otherArticles.map((item, index) => (
-            <motion.div
+            <div
               key={index}
-              variants={itemVariants}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3 }}
             >
               <ArticleCard article={item} />
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

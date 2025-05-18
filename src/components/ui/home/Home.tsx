@@ -1,61 +1,19 @@
-'use client';
+import React from 'react';
 
-import React, { useEffect, useState, useMemo } from 'react'
+import { fetchAnimeData } from '@/components/ui/home/lib/FetchHome';
 
-import { getAnimeData } from "@/components/ui/home/lib/FetchHome"
+import AnimeContent from '@/components/ui/home/AnimeTerbaru';
 
-import HomeSkeleton from '@/components/ui/home/homeSkelaton'
+import BannerSkeleton from '@/components/ui/home/homeSkelaton';
 
-import { AnimeResponse } from "@/components/ui/home/types/home";
-
-import AnimeTerbaru from '@/components/ui/home/ui/AnimeTerbaru'
-
-export default function Home() {
-    const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState<AnimeResponse | null>(null);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        let isMounted = true;
-
-        const fetchData = async () => {
-            try {
-                const result = await getAnimeData();
-                if (isMounted) {
-                    setData(result);
-                }
-            } catch (error) {
-                if (isMounted) {
-                    console.error("Error fetching data:", error);
-                    setError("Failed to load anime data");
-                }
-            } finally {
-                if (isMounted) {
-                    setIsLoading(false);
-                }
-            }
-        };
-
-        fetchData();
-
-        return () => {
-            isMounted = false;
-        };
-    }, []);
-
-    const memoizedData = useMemo(() => data, [data]);
-
-    if (isLoading) return <HomeSkeleton />
-    if (error) return <HomeSkeleton />
-    if (!memoizedData) return <HomeSkeleton />;
-
-    return (
-        <section className="min-h-screen py-8 sm:py-12">
-            <div className="container px-4 sm:px-6 lg:px-8">
-                <div className="space-y-16 sm:space-y-20 md:space-y-24">
-                    <AnimeTerbaru data={memoizedData} />
-                </div>
-            </div>
-        </section>
-    )
+export default async function Anime() {
+    try {
+        const animeData = await fetchAnimeData();
+        return <AnimeContent animeData={{ data: { recent: animeData.recent } }} />;
+    } catch (error) {
+        console.error('Error fetching banner data:', error);
+        return (
+            <BannerSkeleton />
+        );
+    }
 }

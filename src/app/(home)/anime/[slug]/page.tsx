@@ -1,6 +1,6 @@
 import React from 'react'
 
-import DetailsAnime from "@/components/ui/home/ui/anime/pages/anime/DetailsAnime"
+import DetailsAnime from "@/hooks/pages/anime/DetailsAnime"
 
 import { Metadata, ResolvingMetadata } from "next"
 
@@ -49,17 +49,17 @@ export async function generateMetadata(
     const previousImages = (await parent).openGraph?.images || [];
 
     return {
-        title: `${anime.japanese || anime.english || 'Anime'} | My Anime`,
-        description: anime.synopsis?.paragraphs?.[0] || `Watch ${anime.japanese || anime.english || 'this anime'} online.`,
+        title: `${anime.title || 'Anime'} | My Anime`,
+        description: anime.synopsis?.paragraphs?.[0] || `Watch ${anime.title || 'this anime'} online.`,
         openGraph: {
-            title: `${anime.japanese || anime.english || 'Anime'} | My Anime`,
-            description: anime.synopsis?.paragraphs?.[0] || `Watch ${anime.japanese || anime.english || 'this anime'} online.`,
+            title: `${anime.title || 'Anime'} | My Anime`,
+            description: anime.synopsis?.paragraphs?.[0] || `Watch ${anime.title || 'this anime'} online.`,
             images: [anime.poster, ...previousImages],
         },
         twitter: {
             card: 'summary_large_image',
-            title: `${anime.japanese || anime.english || 'Anime'} | My Anime`,
-            description: anime.synopsis?.paragraphs?.[0] || `Watch ${anime.japanese || anime.english || 'this anime'} online.`,
+            title: `${anime.title || 'Anime'} | My Anime`,
+            description: anime.synopsis?.paragraphs?.[0] || `Watch ${anime.title || 'this anime'} online.`,
             images: [anime.poster],
         },
     };

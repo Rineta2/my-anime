@@ -18,13 +18,13 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 interface HeroSwiperProps {
-    data: AnimeResponse | null;
+    data: AnimeResponse;
 }
 
 export default function HeroSwiper({ data }: HeroSwiperProps) {
     if (!data) return null;
 
-    const featuredAnime = data.data.recent.animeList.slice(0, 5);
+    const featuredAnime = data.data.recent.animeList.slice(0, 4);
 
     return (
         <div className="relative w-full h-[80vh] sm:h-[100vh] group">

@@ -10,29 +10,17 @@ import { TopArticleProps } from '@/components/ui/article/types/article';
 
 import { formatSlug } from '@/base/helper/FormatSlug';
 
-import { motion } from 'framer-motion';
-
 export default function TopArticle({ article }: TopArticleProps) {
-  const contentVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
+
 
   return (
-    <motion.div
+    <div
       className='group bg-[var(--card-bg)] border-[var(--border-color)] border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300'
     >
       <Link href={`/articles/${formatSlug(article.slug)}`} className="block">
         <div className="grid grid-cols-1 gap-0">
-          <motion.div
+          <div
             className="relative h-[200px] sm:h-[300px] md:h-[350px] w-full overflow-hidden"
-            transition={{ duration: 0.6 }}
           >
             <Image
               src={article?.thumbnail || ''}
@@ -44,52 +32,35 @@ export default function TopArticle({ article }: TopArticleProps) {
             <div
               className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"
             />
-          </motion.div>
+          </div>
 
           <div className="p-8 flex flex-col justify-center">
-            <motion.div
+            <div
               className="flex items-center gap-3 mb-6"
-              variants={contentVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
             >
-              <motion.span
+              <span
                 className="px-4 py-1.5 rounded-full text-sm font-medium bg-blue-50 text-blue-600"
               >
                 {article?.category}
-              </motion.span>
-              <motion.time
+              </span>
+              <time
                 className="text-sm text-[var(--text-secondary)]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
               >
                 {formatDistanceToNow(new Date(article.createdAt), { addSuffix: true, locale: id })}
-              </motion.time>
-            </motion.div>
+              </time>
+            </div>
 
-            <motion.h3
+            <h3
               className="text-2xl font-bold mb-4 leading-tight"
-              variants={contentVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
             >
               {article?.title}
-            </motion.h3>
+            </h3>
 
-            <motion.p
+            <p
               className="text-[var(--text-secondary)] text-lg mb-8 line-clamp-3"
-              variants={contentVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
             >
               {article?.description}
-            </motion.p>
+            </p>
 
             <div className="flex flex-col gap-6 mt-auto">
               <div className="flex items-start gap-4 p-4 bg-[var(--card-bg)] border-[var(--border-color)] border rounded-xl">
@@ -111,6 +82,6 @@ export default function TopArticle({ article }: TopArticleProps) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 }
