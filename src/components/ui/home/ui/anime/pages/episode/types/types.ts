@@ -36,6 +36,14 @@ export interface Episode {
   defaultStreamingUrl: string;
   genreList: Array<{ genreId: string; title: string; href: string }>;
   synopsis: { paragraphs: string[] };
+  EpisodeList: Array<{
+    title: string;
+    poster: string;
+    releaseDate: string;
+    episodeId: string;
+    href: string;
+    samehadakuUrl: string;
+  }>;
   downloadUrl: {
     formats: Array<{
       title: string;
@@ -54,13 +62,6 @@ export interface Episode {
       releaseDate: string;
     }>;
   };
-  recommendedEpisodeList: Array<{
-    episodeId: string;
-    title: string;
-    href: string;
-    poster: string;
-    releaseDate: string;
-  }>;
 }
 
 export interface ServerSelectionProps {
@@ -97,6 +98,8 @@ export interface VideoPlayerProps {
   isLoading: boolean;
   error: ErrorResponse | null;
   currentQuality: string;
+  qualities?: Quality[];
+  onQualityChange?: (quality: string) => void;
 }
 
 // ServerListProps
@@ -205,4 +208,59 @@ export interface RelatedMoviesProps {
 // Synopsis Section
 export interface SynopsisSectionProps {
   episode: Episode;
+}
+
+export interface AnimeEpisode {
+  title: string;
+  episodeId: string;
+  href: string;
+  samehadakuUrl: string;
+  subtitle: string;
+  releaseDate: string;
+  poster: string;
+}
+
+export interface Anime {
+  title: string;
+  poster: string;
+  synonyms: string;
+  status: string;
+  type: string;
+  duration: string;
+  season: string;
+  studios: string;
+  producers: string;
+  aired: string;
+  trailer: string;
+  episodeList: AnimeEpisode[];
+  genreList: Array<{
+    title: string;
+    genreId: string;
+    href: string;
+  }>;
+  recommendedAnimeList: Array<{
+    title: string;
+    poster: string;
+    animeId: string;
+    href: string;
+    type: string;
+    status: string;
+    episode: string;
+    subtitle: string;
+    releasedOn: string;
+  }>;
+  censor: string;
+  director: string;
+  postedBy: string;
+  releasedOn: string;
+  updatedOn: string;
+}
+
+export interface AnimeResponse {
+  statusCode: number;
+  statusMessage: string;
+  message: string;
+  ok: boolean;
+  data: Anime;
+  pagination: null;
 }

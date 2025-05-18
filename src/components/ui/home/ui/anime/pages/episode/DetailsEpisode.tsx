@@ -6,8 +6,6 @@ import Link from 'next/link';
 
 import { getEpisodeData } from '@/components/ui/home/ui/anime/pages/episode/lib/FetchEpisode';
 
-import ServerSelection from '@/components/ui/home/ui/anime/pages/episode/components/ServerSelection';
-
 import { Episode, EpisodePageProps } from '@/components/ui/home/ui/anime/pages/episode/types/types';
 
 import DetailsEpisodeSkeleton from "@/components/ui/home/ui/anime/pages/episode/DetailsEpisodeSkelaton";
@@ -15,8 +13,6 @@ import DetailsEpisodeSkeleton from "@/components/ui/home/ui/anime/pages/episode/
 import HeroSection from '@/components/ui/home/ui/anime/pages/episode/components/ui/HeroSection';
 
 import NavigationButtons from '@/components/ui/home/ui/anime/pages/episode/components/ui/NavigationButtons';
-
-import DownloadSection from '@/components/ui/home/ui/anime/pages/episode/components/ui/DownloadSection';
 
 import RecommendedEpisodes from '@/components/ui/home/ui/anime/pages/episode/components/ui/RecommendedEpisodes';
 
@@ -107,22 +103,32 @@ export default function EpisodePage({ params }: EpisodePageProps) {
                         {/* Navigation Buttons */}
                         <NavigationButtons episode={episode} />
 
-                        {/* Server Selection Component */}
-                        <div className="bg-card-bg/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-card-border shadow-lg">
-                            <h2 className="text-2xl font-bold text-text flex items-center gap-3 mb-6">
-                                <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                                Watch Episode
-                            </h2>
-                            <ServerSelection servers={episode.server} defaultUrl={episode.defaultStreamingUrl} />
+                        <div className="mockup-browser border border-card-border/50 bg-black/90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-2xl relative group">
+                            <div className="bg-card-bg/50 backdrop-blur-sm border-b border-card-border/50 flex items-center justify-between px-4 py-2">
+                                <div className="flex items-center gap-2">
+                                    <div className="flex gap-2">
+                                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="aspect-video relative">
+                                <iframe
+                                    id="videocontainer"
+                                    className="type-BLOGGER_UPLOADED w-full h-full"
+                                    frameBorder="0"
+                                    allowFullScreen
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerPolicy="strict-origin-when-cross-origin"
+                                    title="YouTube video player"
+                                    src={episode.defaultStreamingUrl}
+                                />
+                            </div>
                         </div>
 
                         {/* Recommended Episodes */}
                         <RecommendedEpisodes episode={episode} currentSlug={params.slug} />
-
-                        {/* Download Section */}
-                        <DownloadSection episode={episode} />
 
                         {/* Related Movies */}
                         <RelatedMovies episode={episode} />
@@ -138,6 +144,7 @@ export default function EpisodePage({ params }: EpisodePageProps) {
                             <SynopsisSection episode={episode} />
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>

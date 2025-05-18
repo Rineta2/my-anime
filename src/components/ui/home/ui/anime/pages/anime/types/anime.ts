@@ -13,13 +13,7 @@ export interface AnimePageProps {
 export interface AnimeData {
   title: string;
   poster: string;
-  japanese?: string;
-  english?: string;
   synonyms?: string;
-  score?: {
-    value: string;
-    users: string;
-  };
   synopsis?: {
     paragraphs: string[];
     connections?: Connection[];
@@ -36,6 +30,23 @@ export interface AnimeData {
   producers?: string;
   aired?: string;
   season?: string;
+  trailer?: string;
+  censor?: string;
+  director?: string;
+  postedBy?: string;
+  releasedOn?: string;
+  updatedOn?: string;
+  recommendedAnimeList?: {
+    title: string;
+    poster: string;
+    animeId: string;
+    href: string;
+    type: string;
+    status: string;
+    episode: string;
+    subtitle: string;
+    releasedOn: string;
+  }[];
 }
 
 // Hero Section

@@ -86,6 +86,14 @@ export interface EpisodeData {
       }[];
     }[];
   };
+  EpisodeList: Array<{
+    title: string;
+    poster: string;
+    releaseDate: string;
+    episodeId: string;
+    href: string;
+    samehadakuUrl: string;
+  }>;
   downloadUrl: {
     formats: {
       title: string;
@@ -98,14 +106,6 @@ export interface EpisodeData {
       }[];
     }[];
   };
-  recommendedEpisodeList: {
-    title: string;
-    poster: string;
-    releaseDate: string;
-    episodeId: string;
-    href: string;
-    samehadakuUrl: string;
-  }[];
   movie: {
     href: string;
     samehadakuUrl: string;

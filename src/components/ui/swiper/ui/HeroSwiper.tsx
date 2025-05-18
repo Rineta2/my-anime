@@ -75,7 +75,7 @@ export default function HeroSwiper({ data }: HeroSwiperProps) {
                                             {anime.releasedOn}
                                         </span>
                                         <span className="px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-medium bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white/90 hover:bg-white/20 transition-all duration-300">
-                                            {anime.episodes} Episodes
+                                            {anime.episode} Episodes
                                         </span>
                                     </div>
 
