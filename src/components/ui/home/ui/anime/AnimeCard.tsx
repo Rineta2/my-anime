@@ -54,7 +54,7 @@ export default function AnimeCard({ anime, index }: AnimeCardProps) {
 
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-text-secondary">Episodes</span>
-                    <span className="font-semibold text-primary">{anime.episodes}</span>
+                    <span className="font-semibold text-primary">{anime.episode}</span>
                 </div>
             </motion.div>
         </Link>

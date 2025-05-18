@@ -3,12 +3,13 @@ export interface Anime {
   title: string;
   poster: string;
   href: string;
-  episodes: string;
+  episode: string;
+  type: string;
+  subtitle: string;
   releasedOn: string;
   animeId: string;
   // Additional fields
   status?: string;
-  type?: string;
   duration?: string;
   score?: {
     value: string;
