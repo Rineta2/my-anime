@@ -1,8 +1,15 @@
+"use client"
+
 import React, { useState } from 'react'
+
 import Link from 'next/link'
+
 import { EpisodesSectionProps } from '@/hooks/pages/anime/types/anime'
+
 import { Episode } from '@/hooks/pages/anime/lib/FetchAnime'
+
 import { transformUrl } from '@/hooks/pages/anime/utils/urlUtils'
+
 import { FaPlay } from 'react-icons/fa'
 
 export default function EpisodesSection({ anime }: EpisodesSectionProps) {
@@ -44,7 +51,9 @@ export default function EpisodesSection({ anime }: EpisodesSectionProps) {
                     >
                         <span className="font-medium text-text group-hover:text-accent transition-colors duration-300 text-base flex items-center gap-2">
                             <FaPlay className="w-4 h-4" />
-                            Episode {episode.title}
+                            <span className='text-text-secondary line-clamp-2'>
+                                Episode {episode.title}
+                            </span>
                         </span>
                     </Link>
                 ))}

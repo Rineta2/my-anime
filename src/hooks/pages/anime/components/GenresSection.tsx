@@ -1,8 +1,8 @@
+'use client';
+
 import React from 'react'
 
 import Link from 'next/link'
-
-import { motion } from 'framer-motion'
 
 import { GenresSectionProps } from '@/hooks/pages/anime/types/anime'
 
@@ -16,12 +16,8 @@ export default function GenresSection({ anime }: GenresSectionProps) {
     }
 
     return (
-        <motion.div
+        <div
             className="bg-card-bg/50 backdrop-blur-sm rounded-2xl p-6 border border-card-border shadow-lg"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <h2 className="text-2xl font-bold text-text flex items-center gap-3 mb-6">
                 <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,13 +26,9 @@ export default function GenresSection({ anime }: GenresSectionProps) {
                 Genres
             </h2>
             <div className="flex flex-wrap gap-2">
-                {anime.genreList.map((genre: Genre, index: number) => (
-                    <motion.div
+                {anime.genreList.map((genre: Genre) => (
+                    <div
                         key={genre.genreId}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.05 }}
                     >
                         <Link
                             href={transformUrl(genre.href)}
@@ -47,9 +39,9 @@ export default function GenresSection({ anime }: GenresSectionProps) {
                             </svg>
                             {genre.title}
                         </Link>
-                    </motion.div>
+                    </div>
                 ))}
             </div>
-        </motion.div>
+        </div>
     )
 } 

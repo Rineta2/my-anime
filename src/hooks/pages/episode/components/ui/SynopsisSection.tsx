@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { motion } from 'framer-motion';
-
 import { SynopsisSectionProps } from '@/hooks/pages/episode/types/types';
 
 export default function SynopsisSection({ episode }: SynopsisSectionProps) {
@@ -17,25 +15,17 @@ export default function SynopsisSection({ episode }: SynopsisSectionProps) {
                 </svg>
                 Synopsis
             </h2>
-            <motion.div
+            <div
                 className="space-y-4 text-text-secondary text-base leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
             >
                 {episode.synopsis.paragraphs.map((paragraph: string, index: number) => (
-                    <motion.p
+                    <p
                         key={index}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: index * 0.1 }}
                     >
                         {paragraph}
-                    </motion.p>
+                    </p>
                 ))}
-            </motion.div>
+            </div>
         </div>
     );
 } 

@@ -2,8 +2,6 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import { motion } from 'framer-motion';
-
 import { GenresSectionProps, GenreItem } from '@/hooks/pages/episode/types/types';
 
 export default function GenresSection({ episode }: GenresSectionProps) {
@@ -19,20 +17,12 @@ export default function GenresSection({ episode }: GenresSectionProps) {
                 </svg>
                 Genres
             </h2>
-            <motion.div
+            <div
                 className="flex flex-wrap gap-2"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
             >
-                {episode.genreList.map((genre: GenreItem, index: number) => (
-                    <motion.div
+                {episode.genreList.map((genre: GenreItem) => (
+                    <div
                         key={genre.genreId}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: index * 0.05 }}
                     >
                         <Link
                             href={genre.href}
@@ -43,9 +33,9 @@ export default function GenresSection({ episode }: GenresSectionProps) {
                             </svg>
                             {genre.title}
                         </Link>
-                    </motion.div>
+                    </div>
                 ))}
-            </motion.div>
+            </div>
         </div>
     );
 } 

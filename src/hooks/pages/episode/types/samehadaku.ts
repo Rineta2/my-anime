@@ -106,23 +106,17 @@ export interface EpisodeData {
       }[];
     }[];
   };
-  movie: {
-    href: string;
-    samehadakuUrl: string;
-    animeList: {
+  recommendedSeries: {
+    animeList: Array<{
       title: string;
       poster: string;
-      releaseDate: string;
       animeId: string;
       href: string;
-      samehadakuUrl: string;
-      genreList: {
-        title: string;
-        genreId: string;
-        href: string;
-        samehadakuUrl: string;
-      }[];
-    }[];
+      type: string;
+      status: string;
+      episode: string;
+      subtitle: string;
+    }>;
   };
 }
 

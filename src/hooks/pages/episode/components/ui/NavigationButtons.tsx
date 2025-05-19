@@ -2,18 +2,12 @@ import React from 'react';
 
 import Link from 'next/link';
 
-import { motion } from 'framer-motion';
-
 import { NavigationButtonsProps } from '@/hooks/pages/episode/types/types';
 
 export default function NavigationButtons({ episode }: NavigationButtonsProps) {
     return (
-        <motion.div
+        <div
             className="flex gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
         >
             {episode.hasPrevEpisode && episode.prevEpisode && (
                 <Link
@@ -37,6 +31,6 @@ export default function NavigationButtons({ episode }: NavigationButtonsProps) {
                     </svg>
                 </Link>
             )}
-        </motion.div>
+        </div>
     );
 } 

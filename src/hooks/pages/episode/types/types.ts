@@ -53,15 +53,7 @@ export interface Episode {
       }>;
     }>;
   };
-  movie: {
-    animeList: Array<{
-      animeId: string;
-      title: string;
-      href: string;
-      poster: string;
-      releaseDate: string;
-    }>;
-  };
+  recommendedSeries: RecommendedSeries;
 }
 
 export interface ServerSelectionProps {
@@ -159,7 +151,14 @@ export interface AnimeItem {
   title: string;
   poster: string;
   href: string;
-  releaseDate: string;
+  type: string;
+  status: string;
+  episode: string;
+  subtitle: string;
+}
+
+export interface RecommendedSeries {
+  animeList: AnimeItem[];
 }
 
 export interface Movie {

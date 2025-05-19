@@ -1,23 +1,14 @@
 "use client"
 
 import SectionHeader from '@/components/ui/home/ui/SectionHeader'
-
 import AnimeCard from '@/components/ui/home/ui/AnimeCard'
-
 import React, { useState } from 'react'
-
-import { Anime } from '@/components/ui/home/types/home';
-
+import { HomeResponse } from '@/components/ui/home/types/home';
 import Pagination from '@/base/helper/Pagination';
+import Sidebar from '@/components/ui/sidebar/Sidebar';
 
 interface AnimeContentProps {
-  animeData: {
-    data: {
-      recent: {
-        animeList: Anime[];
-      };
-    };
-  };
+  animeData: HomeResponse;
 }
 
 export default function AnimeContent({ animeData }: AnimeContentProps) {
@@ -35,29 +26,34 @@ export default function AnimeContent({ animeData }: AnimeContentProps) {
   };
 
   return (
-    <section className="min-h-screen py-8 sm:py-12">
+    <section className="min-h-screen py-8">
       <div className="container px-4 sm:px-6 lg:px-8">
         <div className="space-y-16 sm:space-y-20 md:space-y-24">
-          <div className='flex flex-col space-y-6 md:space-y-10'>
-            <SectionHeader />
-            <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5'>
-              {currentAnimeList?.map((anime, index) => (
-                <AnimeCard key={`${anime.animeId}-${index}`} anime={anime} index={index} />
-              ))}
-            </div>
-            {totalPages > 1 && (
-              <div className="mt-10 flex flex-col sm:flex-row justify-between items-center gap-4 px-4">
-                <div className="text-text-secondary font-medium">
-                  Page {currentPage} of {totalPages}
-                </div>
-
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                />
+          <div className='flex gap-8 flex-col xl:flex-row'>
+            <div className='w-full xl:w-3/4 space-y-8'>
+              <SectionHeader />
+              <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5'>
+                {currentAnimeList?.map((anime, index) => (
+                  <AnimeCard key={`${anime.animeId}-${index}`} anime={anime} index={index} />
+                ))}
               </div>
-            )}
+
+              {totalPages > 1 && (
+                <div className="mt-10 flex flex-col sm:flex-row justify-between items-center gap-4 px-4">
+                  <div className="text-gray-600 dark:text-gray-400 font-medium">
+                    Page {currentPage} of {totalPages}
+                  </div>
+
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              )}
+            </div>
+
+            <Sidebar animeData={animeData} />
           </div>
         </div>
       </div>

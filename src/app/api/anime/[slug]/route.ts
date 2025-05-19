@@ -2,117 +2,56 @@ import { NextResponse } from "next/server";
 
 import axios from "axios";
 
-import { AnimeData } from "@/hooks/pages/episode/types/samehadaku";
-
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     const apiKey = request.headers.get("x-api-key");
+    let { slug } = await params;
+
+    // Fix the slug format if it starts with "anime"
+    if (slug.startsWith("anime")) {
+      slug = slug.replace(/^anime/, "");
+    }
+
     if (!apiKey || apiKey !== process.env.NEXT_PUBLIC_API_KEY) {
       return NextResponse.json(
-        {
-          statusCode: 401,
-          statusMessage: "Error",
-          message: "Unauthorized - Invalid API key",
-          ok: false,
-          data: null,
-          pagination: null,
-        },
+        { error: "Unauthorized - Invalid API key" },
         { status: 401 }
       );
     }
 
-    try {
-      const { slug } = await params;
-      const { data } = await axios.get<{ data: AnimeData }>(
-        `${process.env.NEXT_PUBLIC_API_URL}/samehadaku/anime/${slug}`
-      );
+    // Construct the API URL using the format from the example
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/samehadaku/anime/${slug}`;
 
-      if (!data?.data) {
-        return NextResponse.json(
-          {
-            statusCode: 404,
-            statusMessage: "Error",
-            message: "Anime not found",
-            ok: false,
-            data: null,
-            pagination: null,
-          },
-          { status: 404 }
-        );
-      }
+    const { data } = await axios.get(apiUrl, {
+      timeout: 10000, // 10 second timeout
+    });
 
-      const animeData = data.data;
-
-      const transformedData = {
-        statusCode: 200,
-        statusMessage: "OK",
-        message: "",
-        ok: true,
-        data: {
-          ...JSON.parse(JSON.stringify(animeData), (key, value) => {
-            if (
-              key === "href" &&
-              typeof value === "string" &&
-              value.includes("/samehadaku/")
-            ) {
-              return value.replace("/samehadaku/", "/");
-            }
-            return value;
-          }),
-          score: {
-            value: animeData.score?.value || "0",
-            users: animeData.score?.users || "0",
-          },
-          episodes:
-            typeof animeData.episodes === "string"
-              ? parseInt(animeData.episodes) || 0
-              : animeData.episodes || 0,
-          synopsis: {
-            paragraphs: animeData.synopsis?.paragraphs || [],
-            connections: animeData.synopsis?.connections || [],
-          },
-        },
-        pagination: null,
-      };
-
-      return NextResponse.json(transformedData);
-    } catch (axiosError: unknown) {
+    // Transform data: hapus '/sameh/' di href
+    const transformedData = JSON.parse(JSON.stringify(data), (key, value) => {
       if (
-        axios.isAxiosError(axiosError) &&
-        axiosError.response?.status === 404
+        key === "href" &&
+        typeof value === "string" &&
+        value.includes("/samehadaku/")
       ) {
-        return NextResponse.json(
-          {
-            statusCode: 404,
-            statusMessage: "Error",
-            message: "Anime not found",
-            ok: false,
-            data: null,
-            pagination: null,
-          },
-          { status: 404 }
-        );
+        return value.replace("/samehadaku/", "/");
       }
-      throw axiosError;
+      return value;
+    });
+
+    return NextResponse.json(transformedData);
+  } catch (error) {
+    // Get detailed error information
+    let errorMessage = "Failed to fetch anime data";
+    let statusCode = 500;
+
+    if (axios.isAxiosError(error)) {
+      errorMessage = error.message;
+      statusCode = error.response?.status || 500;
     }
-  } catch (error: unknown) {
-    const statusCode = axios.isAxiosError(error) ? error.response?.status : 500;
-    const message = axios.isAxiosError(error)
-      ? error.response?.data?.message
-      : "Failed to fetch anime detail";
-    return NextResponse.json(
-      {
-        statusCode: statusCode || 500,
-        statusMessage: "Error",
-        message: message || "Failed to fetch anime detail",
-        ok: false,
-        data: null,
-        pagination: null,
-      },
-      { status: statusCode || 500 }
-    );
+
+    return NextResponse.json({ error: errorMessage }, { status: statusCode });
   }
 }

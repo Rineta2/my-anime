@@ -4,8 +4,6 @@ import Image from 'next/image';
 
 import Link from 'next/link';
 
-import { motion } from 'framer-motion';
-
 import { RecommendedEpisodesProps } from '@/hooks/pages/episode/types/types';
 
 export default function RecommendedEpisodes({ episode, currentSlug }: RecommendedEpisodesProps) {
@@ -21,24 +19,16 @@ export default function RecommendedEpisodes({ episode, currentSlug }: Recommende
                 </svg>
                 Episode List
             </h2>
-            <motion.div
+            <div
                 className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
             >
-                {episode.EpisodeList.map((episodeItem, index) => {
+                {episode.EpisodeList.map((episodeItem) => {
                     const episodeSlug = episodeItem.href.split('/').pop();
                     const isActive = episodeSlug === currentSlug;
 
                     return (
-                        <motion.div
+                        <div
                             key={`${episodeItem.episodeId}-${episodeItem.title}`}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: index * 0.05 }}
                         >
                             <Link
                                 href={episodeItem.href}
@@ -64,10 +54,10 @@ export default function RecommendedEpisodes({ episode, currentSlug }: Recommende
                                     {episodeItem.title}
                                 </h3>
                             </Link>
-                        </motion.div>
+                        </div>
                     );
                 })}
-            </motion.div>
+            </div>
         </div>
     );
 } 

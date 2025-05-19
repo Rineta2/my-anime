@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react'
 
 import { motion } from 'framer-motion'
@@ -14,7 +16,11 @@ export default function InfoCard({ anime }: InfoCardProps) {
         { label: "Studios", value: anime.studios, icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
         { label: "Producers", value: anime.producers, icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
         { label: "Aired", value: anime.aired, icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
-        { label: "Season", value: anime.season, icon: "M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" }
+        { label: "Season", value: anime.season, icon: "M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" },
+        { label: "Censor", value: anime.censor, icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" },
+        { label: "Director", value: anime.director, icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" },
+        { label: "Released On", value: anime.releasedOn, icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
+        { label: "Updated On", value: anime.updatedOn, icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" }
     ];
 
     return (
@@ -32,17 +38,25 @@ export default function InfoCard({ anime }: InfoCardProps) {
                 Information
             </h2>
 
-            <div className="space-y-5">
+            <div className="flex flex-wrap gap-4">
                 {infoItems.map((item) => (
-                    <div key={item.label} className="flex items-center gap-3 group">
+                    <div key={item.label} className="flex items-center gap-3 group p-2 rounded-lg hover:bg-card-bg/30 transition-colors duration-300 min-w-[200px]">
                         <span className="min-w-24 text-text-secondary group-hover:text-text transition-colors duration-300 font-medium flex items-center gap-2">
                             <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                             </svg>
                             {item.label}:
                         </span>
-                        <span className="font-semibold text-primary">
-                            {item.value || 'N/A'}
+                        <span className="font-semibold text-primary truncate">
+                            {
+                                item.label === "Director" && typeof item.value === 'string' ?
+                                    item.value.split(',').map((director: string, index: number) => (
+                                        <span key={index} className="inline-block">
+                                            {director.trim()}
+                                        </span>
+                                    ))
+                                    : item.value || 'N/A'
+                            }
                         </span>
                     </div>
                 ))}

@@ -2,8 +2,6 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { motion } from 'framer-motion';
-
 import { HeroSectionProps } from '@/hooks/pages/episode/types/types';
 
 export default function HeroSection({ episode }: HeroSectionProps) {
@@ -23,12 +21,8 @@ export default function HeroSection({ episode }: HeroSectionProps) {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-8 relative z-10">
                 <div className="flex flex-col md:flex-row items-start md:items-end gap-6 w-full">
                     {/* Episode Poster */}
-                    <motion.div
+                    <div
                         className="w-32 sm:w-40 md:w-48 lg:w-56 flex-shrink-0"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
                     >
                         <div className="relative aspect-[2/3] rounded-xl overflow-hidden shadow-2xl border-2 border-primary/30 hover:border-primary/60 transform hover:scale-[1.02] transition-all duration-300">
                             <Image
@@ -40,17 +34,13 @@ export default function HeroSection({ episode }: HeroSectionProps) {
                                 sizes="(max-width: 768px) 33vw, 25vw"
                             />
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Title Section */}
-                    <motion.div
+                    <div
                         className="flex-1"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight drop-shadow-lg">
+                        <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight drop-shadow-lg">
                             {episode.title}
                         </h1>
                         <div className="space-y-1 mt-2">
@@ -58,10 +48,10 @@ export default function HeroSection({ episode }: HeroSectionProps) {
                                 <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Released: {episode.releasedOn}
+                                Released: {episode.releasedOn || 'N/A'}
                             </p>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </div>

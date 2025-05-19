@@ -1,16 +1,18 @@
 import React from 'react'
-
 import Image from 'next/image'
-
 import { Anime } from '@/components/ui/home/types/home'
-
 import Link from 'next/link'
+import { format, parseISO } from 'date-fns'
+import { id } from 'date-fns/locale'
+
 interface AnimeCardProps {
     anime: Anime
     index: number
 }
 
 export default function AnimeCard({ anime, index }: AnimeCardProps) {
+    const formattedDate = format(parseISO(anime.releasedOn), 'd MMMM yyyy', { locale: id })
+
     return (
         <Link
             href={anime.href}
@@ -33,7 +35,7 @@ export default function AnimeCard({ anime, index }: AnimeCardProps) {
 
                 <div className='absolute bottom-2 left-2 right-2'>
                     <div className='flex justify-between items-center gap-2'>
-                        <span className="font-semibold text-white text-sm sm:text-base bg-primary w-fit px-4 py-2 rounded-full">{anime.releasedOn}</span>
+                        <span className="font-semibold text-white text-sm sm:text-base bg-primary w-fit px-4 py-2 rounded-full">{formattedDate}</span>
                         <span className="font-semibold text-white text-sm sm:text-base bg-primary w-fit px-4 py-2 rounded-full">{anime.type}</span>
                     </div>
                 </div>

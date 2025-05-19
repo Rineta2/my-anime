@@ -9,7 +9,7 @@ import SwiperSkeleton from './SwiperSkeleton';
 export default async function Swiper() {
     try {
         const animeData = await FetchBannerData();
-        return <SwiperContent animeData={{ data: { recent: { animeList: animeData.recent.animeList } } }} />;
+        return <SwiperContent animeData={{ data: animeData }} />;
     } catch (error) {
         console.error('Error fetching banner data:', error);
         return (

@@ -1,21 +1,14 @@
-import React from 'react'
+'use client';
 
-import { motion } from 'framer-motion'
+import React from 'react'
 
 import { SynopsisSectionProps } from '@/hooks/pages/anime/types/anime'
 
 export default function SynopsisSection({ anime }: SynopsisSectionProps) {
-    if (!anime.synopsis || anime.synopsis.paragraphs.length === 0) {
-        return null;
-    }
 
     return (
-        <motion.div
+        <div
             className="bg-card-bg/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-card-border shadow-lg"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <h2 className="text-2xl font-bold text-text flex items-center gap-3 mb-6">
                 <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -24,10 +17,8 @@ export default function SynopsisSection({ anime }: SynopsisSectionProps) {
                 Synopsis
             </h2>
             <div className="space-y-4 text-text-secondary text-base md:text-lg leading-relaxed">
-                {anime.synopsis.paragraphs.map((paragraph: string, index: number) => (
-                    <p key={index}>{paragraph}</p>
-                ))}
+                <h3>{anime.synonyms}</h3>
             </div>
-        </motion.div>
+        </div>
     )
 } 

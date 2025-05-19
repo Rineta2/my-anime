@@ -61,5 +61,63 @@ export interface AnimeResponse {
     recent: {
       animeList: Anime[];
     };
+    schedule: {
+      weekly: ScheduleSection;
+      monthly: ScheduleSection;
+      allTime: ScheduleSection;
+    };
   };
+}
+
+export interface ScheduleAnime {
+  title: string;
+  poster: string;
+  animeId: string;
+  href: string;
+  genres: string[];
+  rating: number | null;
+}
+
+export interface ScheduleSection {
+  animeList: ScheduleAnime[];
+}
+
+export interface Schedule {
+  weekly: ScheduleSection;
+  monthly: ScheduleSection;
+  allTime: ScheduleSection;
+}
+
+export interface ScheduleResponse {
+  data: {
+    schedule: Schedule;
+  };
+}
+
+export interface RecentAnime {
+  title: string;
+  poster: string;
+  animeId: string;
+  href: string;
+  episode: string;
+  type: string;
+  subtitle: string;
+  releasedOn: string;
+}
+
+export interface RecentSection {
+  href: string;
+  animeList: RecentAnime[];
+}
+
+export interface HomeResponse {
+  statusCode: number;
+  statusMessage: string;
+  message: string;
+  ok: boolean;
+  data: {
+    recent: RecentSection;
+    schedule: Schedule;
+  };
+  pagination: null;
 }
